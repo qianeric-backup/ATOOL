@@ -6,7 +6,7 @@
   * 每个账号独立会话并发抢购, 日志按账号前缀区分
   * 无限重试直到成功, 成功后自动监控订单, 订单丢失自动重新抢购
   * 预取阶段 AI+ddddocr 双识别投票(默认 glm-4v-plus-0111); 可开关预取
-版本: 1.2.6 (对应 grab_dorm.__version__)
+版本: 1.2.4 (对应 grab_dorm.__version__)
 依赖: 仅 Python 标准库 (tkinter 随 Python 自带)。
 """
 import os
@@ -38,7 +38,7 @@ class TextRedirector:
 class GrabGUI(tk.Tk):
     def __init__(self, api_base=None):
         super().__init__()
-        self.title("上海建桥学院 智能化宿舍自动竞选 (多账号) v1.2.6")
+        self.title("上海建桥学院 智能化宿舍自动竞选 (多账号) v1.2.4")
         self.geometry("700x640")
         self.minsize(620, 560)
         self.configure(bg="#f5f5f5")

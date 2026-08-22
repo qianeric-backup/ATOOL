@@ -2,7 +2,7 @@
 """
 上海建桥学院迎新系统 —— 智能化宿舍自动竞选脚本
 =================================================
-版本: 1.2.6
+版本: 1.2.4
 目标页面: https://enroll.gench.edu.cn/yu/mp/dorm_buy_two
 API 基址: https://enroll.gench.edu.cn/api
 
@@ -32,7 +32,7 @@ import io
 
 import requests
 
-__version__ = "1.2.6"
+__version__ = "1.2.4"
 
 API_BASE = "https://enroll.gench.edu.cn/api"
 USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -182,17 +182,8 @@ class DormGrabber:
         self.api_base = (api_base or API_BASE).rstrip("/")
         self.enable_prefetch = enable_prefetch  # False 时跳过预取, worker 直接现场取码
 
-        # 连接池优化: 使用Session并配置连接池参数
         self.session = requests.Session()
         self.session.headers.update({"User-Agent": USER_AGENT})
-        # 配置连接池参数
-        adapter = requests.adapters.HTTPAdapter(
-            pool_connections=10,  # 连接池大小
-            pool_maxsize=10,     # 最大连接数
-            max_retries=3        # 重试次数
-        )
-        self.session.mount('https://', adapter)
-        self.session.mount('http://', adapter)
         self.dorm = None        # 宿舍信息 dict
         self.server_offset = 0.0  # 服务器时间 - 本地时间 (秒)
         self.cached_yzm = None  # 预取缓存验证码 (开抢瞬间直接提交, 一次性)
@@ -367,43 +358,27 @@ class DormGrabber:
                     print(f"[RETRY-{n}] {emsg}")
                 else:
                     print(f"[RETRY-{n}] 未知结果: {detail}")
-                # 智能重试: 根据错误类型调整重试策略
-                if "验证码错误" in emsg:
-                    print(f"[SMART-RETRY] 验证码错误，立即重试")
-                    wait = 0.1  # 快速重试
-                elif "系统异常" in emsg:
-                    print(f"[SMART-RETRY] 系统异常，稍后重试")
-                    wait = 1.0  # 等待1秒
-                elif "未到开放时间" in emsg:
-                    print(f"[SMART-RETRY] 未到开放时间，等待后重试")
-                    wait = 0.5  # 等待0.5秒
-                elif ("登录" in emsg or "过期" in emsg) and emsg != "登录失败: 录取通知书编号或身份证号错误":
+                # 登录过期/失效 -> 自动重新登录后继续
+                if ("登录" in emsg or "过期" in emsg) and emsg != "登录失败: 录取通知书编号或身份证号错误":
                     print("[LOGIN] 检测到会话失效, 自动重新登录...")
                     try:
                         self.login()
-                        wait = 0.1  # 登录成功后快速重试
                     except Exception as le:  # noqa: BLE001
                         print(f"[LOGIN] 重新登录失败: {le}")
-                        wait = 2.0  # 登录失败等待2秒
-                else:
-                    # 默认重试间隔
-                    wait = self.interval_ms / 1000.0
-                
-                # 动态调整重试间隔
-                try:
-                    if self.open_time is not None:
-                        remain = self.open_time - self.local_now()
-                        if remain > 60:
-                            wait = min(wait, 5.0)
-                        elif remain > 5:
-                            wait = min(wait, 1.0)
-                except Exception:  # noqa: BLE001
-                    pass
-                
-                self._stop.wait(wait)
             except Exception as e:  # noqa: BLE001
                 print(f"[RETRY-{n}] 请求异常: {e}")
-                self._stop.wait(1.0)  # 异常时等待1秒
+            # 距开放时间还很远时, 加大间隔; 临近时快速重试
+            wait = self.interval_ms / 1000.0
+            try:
+                if self.open_time is not None:
+                    remain = self.open_time - self.local_now()
+                    if remain > 60:
+                        wait = min(wait, 5.0)
+                    elif remain > 5:
+                        wait = min(wait, 1.0)
+            except Exception:  # noqa: BLE001
+                pass
+            self._stop.wait(wait)
         results.append(n)
 
     def grab(self, start_ts=None, dry_run=False):
@@ -442,8 +417,6 @@ class DormGrabber:
         elif remain < -600:
             print(f"[WARN] 开放时间已过 {abs(remain):.0f}s, 继续尝试 (可能已售罄)")
 
-        # 立即启动worker优化: 开放时间到达后立即启动，不提前启动
-        print(f"[START] 开放时间到达，立即启动worker线程...")
         results = []
         threads = []
         for i in range(self.concurrency):
@@ -451,7 +424,6 @@ class DormGrabber:
                                  name=f"grab-{i + 1}", daemon=True)
             threads.append(t)
             t.start()
-        
         for t in threads:
             t.join()
         return self.success_info
@@ -639,10 +611,8 @@ def main():
 
     ai_ocr = None
     if not args.no_ai and not args.no_ocr:
-        # AI 配置来源: 命令行参数 > config.json > 环境变量/内置默认(AiCaptchaOcr 内部)
-        ai_ocr = AiCaptchaOcr(api_key=args.ai_key or cfg.get("ai_key"),
-                              base_url=args.ai_base or cfg.get("ai_base"),
-                              model=args.ai_model or cfg.get("ai_model"))
+        ai_ocr = AiCaptchaOcr(api_key=args.ai_key, base_url=args.ai_base,
+                              model=args.ai_model)
 
     g = DormGrabber(
         enrollid=enrollid,

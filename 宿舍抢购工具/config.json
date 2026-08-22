@@ -1,10 +1,13 @@
 {
-  "enrollid": "2631141739",
-  "idcard": "310110200605112038",
+  "enrollid": "2633233352",
+  "idcard": "341226200807104418",
   "dtype": 2,
   "did": null,
   "concurrency": 1,
   "ahead_ms": 300,
   "max_retries": 200,
-  "interval_ms": 200
+  "interval_ms": 200,
+  "ai_key": "c62744579e5642768956abffc4a984e9.WXRNZ8t2R0msIZON",
+  "ai_base": "https://open.bigmodel.cn/api/paas/v4",
+  "ai_model": "glm-4v-plus-0111"
 }

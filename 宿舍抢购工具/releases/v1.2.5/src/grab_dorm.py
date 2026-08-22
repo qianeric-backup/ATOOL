@@ -2,7 +2,7 @@
 """
 上海建桥学院迎新系统 —— 智能化宿舍自动竞选脚本
 =================================================
-版本: 1.2.6
+版本: 1.2.4
 目标页面: https://enroll.gench.edu.cn/yu/mp/dorm_buy_two
 API 基址: https://enroll.gench.edu.cn/api
 
@@ -32,7 +32,7 @@ import io
 
 import requests
 
-__version__ = "1.2.6"
+__version__ = "1.2.5"
 
 API_BASE = "https://enroll.gench.edu.cn/api"
 USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -345,6 +345,15 @@ class DormGrabber:
                 break
             n += 1
             try:
+                # 检查是否到达开放时间
+                if self.open_time is not None:
+                    remain = self.open_time - self.local_now()
+                    if remain > 0:
+                        # 还未到开放时间，等待
+                        print(f"[WORKER] 等待开放时间，剩余 {remain:.1f}s")
+                        self._stop.wait(min(remain, 1.0))
+                        continue
+                
                 # 方案A: 首轮优先用预取缓存码 (0ms 取码), 用后即失效; 失败则现场取码
                 if self.cached_yzm is not None:
                     yzm = self.cached_yzm
@@ -442,15 +451,27 @@ class DormGrabber:
         elif remain < -600:
             print(f"[WARN] 开放时间已过 {abs(remain):.0f}s, 继续尝试 (可能已售罄)")
 
-        # 立即启动worker优化: 开放时间到达后立即启动，不提前启动
-        print(f"[START] 开放时间到达，立即启动worker线程...")
-        results = []
-        threads = []
-        for i in range(self.concurrency):
-            t = threading.Thread(target=self.worker, args=(self.did, results),
-                                 name=f"grab-{i + 1}", daemon=True)
-            threads.append(t)
-            t.start()
+        # 预启动worker优化: 提前启动worker线程，减少启动延迟
+        if remain > 1:
+            print(f"[PRE-START] 预启动worker线程...")
+            results = []
+            threads = []
+            for i in range(self.concurrency):
+                t = threading.Thread(target=self.worker, args=(self.did, results),
+                                     name=f"grab-{i + 1}", daemon=True)
+                threads.append(t)
+                t.start()
+            # 等待到开放时间
+            self._sleep_until(start_ts)
+        else:
+            # 正常启动worker
+            results = []
+            threads = []
+            for i in range(self.concurrency):
+                t = threading.Thread(target=self.worker, args=(self.did, results),
+                                     name=f"grab-{i + 1}", daemon=True)
+                threads.append(t)
+                t.start()
         
         for t in threads:
             t.join()
@@ -639,10 +660,8 @@ def main():
 
     ai_ocr = None
     if not args.no_ai and not args.no_ocr:
-        # AI 配置来源: 命令行参数 > config.json > 环境变量/内置默认(AiCaptchaOcr 内部)
-        ai_ocr = AiCaptchaOcr(api_key=args.ai_key or cfg.get("ai_key"),
-                              base_url=args.ai_base or cfg.get("ai_base"),
-                              model=args.ai_model or cfg.get("ai_model"))
+        ai_ocr = AiCaptchaOcr(api_key=args.ai_key, base_url=args.ai_base,
+                              model=args.ai_model)
 
     g = DormGrabber(
         enrollid=enrollid,
