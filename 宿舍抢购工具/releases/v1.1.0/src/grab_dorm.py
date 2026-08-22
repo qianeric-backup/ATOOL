@@ -2,7 +2,7 @@
 """
 上海建桥学院迎新系统 —— 智能化宿舍自动竞选脚本
 =================================================
-版本: 1.2.0
+版本: 1.1.0
 目标页面: https://enroll.gench.edu.cn/yu/mp/dorm_buy_two
 API 基址: https://enroll.gench.edu.cn/api
 
@@ -32,7 +32,7 @@ import io
 
 import requests
 
-__version__ = "1.2.0"
+__version__ = "1.1.0"
 
 API_BASE = "https://enroll.gench.edu.cn/api"
 USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -104,75 +104,15 @@ class CaptchaOcr:
             print("输入无效, 需要恰好 5 位")
 
 
-class AiCaptchaOcr:
-    """可选 AI 验证码识别（OpenAI 兼容 Chat Completions 接口）。
-
-    用于开放前预取阶段: 准确率高于 ddddocr(实测 69%), 延迟 1~3s 在开放前无感。
-    未配置 API key / 调用失败时由调用方降级到 CaptchaOcr(ddddocr), 不阻塞主流程。
-    配置来源(优先级: 构造参数 > 环境变量):
-      GRAB_DORM_AI_KEY    API key
-      GRAB_DORM_AI_BASE   API base URL, 默认 https://api.openai.com/v1
-      GRAB_DORM_AI_MODEL  模型名, 默认 gpt-4o-mini
-    """
-
-    def __init__(self, api_key=None, base_url=None, model=None, timeout=15):
-        self.api_key = api_key or os.environ.get("GRAB_DORM_AI_KEY")
-        self.base_url = (base_url or os.environ.get("GRAB_DORM_AI_BASE")
-                         or "https://api.openai.com/v1").rstrip("/")
-        self.model = model or os.environ.get("GRAB_DORM_AI_MODEL") or "gpt-4o-mini"
-        self.timeout = timeout
-        self._session = requests.Session()
-        self.available = bool(self.api_key)
-        if self.available:
-            print(f"[AI-OCR] AI 识别可用: model={self.model} base={self.base_url}")
-        else:
-            print("[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr")
-
-    def recognize(self, img_bytes: bytes):
-        """识别 5 位验证码; 成功返回 5 位字符串, 失败/不可用返回 None。"""
-        if not self.available:
-            return None
-        import base64
-        b64 = base64.b64encode(img_bytes).decode()
-        try:
-            r = self._session.post(
-                self.base_url + "/chat/completions",
-                headers={"Authorization": f"Bearer {self.api_key}"},
-                json={
-                    "model": self.model,
-                    "messages": [{
-                        "role": "user",
-                        "content": [
-                            {"type": "text", "text": "识别图片中的 5 位验证码(字母数字, 可能含干扰线)。只输出这 5 个字符, 不要任何解释或标点。"},
-                            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{b64}"}},
-                        ],
-                    }],
-                    "max_tokens": 10,
-                    "temperature": 0,
-                },
-                timeout=self.timeout,
-            )
-            r.raise_for_status()
-            text = r.json()["choices"][0]["message"]["content"].strip()
-            text = "".join(ch for ch in text if ch.isalnum())
-            if len(text) == 5:
-                return text
-            print(f"[AI-OCR] 识别结果 '{text}' 长度不为5, 视为失败")
-        except Exception as e:  # noqa: BLE001
-            print(f"[AI-OCR] 识别异常: {e}")
-        return None
-
-
 class DormGrabber:
     def __init__(self, enrollid, idcard, dtype=2, did=None, ocr=None,
                  concurrency=1, ahead_ms=300, max_retries=200, interval_ms=200,
-                 api_base=None, ai_ocr=None):
+                 api_base=None):
         self.enrollid = str(enrollid)
         self.idcard = str(idcard)
         self.dtype = dtype
         self.did = did          # 可指定宿舍id, 否则用 get_gbdorm 返回的 value
         self.ocr = ocr
-        self.ai_ocr = ai_ocr    # 可选 AI 识别器(预取阶段优先使用, 可 None)
         self.concurrency = max(1, concurrency)
         self.ahead_ms = ahead_ms
         self.max_retries = max_retries   # None 表示无限重试直到成功
@@ -183,7 +123,6 @@ class DormGrabber:
         self.session.headers.update({"User-Agent": USER_AGENT})
         self.dorm = None        # 宿舍信息 dict
         self.server_offset = 0.0  # 服务器时间 - 本地时间 (秒)
-        self.cached_yzm = None  # 预取缓存验证码 (开抢瞬间直接提交, 一次性)
         self._stop = threading.Event()
         self._lock = threading.Lock()
         self.success_info = None
@@ -270,33 +209,6 @@ class DormGrabber:
         r = self._get("/pc/common/kaptcha")
         return r.content
 
-    def prefetch_captcha(self, deadline, prefer_ai=True):
-        """开放前预取验证码: 取码 + 识别(优先 AI, 失败降级 ddddocr)。
-
-        成功则写入 self.cached_yzm 并返回; 到 deadline 仍未成功返回 None(兜底现场取码)。
-        注意: 会话验证码单槽, 成功后绝不能再取码(会覆盖), 只等开抢直接提交。
-        """
-        attempt = 0
-        while not self._stop.is_set() and time.time() < deadline:
-            attempt += 1
-            try:
-                img = self.fetch_captcha()
-                yzm = None
-                if prefer_ai and self.ai_ocr is not None:
-                    yzm = self.ai_ocr.recognize(img)   # AI 高准确率, 1~3s
-                if not yzm and self.ocr is not None:
-                    yzm = self.ocr.recognize(img)      # ddddocr 兜底, 7ms
-                if yzm:
-                    self.cached_yzm = yzm
-                    print(f"[PREFETCH] 第{attempt}次预取成功, 缓存验证码 '{yzm}' "
-                          f"({'AI' if prefer_ai and self.ai_ocr is not None else 'ddddocr'})")
-                    return yzm
-                print(f"[PREFETCH] 第{attempt}次识别失败, 换图重试...")
-            except Exception as e:  # noqa: BLE001
-                print(f"[PREFETCH] 第{attempt}次异常: {e}")
-        print("[PREFETCH] 达到截止时间未预取成功, 开抢时现场取码兜底")
-        return None
-
     def set_dorm(self, did, yzmstr):
         r = self._post("/stu/set_dorm", {"did": did, "yzmstr": yzmstr}, timeout=10)
         try:
@@ -327,16 +239,7 @@ class DormGrabber:
                 break
             n += 1
             try:
-                # 方案A: 首轮优先用预取缓存码 (0ms 取码), 用后即失效; 失败则现场取码
-                if self.cached_yzm is not None:
-                    yzm = self.cached_yzm
-                    self.cached_yzm = None   # 一次性: 无论成败都作废, 防止重放
-                    print(f"[PREFETCH-USE] 第{n}次尝试使用预取验证码 '{yzm}' 直接提交")
-                    res = self.set_dorm(did, yzm)
-                    ok = res.get("suc") is True
-                    detail = res
-                else:
-                    ok, detail = self.one_attempt(did)
+                ok, detail = self.one_attempt(did)
                 if ok:
                     with self._lock:
                         self.success_info = {"worker": threading.current_thread().name,
@@ -391,17 +294,8 @@ class DormGrabber:
             print(f"[WAIT] 距离开放还有 {remain:.1f}s, "
                   f"提前 {self.ahead_ms}ms 于 {time.strftime('%H:%M:%S', time.localtime(start_ts))} "
                   f"(服务器时间) 开始抢购")
-            # 方案A: 开放前预取验证码 (deadline = 开放前 2s), 成功后开抢瞬间直接提交
-            prefetch_deadline = start_ts - 2.0
-            if remain > 12:
-                # 距开放较远: 先睡到开放前 ~10s 再开始预取, 避免缓存码过早
-                self._sleep_until(prefetch_deadline - 10.0)
-            elif remain > 2:
-                pass  # 已在预取窗口内, 直接开始
-            self.prefetch_captcha(deadline=prefetch_deadline,
-                                  prefer_ai=self.ai_ocr is not None)
-            # 等待到开放点(按服务器时间), 不提前试探: 提前提交会触发 507 并消耗一次性验证码
-            self._sleep_until(start_ts)
+            # 无预取: 直接睡到开抢前 ahead_ms, 到点后由 worker 现场取码提交
+            self._sleep_until(start_ts - self.ahead_ms / 1000.0)
         elif remain < -600:
             print(f"[WARN] 开放时间已过 {abs(remain):.0f}s, 继续尝试 (可能已售罄)")
 
@@ -543,11 +437,6 @@ def main():
     ap.add_argument("--max-retries", type=int, default=200, help="每个线程最大重试次数, 默认200")
     ap.add_argument("--interval-ms", type=int, default=200, help="重试间隔毫秒, 默认200")
     ap.add_argument("--no-ocr", action="store_true", help="禁用自动识别验证码, 改为手动输入")
-    ap.add_argument("--ai-key", default=None, help="AI 识别 API key (默认读环境变量 GRAB_DORM_AI_KEY)")
-    ap.add_argument("--ai-base", default=None, help="AI 识别 API base URL (OpenAI 兼容, 默认 GRAB_DORM_AI_BASE)")
-    ap.add_argument("--ai-model", default=None, help="AI 识别模型名 (默认 GRAB_DORM_AI_MODEL 或 gpt-4o-mini)")
-    ap.add_argument("--no-ai", action="store_true",
-                    help="禁用 AI 预取识别(仅用 ddddocr 预取), 即使配置了 API key 也不用")
     ap.add_argument("--dry-run", action="store_true", help="演练模式: 只登录+查询+校时")
     ap.add_argument("--forever", action="store_true",
                     help="无限重试直到抢到宿舍; 成功后持续监控订单, 订单丢失自动重新抢购")
@@ -595,18 +484,12 @@ def main():
     ocr = CaptchaOcr(auto=not args.no_ocr,
                      save_dir=os.path.join(os.path.dirname(os.path.abspath(__file__)), "captcha"))
 
-    ai_ocr = None
-    if not args.no_ai and not args.no_ocr:
-        ai_ocr = AiCaptchaOcr(api_key=args.ai_key, base_url=args.ai_base,
-                              model=args.ai_model)
-
     g = DormGrabber(
         enrollid=enrollid,
         idcard=idcard,
         dtype=args.dtype or cfg.get("dtype", 2),
         did=args.did or cfg.get("did"),
         ocr=ocr,
-        ai_ocr=ai_ocr,
         concurrency=args.concurrency or cfg.get("concurrency", 1),
         ahead_ms=args.ahead_ms or cfg.get("ahead_ms", 300),
         max_retries=None if args.forever else (args.max_retries or cfg.get("max_retries", 200)),
