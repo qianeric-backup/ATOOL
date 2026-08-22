@@ -1,0 +1,22 @@
+验证码样例对照清单
+========================================
+
+mock_01.png  答案: DW9PJ   OCR识别: Dw9pj   ✓ 正确
+mock_02.png  答案: J96CT   OCR识别: J96ct   ✓ 正确
+mock_03.png  答案: B685B   OCR识别: B685b   ✓ 正确
+mock_04.png  答案: FK5CC   OCR识别: FK5cc   ✓ 正确
+mock_05.png  答案: DZF3V   OCR识别: Dzf3v   ✓ 正确
+mock_06.png  答案: T3YMX   OCR识别: T3ymx   ✓ 正确
+mock_07.png  答案: ZYL9D   OCR识别: zyL9d   ✓ 正确
+mock_08.png  答案: R5JEE   OCR识别: r5jee   ✓ 正确
+mock_09.png  答案: VYD84   OCR识别: vyd84   ✓ 正确
+mock_10.png  答案: X4K5A   OCR识别: x4k5a   ✓ 正确
+mock_11.png  答案: WVGDL   OCR识别: wvgdl   ✓ 正确
+mock_12.png  答案: ZPUYS   OCR识别: zpuys   ✓ 正确
+mock_13.png  答案: MUZ5Y   OCR识别: muz5y   ✓ 正确
+mock_14.png  答案: QNC7W   OCR识别: qnc7w   ✓ 正确
+mock_15.png  答案: 7KXPX   OCR识别: 7kxpx   ✓ 正确
+
+mock 同款识别率: 15/15
+
+real_kaptcha.png  学校真实验证码 (OCR识别: xb6f5, 答案仅在服务器, 无法本地核对)

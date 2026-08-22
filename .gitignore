@@ -1,0 +1,37 @@
+# Reasonix internal
+.reasonix/
+
+# Executables / large binaries
+*.exe
+
+# Python
+__pycache__/
+*.pyc
+
+# Reasonix project config (contains secrets/tokens)
+reasonix.toml
+
+# Reverse-engineering report (sensitive attack details; stay local, not for public repo)
+宿舍抢购工具/REVERSE_ENGINEERING_REPORT.md
+
+
+# Authorization / license / key-related source (sensitive logic)
+宿舍抢购工具/_dev/generate_key.py
+宿舍抢购工具/_dev/activation.py
+宿舍抢购工具/_dev/authorize_key.py
+宿舍抢购工具/_dev/authorize_key.spec
+
+# build artifacts
+.pyarmor/
+build/
+dist_*/
+宿舍抢购工具/_dev/_obf/
+宿舍抢购工具/_dev/__pycache__/
+宿舍抢购工具/_dev/mock_site/__pycache__/
+
+# reverse-fetched frontend snapshot (external assets, not to be committed)
+宿舍抢购工具/_dev/real_snapshot/
+
+# temp helper scripts
+_git_push.py
+_check_status.py

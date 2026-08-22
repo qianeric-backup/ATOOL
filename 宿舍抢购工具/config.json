@@ -1,0 +1,10 @@
+{
+  "enrollid": "2631141739",
+  "idcard": "310110200605112038",
+  "dtype": 2,
+  "did": null,
+  "concurrency": 1,
+  "ahead_ms": 300,
+  "max_retries": 200,
+  "interval_ms": 200
+}

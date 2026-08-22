@@ -1,0 +1,12 @@
+[BUG]: out of license
+
+## Command Line
+C:\Users\qianeric\AppData\Local\Programs\Python\Python312\Scripts\pyarmor gen -O obf -r --obf-code 2 grab_dorm.py gui.py activation.py
+
+## Environments
+Python 3.12.10
+Pyarmor 9.2.6 (trial), 000000, non-profits
+Platform windows.x86_64
+Native windows.amd64
+Home C:\Users\qianeric\.pyarmor
+
