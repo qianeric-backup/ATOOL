@@ -2,6 +2,7 @@
 """
 上海建桥学院迎新系统 —— 智能化宿舍自动竞选脚本
 =================================================
+版本: 1.1.0
 目标页面: https://enroll.gench.edu.cn/yu/mp/dorm_buy_two
 API 基址: https://enroll.gench.edu.cn/api
 
@@ -30,6 +31,8 @@ import time
 import io
 
 import requests
+
+__version__ = "1.1.0"
 
 API_BASE = "https://enroll.gench.edu.cn/api"
 USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -419,6 +422,8 @@ def auto_config_path():
 
 def main():
     ap = argparse.ArgumentParser(description="上海建桥学院 智能化宿舍自动竞选脚本")
+    ap.add_argument("--version", action="version", version=f"%(prog)s {__version__}",
+                    help="显示版本号")
     ap.add_argument("--config", help="配置文件路径 (JSON, 可含 enrollid/idcard/dtype 等); "
                                      "缺省时自动查找程序同目录下的 config.json")
     ap.add_argument("--enrollid", help="录取通知书编号 (10位)")
