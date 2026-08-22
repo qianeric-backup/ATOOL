@@ -22,8 +22,8 @@
 
 | 下载文件名 | 工具中文名 | 说明 |
 |---|---|---|
-| `grab_dorm_single_account_v1.2.1.exe` | 抢宿舍工具（单账号） | 单账号自动抢宿舍，已按 v1.2.1 归档 |
-| `grab_dorm_multi_account_v1.2.1.exe` | 抢宿舍工具（多账号） | 多账号自动抢宿舍，已按 v1.2.1 归档 |
+| `grab_dorm_single_account_v1.2.2.exe` | 抢宿舍工具（单账号） | 单账号自动抢宿舍，已按 v1.2.2 归档 |
+| `grab_dorm_multi_account_v1.2.2.exe` | 抢宿舍工具（多账号） | 多账号自动抢宿舍，已按 v1.2.2 归档 |
 | `gui_key.exe` | 授权KEY签发工具 | 生成 / 签发授权 KEY |
 | `fp_tool.exe` | 读取机器指纹工具 | 读取本机机器指纹 |
 

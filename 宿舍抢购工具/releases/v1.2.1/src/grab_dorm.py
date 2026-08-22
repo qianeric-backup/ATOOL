@@ -2,7 +2,7 @@
 """
 上海建桥学院迎新系统 —— 智能化宿舍自动竞选脚本
 =================================================
-版本: 1.2.2
+版本: 1.2.1
 目标页面: https://enroll.gench.edu.cn/yu/mp/dorm_buy_two
 API 基址: https://enroll.gench.edu.cn/api
 
@@ -32,7 +32,7 @@ import io
 
 import requests
 
-__version__ = "1.2.2"
+__version__ = "1.2.1"
 
 API_BASE = "https://enroll.gench.edu.cn/api"
 USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -108,20 +108,18 @@ class AiCaptchaOcr:
     """可选 AI 验证码识别（OpenAI 兼容 Chat Completions 接口）。
 
     用于开放前预取阶段: 准确率高于 ddddocr(实测 69%), 延迟 1~3s 在开放前无感。
-    默认使用智谱 GLM-4V-Flash(国内直连、便宜), 可通过参数/环境变量切换其他
-    OpenAI 兼容视觉模型。
     未配置 API key / 调用失败时由调用方降级到 CaptchaOcr(ddddocr), 不阻塞主流程。
-    配置来源(优先级: 构造参数 > 环境变量 > 默认):
-      GRAB_DORM_AI_KEY    API key (必填, 无 key 则禁用 AI)
-      GRAB_DORM_AI_BASE   API base URL, 默认 https://open.bigmodel.cn/api/paas/v4 (智谱)
-      GRAB_DORM_AI_MODEL  模型名, 默认 glm-4v-flash
+    配置来源(优先级: 构造参数 > 环境变量):
+      GRAB_DORM_AI_KEY    API key
+      GRAB_DORM_AI_BASE   API base URL, 默认 https://api.openai.com/v1
+      GRAB_DORM_AI_MODEL  模型名, 默认 gpt-4o-mini
     """
 
     def __init__(self, api_key=None, base_url=None, model=None, timeout=15):
         self.api_key = api_key or os.environ.get("GRAB_DORM_AI_KEY")
         self.base_url = (base_url or os.environ.get("GRAB_DORM_AI_BASE")
-                         or "https://open.bigmodel.cn/api/paas/v4").rstrip("/")
-        self.model = model or os.environ.get("GRAB_DORM_AI_MODEL") or "glm-4v-flash"
+                         or "https://api.openai.com/v1").rstrip("/")
+        self.model = model or os.environ.get("GRAB_DORM_AI_MODEL") or "gpt-4o-mini"
         self.timeout = timeout
         self._session = requests.Session()
         self.available = bool(self.api_key)
@@ -546,8 +544,8 @@ def main():
     ap.add_argument("--interval-ms", type=int, default=200, help="重试间隔毫秒, 默认200")
     ap.add_argument("--no-ocr", action="store_true", help="禁用自动识别验证码, 改为手动输入")
     ap.add_argument("--ai-key", default=None, help="AI 识别 API key (默认读环境变量 GRAB_DORM_AI_KEY)")
-    ap.add_argument("--ai-base", default=None, help="AI 识别 API base URL (OpenAI 兼容, 默认智谱 https://open.bigmodel.cn/api/paas/v4)")
-    ap.add_argument("--ai-model", default=None, help="AI 识别模型名 (默认 GRAB_DORM_AI_MODEL 或 glm-4v-flash)")
+    ap.add_argument("--ai-base", default=None, help="AI 识别 API base URL (OpenAI 兼容, 默认 GRAB_DORM_AI_BASE)")
+    ap.add_argument("--ai-model", default=None, help="AI 识别模型名 (默认 GRAB_DORM_AI_MODEL 或 gpt-4o-mini)")
     ap.add_argument("--no-ai", action="store_true",
                     help="禁用 AI 预取识别(仅用 ddddocr 预取), 即使配置了 API key 也不用")
     ap.add_argument("--dry-run", action="store_true", help="演练模式: 只登录+查询+校时")

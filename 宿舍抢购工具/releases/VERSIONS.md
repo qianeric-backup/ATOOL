@@ -10,6 +10,28 @@
 
 ---
 
+## v1.2.2 — AI 识别默认切换为智谱 GLM-4V-Flash
+
+> 归档日期：2026-08-24。源码在 `_dev/`（`grab_dorm.py __version__ = "1.2.2"`）。
+
+**本次变更（AI 识别默认配置 + GUI 完整配置项）：**
+
+1. **默认 AI 模型切换为智谱 `glm-4v-flash`**（国内直连、便宜）：
+   - `AiCaptchaOcr` 默认 `base_url = https://open.bigmodel.cn/api/paas/v4`、`model = glm-4v-flash`；
+   - 仍可被环境变量 `GRAB_DORM_AI_BASE` / `GRAB_DORM_AI_MODEL` 或 CLI `--ai-base` / `--ai-model` 覆盖；
+2. **GUI 增加「AI Base(可选)」输入框**：预填智谱地址，配合已有的「AI Key」「AI 模型」，
+   GUI 内即可完整配置 AI 识别（只填 Key 也能用默认智谱配置）；
+3. 版本号 1.2.1 → 1.2.2。
+
+**源码版本对应关系**：
+
+- **v1.2.2** → `_dev/` 目录中的源码（`python grab_dorm.py --version` 输出 1.2.2）
+- **v1.2.1** → 本目录 `v1.2.1/src/` 中的源码副本
+- **v1.2.0** → 本目录 `v1.2.0/src/` 中的源码副本
+- **v1.1.0** → 本目录 `v1.1.0/src/` 中的源码副本
+
+---
+
 ## v1.2.1 — GUI 多账号版接入 AI 预取识别
 
 > 归档日期：2026-08-24。源码在 `_dev/`（`grab_dorm.py __version__ = "1.2.1"`）。
