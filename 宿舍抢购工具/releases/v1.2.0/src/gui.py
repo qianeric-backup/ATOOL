@@ -5,8 +5,7 @@
   * 支持一次为多个账号抢购: 每行一个账号 (录取通知书编号,身份证号), 可导入 txt/csv 文件
   * 每个账号独立会话并发抢购, 日志按账号前缀区分
   * 无限重试直到成功, 成功后自动监控订单, 订单丢失自动重新抢购
-  * 可选 AI 验证码识别(预取阶段优先, 提升准确率)
-版本: 1.2.1 (对应 grab_dorm.__version__)
+版本: 1.2.0 (对应 grab_dorm.__version__)
 依赖: 仅 Python 标准库 (tkinter 随 Python 自带)。
 """
 import os
@@ -16,7 +15,7 @@ import threading
 import tkinter as tk
 from tkinter import ttk, filedialog
 
-from grab_dorm import (DormGrabber, CaptchaOcr, AiCaptchaOcr, API_BASE,
+from grab_dorm import (DormGrabber, CaptchaOcr, API_BASE,
                        auto_config_path, load_config)
 
 
@@ -38,7 +37,7 @@ class TextRedirector:
 class GrabGUI(tk.Tk):
     def __init__(self, api_base=None):
         super().__init__()
-        self.title("上海建桥学院 智能化宿舍自动竞选 (多账号) v1.2.1")
+        self.title("上海建桥学院 智能化宿舍自动竞选 (多账号) v1.2.0")
         self.geometry("700x640")
         self.minsize(620, 560)
         self.configure(bg="#f5f5f5")
@@ -96,23 +95,13 @@ class GrabGUI(tk.Tk):
         self.interval_var = tk.StringVar(value="200")
         ttk.Entry(main, textvariable=self.interval_var, width=8).grid(row=5, column=1, sticky="w", **pad)
 
-        # AI 识别配置(可选): 填写 API Key 即启用 AI 预取, 留空则用 ddddocr
-        ttk.Label(main, text="AI Key(可选):").grid(row=6, column=0, sticky="e", **pad)
-        self.ai_key_var = tk.StringVar()
-        ttk.Entry(main, textvariable=self.ai_key_var, width=36, show="●").grid(row=6, column=1, sticky="we", **pad)
-        ttk.Label(main, text="AI 模型(可选):").grid(row=7, column=0, sticky="e", **pad)
-        self.ai_model_var = tk.StringVar()
-        ttk.Entry(main, textvariable=self.ai_model_var, width=36).grid(row=7, column=1, sticky="we", **pad)
-        ttk.Label(main, text="(留空用默认; 填 Key 即启用 AI 预取识别)",
-                  foreground="#888").grid(row=7, column=2, sticky="w", **pad)
-
         self.forever_var = tk.BooleanVar(value=True)
         ttk.Checkbutton(main, text="无限重试直到抢到, 成功后持续监控订单(丢失自动重抢)",
-                        variable=self.forever_var).grid(row=8, column=1, sticky="w", **pad)
+                        variable=self.forever_var).grid(row=6, column=1, sticky="w", **pad)
 
         # 按钮行
         btn_row = ttk.Frame(main)
-        btn_row.grid(row=9, column=0, columnspan=3, pady=8)
+        btn_row.grid(row=7, column=0, columnspan=3, pady=8)
         self.start_btn = ttk.Button(btn_row, text="开始抢购", command=self._start)
         self.start_btn.pack(side="left", padx=6)
         self.stop_btn = ttk.Button(btn_row, text="停止", command=self._stop, state="disabled")
@@ -122,8 +111,8 @@ class GrabGUI(tk.Tk):
 
         # 日志区
         log_frame = ttk.LabelFrame(main, text="运行日志 (多账号并发, 按 [账号] 前缀区分)")
-        log_frame.grid(row=10, column=0, columnspan=3, sticky="nsew", pady=(8, 4))
-        main.rowconfigure(10, weight=1)
+        log_frame.grid(row=8, column=0, columnspan=3, sticky="nsew", pady=(8, 4))
+        main.rowconfigure(8, weight=1)
         main.columnconfigure(1, weight=1)
         self.log_text = tk.Text(log_frame, height=14, wrap="word",
                                 font=("Consolas", 9), bg="#1e1e1e", fg="#d4d4d4",
@@ -246,20 +235,13 @@ class GrabGUI(tk.Tk):
         shared_ocr = CaptchaOcr(auto=True,
                                 save_dir=os.path.join(os.path.dirname(os.path.abspath(__file__)), "captcha"))
 
-        # AI 识别(可选): UI 填了 API Key 才启用; 空 key 或 --no-ai 语义时留 None(ddddocr 兜底)
-        ai_ocr = None
-        ai_key = self.ai_key_var.get().strip()
-        if ai_key:
-            ai_ocr = AiCaptchaOcr(api_key=ai_key,
-                                  base_url=None, model=self.ai_model_var.get().strip() or None)
-
         def worker(acc):
             enrollid, idcard = acc
             short = enrollid[-4:] if len(enrollid) >= 4 else enrollid
             redirector._tl.tag = f"[{short}] "
             g = DormGrabber(
                 enrollid=enrollid, idcard=idcard,
-                dtype=dtype, ocr=shared_ocr, ai_ocr=ai_ocr,
+                dtype=dtype, ocr=shared_ocr,
                 ahead_ms=ahead, interval_ms=interval,
                 max_retries=None if forever else 200,
                 api_base=self.api_base,

@@ -2,7 +2,7 @@
 """
 上海建桥学院迎新系统 —— 智能化宿舍自动竞选脚本
 =================================================
-版本: 1.2.1
+版本: 1.2.0
 目标页面: https://enroll.gench.edu.cn/yu/mp/dorm_buy_two
 API 基址: https://enroll.gench.edu.cn/api
 
@@ -32,7 +32,7 @@ import io
 
 import requests
 
-__version__ = "1.2.1"
+__version__ = "1.2.0"
 
 API_BASE = "https://enroll.gench.edu.cn/api"
 USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
