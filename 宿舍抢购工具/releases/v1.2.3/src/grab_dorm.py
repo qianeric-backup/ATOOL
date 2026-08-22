@@ -2,7 +2,7 @@
 """
 上海建桥学院迎新系统 —— 智能化宿舍自动竞选脚本
 =================================================
-版本: 1.2.4
+版本: 1.2.3
 目标页面: https://enroll.gench.edu.cn/yu/mp/dorm_buy_two
 API 基址: https://enroll.gench.edu.cn/api
 
@@ -32,7 +32,7 @@ import io
 
 import requests
 
-__version__ = "1.2.4"
+__version__ = "1.2.3"
 
 API_BASE = "https://enroll.gench.edu.cn/api"
 USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -107,21 +107,21 @@ class CaptchaOcr:
 class AiCaptchaOcr:
     """可选 AI 验证码识别（OpenAI 兼容 Chat Completions 接口）。
 
-    用于开放前预取阶段的双识别投票: 与 ddddocr 结果一致才高可信, 提升真实环境码有效率。
-    默认使用智谱 glm-4v-plus-0111(真实环境实测码有效率最高 60%), 可通过参数/环境变量
-    切换其他 OpenAI 兼容视觉模型(如 qwen3-vl-flash / glm-4v-plus)。
+    用于开放前预取阶段: 准确率高于 ddddocr(实测 69%), 延迟 1~3s 在开放前无感。
+    默认使用智谱 GLM-4V-Flash(国内直连、便宜), 可通过参数/环境变量切换其他
+    OpenAI 兼容视觉模型。
     未配置 API key / 调用失败时由调用方降级到 CaptchaOcr(ddddocr), 不阻塞主流程。
     配置来源(优先级: 构造参数 > 环境变量 > 默认):
       GRAB_DORM_AI_KEY    API key (必填, 无 key 则禁用 AI)
       GRAB_DORM_AI_BASE   API base URL, 默认 https://open.bigmodel.cn/api/paas/v4 (智谱)
-      GRAB_DORM_AI_MODEL  模型名, 默认 glm-4v-plus-0111
+      GRAB_DORM_AI_MODEL  模型名, 默认 glm-4v-flash
     """
 
     def __init__(self, api_key=None, base_url=None, model=None, timeout=15):
         self.api_key = api_key or os.environ.get("GRAB_DORM_AI_KEY")
         self.base_url = (base_url or os.environ.get("GRAB_DORM_AI_BASE")
                          or "https://open.bigmodel.cn/api/paas/v4").rstrip("/")
-        self.model = model or os.environ.get("GRAB_DORM_AI_MODEL") or "glm-4v-plus-0111"
+        self.model = model or os.environ.get("GRAB_DORM_AI_MODEL") or "glm-4v-flash"
         self.timeout = timeout
         self._session = requests.Session()
         self.available = bool(self.api_key)
@@ -284,21 +284,15 @@ class DormGrabber:
             attempt += 1
             try:
                 img = self.fetch_captcha()
-                # 双识别投票: AI + ddddocr 都识别同一张图
-                ai_yzm = self.ai_ocr.recognize(img) if (prefer_ai and self.ai_ocr) else None
-                dd_yzm = self.ocr.recognize(img) if self.ocr else None
-                # 投票规则: 一致->高可信; 不一致->用 ddddocr(0错误提交); ddddocr失败->用 AI
-                if ai_yzm and dd_yzm and ai_yzm.upper() == dd_yzm.upper():
-                    yzm, source = dd_yzm, "AI+ddddocr一致"
-                elif dd_yzm:
-                    yzm, source = dd_yzm, "ddddocr"
-                elif ai_yzm:
-                    yzm, source = ai_yzm, "AI"
-                else:
-                    yzm, source = None, ""
+                yzm = None
+                if prefer_ai and self.ai_ocr is not None:
+                    yzm = self.ai_ocr.recognize(img)   # AI 高准确率, 1~3s
+                if not yzm and self.ocr is not None:
+                    yzm = self.ocr.recognize(img)      # ddddocr 兜底, 7ms
                 if yzm:
                     self.cached_yzm = yzm
-                    print(f"[PREFETCH] 第{attempt}次预取成功, 缓存验证码 '{yzm}' ({source})")
+                    print(f"[PREFETCH] 第{attempt}次预取成功, 缓存验证码 '{yzm}' "
+                          f"({'AI' if prefer_ai and self.ai_ocr is not None else 'ddddocr'})")
                     return yzm
                 print(f"[PREFETCH] 第{attempt}次识别失败, 换图重试...")
             except Exception as e:  # noqa: BLE001
@@ -557,7 +551,7 @@ def main():
     ap.add_argument("--no-ocr", action="store_true", help="禁用自动识别验证码, 改为手动输入")
     ap.add_argument("--ai-key", default=None, help="AI 识别 API key (默认读环境变量 GRAB_DORM_AI_KEY)")
     ap.add_argument("--ai-base", default=None, help="AI 识别 API base URL (OpenAI 兼容, 默认智谱 https://open.bigmodel.cn/api/paas/v4)")
-    ap.add_argument("--ai-model", default=None, help="AI 识别模型名 (默认 GRAB_DORM_AI_MODEL 或 glm-4v-plus-0111)")
+    ap.add_argument("--ai-model", default=None, help="AI 识别模型名 (默认 GRAB_DORM_AI_MODEL 或 glm-4v-flash)")
     ap.add_argument("--no-ai", action="store_true",
                     help="禁用 AI 预取识别(仅用 ddddocr 预取), 即使配置了 API key 也不用")
     ap.add_argument("--no-prefetch", action="store_true",

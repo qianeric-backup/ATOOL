@@ -5,8 +5,8 @@
   * 支持一次为多个账号抢购: 每行一个账号 (录取通知书编号,身份证号), 可导入 txt/csv 文件
   * 每个账号独立会话并发抢购, 日志按账号前缀区分
   * 无限重试直到成功, 成功后自动监控订单, 订单丢失自动重新抢购
-  * 预取阶段 AI+ddddocr 双识别投票(默认 glm-4v-plus-0111); 可开关预取
-版本: 1.2.4 (对应 grab_dorm.__version__)
+  * 可选 AI 验证码识别(预取阶段优先, 默认智谱 glm-4v-flash); 可开关预取
+版本: 1.2.3 (对应 grab_dorm.__version__)
 依赖: 仅 Python 标准库 (tkinter 随 Python 自带)。
 """
 import os
@@ -38,7 +38,7 @@ class TextRedirector:
 class GrabGUI(tk.Tk):
     def __init__(self, api_base=None):
         super().__init__()
-        self.title("上海建桥学院 智能化宿舍自动竞选 (多账号) v1.2.4")
+        self.title("上海建桥学院 智能化宿舍自动竞选 (多账号) v1.2.3")
         self.geometry("700x640")
         self.minsize(620, 560)
         self.configure(bg="#f5f5f5")
@@ -112,10 +112,10 @@ class GrabGUI(tk.Tk):
         self.ai_base_entry = ttk.Entry(main, textvariable=self.ai_base_var, width=36)
         self.ai_base_entry.grid(row=8, column=1, sticky="we", **pad)
         ttk.Label(main, text="AI 模型(可选):").grid(row=9, column=0, sticky="e", **pad)
-        self.ai_model_var = tk.StringVar(value="glm-4v-plus-0111")
+        self.ai_model_var = tk.StringVar(value="glm-4v-flash")
         self.ai_model_entry = ttk.Entry(main, textvariable=self.ai_model_var, width=36)
         self.ai_model_entry.grid(row=9, column=1, sticky="we", **pad)
-        ttk.Label(main, text="(默认智谱 glm-4v-plus-0111; 填 Key 即启用 AI 预取识别)",
+        ttk.Label(main, text="(默认智谱 glm-4v-flash; 填 Key 即启用 AI 预取识别)",
                   foreground="#888").grid(row=9, column=2, sticky="w", **pad)
 
         self.forever_var = tk.BooleanVar(value=True)
