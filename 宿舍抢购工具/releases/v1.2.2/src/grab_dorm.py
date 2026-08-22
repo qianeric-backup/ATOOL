@@ -2,7 +2,7 @@
 """
 上海建桥学院迎新系统 —— 智能化宿舍自动竞选脚本
 =================================================
-版本: 1.2.3
+版本: 1.2.2
 目标页面: https://enroll.gench.edu.cn/yu/mp/dorm_buy_two
 API 基址: https://enroll.gench.edu.cn/api
 
@@ -32,7 +32,7 @@ import io
 
 import requests
 
-__version__ = "1.2.3"
+__version__ = "1.2.2"
 
 API_BASE = "https://enroll.gench.edu.cn/api"
 USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -168,7 +168,7 @@ class AiCaptchaOcr:
 class DormGrabber:
     def __init__(self, enrollid, idcard, dtype=2, did=None, ocr=None,
                  concurrency=1, ahead_ms=300, max_retries=200, interval_ms=200,
-                 api_base=None, ai_ocr=None, enable_prefetch=True):
+                 api_base=None, ai_ocr=None):
         self.enrollid = str(enrollid)
         self.idcard = str(idcard)
         self.dtype = dtype
@@ -180,7 +180,6 @@ class DormGrabber:
         self.max_retries = max_retries   # None 表示无限重试直到成功
         self.interval_ms = interval_ms
         self.api_base = (api_base or API_BASE).rstrip("/")
-        self.enable_prefetch = enable_prefetch  # False 时跳过预取, worker 直接现场取码
 
         self.session = requests.Session()
         self.session.headers.update({"User-Agent": USER_AGENT})
@@ -395,17 +394,14 @@ class DormGrabber:
                   f"提前 {self.ahead_ms}ms 于 {time.strftime('%H:%M:%S', time.localtime(start_ts))} "
                   f"(服务器时间) 开始抢购")
             # 方案A: 开放前预取验证码 (deadline = 开放前 2s), 成功后开抢瞬间直接提交
-            if self.enable_prefetch:
-                prefetch_deadline = start_ts - 2.0
-                if remain > 12:
-                    # 距开放较远: 先睡到开放前 ~10s 再开始预取, 避免缓存码过早
-                    self._sleep_until(prefetch_deadline - 10.0)
-                elif remain > 2:
-                    pass  # 已在预取窗口内, 直接开始
-                self.prefetch_captcha(deadline=prefetch_deadline,
-                                      prefer_ai=self.ai_ocr is not None)
-            else:
-                print("[PREFETCH] 预取已关闭, 开抢后直接现场取码提交")
+            prefetch_deadline = start_ts - 2.0
+            if remain > 12:
+                # 距开放较远: 先睡到开放前 ~10s 再开始预取, 避免缓存码过早
+                self._sleep_until(prefetch_deadline - 10.0)
+            elif remain > 2:
+                pass  # 已在预取窗口内, 直接开始
+            self.prefetch_captcha(deadline=prefetch_deadline,
+                                  prefer_ai=self.ai_ocr is not None)
             # 等待到开放点(按服务器时间), 不提前试探: 提前提交会触发 507 并消耗一次性验证码
             self._sleep_until(start_ts)
         elif remain < -600:
@@ -554,8 +550,6 @@ def main():
     ap.add_argument("--ai-model", default=None, help="AI 识别模型名 (默认 GRAB_DORM_AI_MODEL 或 glm-4v-flash)")
     ap.add_argument("--no-ai", action="store_true",
                     help="禁用 AI 预取识别(仅用 ddddocr 预取), 即使配置了 API key 也不用")
-    ap.add_argument("--no-prefetch", action="store_true",
-                    help="禁用验证码预取(方案A), 开抢后直接现场取码提交")
     ap.add_argument("--dry-run", action="store_true", help="演练模式: 只登录+查询+校时")
     ap.add_argument("--forever", action="store_true",
                     help="无限重试直到抢到宿舍; 成功后持续监控订单, 订单丢失自动重新抢购")
@@ -620,7 +614,6 @@ def main():
         max_retries=None if args.forever else (args.max_retries or cfg.get("max_retries", 200)),
         interval_ms=args.interval_ms or cfg.get("interval_ms", 200),
         api_base=args.api_base or cfg.get("api_base"),
-        enable_prefetch=not args.no_prefetch,
     )
 
     try:

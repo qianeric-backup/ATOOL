@@ -5,8 +5,8 @@
   * 支持一次为多个账号抢购: 每行一个账号 (录取通知书编号,身份证号), 可导入 txt/csv 文件
   * 每个账号独立会话并发抢购, 日志按账号前缀区分
   * 无限重试直到成功, 成功后自动监控订单, 订单丢失自动重新抢购
-  * 可选 AI 验证码识别(预取阶段优先, 默认智谱 glm-4v-flash); 可开关预取
-版本: 1.2.3 (对应 grab_dorm.__version__)
+  * 可选 AI 验证码识别(预取阶段优先, 默认智谱 glm-4v-flash)
+版本: 1.2.2 (对应 grab_dorm.__version__)
 依赖: 仅 Python 标准库 (tkinter 随 Python 自带)。
 """
 import os
@@ -38,7 +38,7 @@ class TextRedirector:
 class GrabGUI(tk.Tk):
     def __init__(self, api_base=None):
         super().__init__()
-        self.title("上海建桥学院 智能化宿舍自动竞选 (多账号) v1.2.3")
+        self.title("上海建桥学院 智能化宿舍自动竞选 (多账号) v1.2.2")
         self.geometry("700x640")
         self.minsize(620, 560)
         self.configure(bg="#f5f5f5")
@@ -96,35 +96,26 @@ class GrabGUI(tk.Tk):
         self.interval_var = tk.StringVar(value="200")
         ttk.Entry(main, textvariable=self.interval_var, width=8).grid(row=5, column=1, sticky="w", **pad)
 
-        # 预取开关: 关闭时预取/AI 相关配置置灰不可用
-        self.prefetch_var = tk.BooleanVar(value=True)
-        ttk.Checkbutton(main, text="启用验证码预取(方案A, 开抢前预取+开抢瞬间直接提交)",
-                        variable=self.prefetch_var, command=self._on_prefetch_toggle
-                        ).grid(row=6, column=1, sticky="w", **pad)
-
         # AI 识别配置(可选): 填写 API Key 即启用 AI 预取, 留空则用 ddddocr
-        ttk.Label(main, text="AI Key(可选):").grid(row=7, column=0, sticky="e", **pad)
+        ttk.Label(main, text="AI Key(可选):").grid(row=6, column=0, sticky="e", **pad)
         self.ai_key_var = tk.StringVar()
-        self.ai_key_entry = ttk.Entry(main, textvariable=self.ai_key_var, width=36, show="●")
-        self.ai_key_entry.grid(row=7, column=1, sticky="we", **pad)
-        ttk.Label(main, text="AI Base(可选):").grid(row=8, column=0, sticky="e", **pad)
+        ttk.Entry(main, textvariable=self.ai_key_var, width=36, show="●").grid(row=6, column=1, sticky="we", **pad)
+        ttk.Label(main, text="AI Base(可选):").grid(row=7, column=0, sticky="e", **pad)
         self.ai_base_var = tk.StringVar(value="https://open.bigmodel.cn/api/paas/v4")
-        self.ai_base_entry = ttk.Entry(main, textvariable=self.ai_base_var, width=36)
-        self.ai_base_entry.grid(row=8, column=1, sticky="we", **pad)
-        ttk.Label(main, text="AI 模型(可选):").grid(row=9, column=0, sticky="e", **pad)
+        ttk.Entry(main, textvariable=self.ai_base_var, width=36).grid(row=7, column=1, sticky="we", **pad)
+        ttk.Label(main, text="AI 模型(可选):").grid(row=8, column=0, sticky="e", **pad)
         self.ai_model_var = tk.StringVar(value="glm-4v-flash")
-        self.ai_model_entry = ttk.Entry(main, textvariable=self.ai_model_var, width=36)
-        self.ai_model_entry.grid(row=9, column=1, sticky="we", **pad)
+        ttk.Entry(main, textvariable=self.ai_model_var, width=36).grid(row=8, column=1, sticky="we", **pad)
         ttk.Label(main, text="(默认智谱 glm-4v-flash; 填 Key 即启用 AI 预取识别)",
-                  foreground="#888").grid(row=9, column=2, sticky="w", **pad)
+                  foreground="#888").grid(row=8, column=2, sticky="w", **pad)
 
         self.forever_var = tk.BooleanVar(value=True)
         ttk.Checkbutton(main, text="无限重试直到抢到, 成功后持续监控订单(丢失自动重抢)",
-                        variable=self.forever_var).grid(row=10, column=1, sticky="w", **pad)
+                        variable=self.forever_var).grid(row=9, column=1, sticky="w", **pad)
 
         # 按钮行
         btn_row = ttk.Frame(main)
-        btn_row.grid(row=11, column=0, columnspan=3, pady=8)
+        btn_row.grid(row=10, column=0, columnspan=3, pady=8)
         self.start_btn = ttk.Button(btn_row, text="开始抢购", command=self._start)
         self.start_btn.pack(side="left", padx=6)
         self.stop_btn = ttk.Button(btn_row, text="停止", command=self._stop, state="disabled")
@@ -134,8 +125,8 @@ class GrabGUI(tk.Tk):
 
         # 日志区
         log_frame = ttk.LabelFrame(main, text="运行日志 (多账号并发, 按 [账号] 前缀区分)")
-        log_frame.grid(row=12, column=0, columnspan=3, sticky="nsew", pady=(8, 4))
-        main.rowconfigure(12, weight=1)
+        log_frame.grid(row=11, column=0, columnspan=3, sticky="nsew", pady=(8, 4))
+        main.rowconfigure(11, weight=1)
         main.columnconfigure(1, weight=1)
         self.log_text = tk.Text(log_frame, height=14, wrap="word",
                                 font=("Consolas", 9), bg="#1e1e1e", fg="#d4d4d4",
@@ -222,13 +213,6 @@ class GrabGUI(tk.Tk):
             raise ValueError("提前开抢/重试间隔必须是整数(毫秒)")
         return ahead, interval
 
-    def _on_prefetch_toggle(self):
-        """预取开关回调: 关闭时 AI 配置(Key/Base/Model)置灰不可用, 开启时恢复。"""
-        state = "normal" if self.prefetch_var.get() else "disabled"
-        self.ai_key_entry.configure(state=state)
-        self.ai_base_entry.configure(state=state)
-        self.ai_model_entry.configure(state=state)
-
     def _run_grab(self, dry_run=False):
         # ===== 激活门卫 =====
         import activation
@@ -283,7 +267,6 @@ class GrabGUI(tk.Tk):
                 ahead_ms=ahead, interval_ms=interval,
                 max_retries=None if forever else 200,
                 api_base=self.api_base,
-                enable_prefetch=self.prefetch_var.get(),
             )
             self.grabbers.append(g)
             try:
