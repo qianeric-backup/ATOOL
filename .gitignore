@@ -40,3 +40,11 @@ _check_status.py
 宿舍抢购工具/releases/v0.0.9/default.zip
 宿舍抢购工具/releases/v0.0.9c.zip
 宿舍抢购工具/releases/v1.2.6.zip
+
+# CPP漫展抢购 - 敏感运行时文件（含真实凭据/个人信息，绝不提交）
+CPP漫展抢购/cookies.json
+CPP漫展抢购/app.log
+CPP漫展抢购/tmp/
+CPP漫展抢购/config.json
+CPP漫展抢购/repo/
+CPP漫展抢购/__pycache__/
