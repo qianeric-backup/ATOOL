@@ -1,0 +1,79 @@
+{
+  "test_info": {
+    "version": "V0.0.9c",
+    "test_time": "2026-08-23 16:06:33",
+    "total_tests": 4,
+    "success_count": 4,
+    "failed_count": 0,
+    "success_rate": 100.0
+  },
+  "time_stats": {
+    "avg_time": 6.180011212825775,
+    "min_time": 5.937474966049194,
+    "max_time": 6.419546842575073,
+    "time_variance": 0.4820718765258789
+  },
+  "conflict_analysis": {
+    "overlap_count": 2,
+    "overlaps": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3
+      ]
+    ]
+  },
+  "detailed_results": [
+    {
+      "instance_id": "1-1",
+      "account": "账号1",
+      "enrollid": "2633233352",
+      "execution_time": 6.415524482727051,
+      "success": true,
+      "return_code": 0,
+      "output_lines": 10,
+      "error_lines": 0,
+      "start_time": 1787472378.8002107,
+      "end_time": 1787472385.2157352
+    },
+    {
+      "instance_id": "1-2",
+      "account": "账号2",
+      "enrollid": "2631141739",
+      "execution_time": 6.419546842575073,
+      "success": true,
+      "return_code": 0,
+      "output_lines": 10,
+      "error_lines": 0,
+      "start_time": 1787472378.8002107,
+      "end_time": 1787472385.2207353
+    },
+    {
+      "instance_id": "2-2",
+      "account": "账号2",
+      "enrollid": "2631141739",
+      "execution_time": 5.937474966049194,
+      "success": true,
+      "return_code": 0,
+      "output_lines": 10,
+      "error_lines": 0,
+      "start_time": 1787472387.2221265,
+      "end_time": 1787472393.1606011
+    },
+    {
+      "instance_id": "2-1",
+      "account": "账号1",
+      "enrollid": "2633233352",
+      "execution_time": 5.947498559951782,
+      "success": true,
+      "return_code": 0,
+      "output_lines": 10,
+      "error_lines": 0,
+      "start_time": 1787472387.2221265,
+      "end_time": 1787472393.169625
+    }
+  ]
+}

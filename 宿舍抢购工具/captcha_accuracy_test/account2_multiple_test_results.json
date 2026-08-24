@@ -1,0 +1,86 @@
+{
+  "test_time": "2026-08-22 17:02:44",
+  "test_count": 10,
+  "results": [
+    {
+      "attempt": 1,
+      "captcha_file": "captcha_accuracy_test\\account2_captcha_1_20260822_170219.jpg",
+      "ai_result": "a4gxw",
+      "recognize_time": 0.8007135391235352,
+      "feedback": "其他: 服务端异常，请联系管理员",
+      "captcha_size": 2170
+    },
+    {
+      "attempt": 2,
+      "captcha_file": "captcha_accuracy_test\\account2_captcha_2_20260822_170221.jpg",
+      "ai_result": "d32bn",
+      "recognize_time": 1.936342716217041,
+      "feedback": "其他: 服务端异常，请联系管理员",
+      "captcha_size": 2348
+    },
+    {
+      "attempt": 3,
+      "captcha_file": "captcha_accuracy_test\\account2_captcha_3_20260822_170224.jpg",
+      "ai_result": "6p3ny",
+      "recognize_time": 3.5321836471557617,
+      "feedback": "其他: 服务端异常，请联系管理员",
+      "captcha_size": 2262
+    },
+    {
+      "attempt": 4,
+      "captcha_file": "captcha_accuracy_test\\account2_captcha_4_20260822_170228.jpg",
+      "ai_result": "hxbdp",
+      "recognize_time": 0.7491879463195801,
+      "feedback": "其他: 服务端异常，请联系管理员",
+      "captcha_size": 2107
+    },
+    {
+      "attempt": 5,
+      "captcha_file": "captcha_accuracy_test\\account2_captcha_5_20260822_170230.jpg",
+      "ai_result": "m7gpn",
+      "recognize_time": 1.2850382328033447,
+      "feedback": "其他: 服务端异常，请联系管理员",
+      "captcha_size": 2112
+    },
+    {
+      "attempt": 6,
+      "captcha_file": "captcha_accuracy_test\\account2_captcha_6_20260822_170232.jpg",
+      "ai_result": "xnb82",
+      "recognize_time": 0.8056986331939697,
+      "feedback": "其他: 服务端异常，请联系管理员",
+      "captcha_size": 2375
+    },
+    {
+      "attempt": 7,
+      "captcha_file": "captcha_accuracy_test\\account2_captcha_7_20260822_170234.jpg",
+      "ai_result": "5fpy7",
+      "recognize_time": 0.8263411521911621,
+      "feedback": "其他: 服务端异常，请联系管理员",
+      "captcha_size": 2264
+    },
+    {
+      "attempt": 8,
+      "captcha_file": "captcha_accuracy_test\\account2_captcha_8_20260822_170236.jpg",
+      "ai_result": "m5bf5",
+      "recognize_time": 1.2975289821624756,
+      "feedback": "其他: 服务端异常，请联系管理员",
+      "captcha_size": 2254
+    },
+    {
+      "attempt": 9,
+      "captcha_file": "captcha_accuracy_test\\account2_captcha_9_20260822_170238.jpg",
+      "ai_result": "v937xm",
+      "recognize_time": 3.0687968730926514,
+      "feedback": "其他: 服务端异常，请联系管理员",
+      "captcha_size": 2205
+    },
+    {
+      "attempt": 10,
+      "captcha_file": "captcha_accuracy_test\\account2_captcha_10_20260822_170242.jpg",
+      "ai_result": "b2fw7",
+      "recognize_time": 1.187605381011963,
+      "feedback": "其他: 服务端异常，请联系管理员",
+      "captcha_size": 2202
+    }
+  ]
+}

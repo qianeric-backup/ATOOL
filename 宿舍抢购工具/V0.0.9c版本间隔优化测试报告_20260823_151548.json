@@ -1,0 +1,544 @@
+{
+  "默认间隔": {
+    "params": [],
+    "test_count": 10,
+    "success_count": 10,
+    "success_rate": 100.0,
+    "total_time": 107.83974528312683,
+    "avg_time": 10.783974528312683,
+    "min_time": 8.673996925354004,
+    "max_time": 15.090160846710205,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 9.392245769500732,
+        "success": true,
+        "return_code": 0,
+        "params": []
+      },
+      {
+        "test_id": 2,
+        "execution_time": 11.242402791976929,
+        "success": true,
+        "return_code": 0,
+        "params": []
+      },
+      {
+        "test_id": 3,
+        "execution_time": 8.673996925354004,
+        "success": true,
+        "return_code": 0,
+        "params": []
+      },
+      {
+        "test_id": 4,
+        "execution_time": 9.537305116653442,
+        "success": true,
+        "return_code": 0,
+        "params": []
+      },
+      {
+        "test_id": 5,
+        "execution_time": 8.91820216178894,
+        "success": true,
+        "return_code": 0,
+        "params": []
+      },
+      {
+        "test_id": 6,
+        "execution_time": 15.090160846710205,
+        "success": true,
+        "return_code": 0,
+        "params": []
+      },
+      {
+        "test_id": 7,
+        "execution_time": 13.283231019973755,
+        "success": true,
+        "return_code": 0,
+        "params": []
+      },
+      {
+        "test_id": 8,
+        "execution_time": 12.047396898269653,
+        "success": true,
+        "return_code": 0,
+        "params": []
+      },
+      {
+        "test_id": 9,
+        "execution_time": 10.184355735778809,
+        "success": true,
+        "return_code": 0,
+        "params": []
+      },
+      {
+        "test_id": 10,
+        "execution_time": 9.470448017120361,
+        "success": true,
+        "return_code": 0,
+        "params": []
+      }
+    ]
+  },
+  "缩小间隔（100ms）": {
+    "params": [
+      "--interval-ms",
+      "100"
+    ],
+    "test_count": 10,
+    "success_count": 10,
+    "success_rate": 100.0,
+    "total_time": 97.78786563873291,
+    "avg_time": 9.778786563873291,
+    "min_time": 8.892672061920166,
+    "max_time": 10.76871943473816,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 8.892672061920166,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "100"
+        ]
+      },
+      {
+        "test_id": 2,
+        "execution_time": 9.236519813537598,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "100"
+        ]
+      },
+      {
+        "test_id": 3,
+        "execution_time": 9.7610182762146,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "100"
+        ]
+      },
+      {
+        "test_id": 4,
+        "execution_time": 9.051655054092407,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "100"
+        ]
+      },
+      {
+        "test_id": 5,
+        "execution_time": 10.409048795700073,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "100"
+        ]
+      },
+      {
+        "test_id": 6,
+        "execution_time": 8.941410064697266,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "100"
+        ]
+      },
+      {
+        "test_id": 7,
+        "execution_time": 10.381375074386597,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "100"
+        ]
+      },
+      {
+        "test_id": 8,
+        "execution_time": 10.224581241607666,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "100"
+        ]
+      },
+      {
+        "test_id": 9,
+        "execution_time": 10.76871943473816,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "100"
+        ]
+      },
+      {
+        "test_id": 10,
+        "execution_time": 10.120865821838379,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "100"
+        ]
+      }
+    ]
+  },
+  "缩小间隔（50ms）": {
+    "params": [
+      "--interval-ms",
+      "50"
+    ],
+    "test_count": 10,
+    "success_count": 10,
+    "success_rate": 100.0,
+    "total_time": 99.55308294296265,
+    "avg_time": 9.955308294296264,
+    "min_time": 9.069396018981934,
+    "max_time": 11.431297302246094,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 11.431297302246094,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "50"
+        ]
+      },
+      {
+        "test_id": 2,
+        "execution_time": 10.8407723903656,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "50"
+        ]
+      },
+      {
+        "test_id": 3,
+        "execution_time": 9.069396018981934,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "50"
+        ]
+      },
+      {
+        "test_id": 4,
+        "execution_time": 9.070629358291626,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "50"
+        ]
+      },
+      {
+        "test_id": 5,
+        "execution_time": 9.258463144302368,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "50"
+        ]
+      },
+      {
+        "test_id": 6,
+        "execution_time": 9.79821491241455,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "50"
+        ]
+      },
+      {
+        "test_id": 7,
+        "execution_time": 10.938661336898804,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "50"
+        ]
+      },
+      {
+        "test_id": 8,
+        "execution_time": 10.0217604637146,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "50"
+        ]
+      },
+      {
+        "test_id": 9,
+        "execution_time": 9.468342065811157,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "50"
+        ]
+      },
+      {
+        "test_id": 10,
+        "execution_time": 9.655545949935913,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "50"
+        ]
+      }
+    ]
+  },
+  "缩小间隔（25ms）": {
+    "params": [
+      "--interval-ms",
+      "25"
+    ],
+    "test_count": 10,
+    "success_count": 10,
+    "success_rate": 100.0,
+    "total_time": 113.04200148582458,
+    "avg_time": 11.304200148582458,
+    "min_time": 8.951107025146484,
+    "max_time": 14.481041669845581,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 11.148595333099365,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "25"
+        ]
+      },
+      {
+        "test_id": 2,
+        "execution_time": 8.975885152816772,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "25"
+        ]
+      },
+      {
+        "test_id": 3,
+        "execution_time": 12.546768426895142,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "25"
+        ]
+      },
+      {
+        "test_id": 4,
+        "execution_time": 11.664190769195557,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "25"
+        ]
+      },
+      {
+        "test_id": 5,
+        "execution_time": 10.357226133346558,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "25"
+        ]
+      },
+      {
+        "test_id": 6,
+        "execution_time": 12.653972148895264,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "25"
+        ]
+      },
+      {
+        "test_id": 7,
+        "execution_time": 10.792024374008179,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "25"
+        ]
+      },
+      {
+        "test_id": 8,
+        "execution_time": 8.951107025146484,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "25"
+        ]
+      },
+      {
+        "test_id": 9,
+        "execution_time": 14.481041669845581,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "25"
+        ]
+      },
+      {
+        "test_id": 10,
+        "execution_time": 11.471190452575684,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "25"
+        ]
+      }
+    ]
+  },
+  "缩小间隔（10ms）": {
+    "params": [
+      "--interval-ms",
+      "10"
+    ],
+    "test_count": 10,
+    "success_count": 10,
+    "success_rate": 100.0,
+    "total_time": 101.11998581886292,
+    "avg_time": 10.111998581886292,
+    "min_time": 9.16405701637268,
+    "max_time": 10.828104019165039,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 10.828104019165039,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "10"
+        ]
+      },
+      {
+        "test_id": 2,
+        "execution_time": 10.744226694107056,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "10"
+        ]
+      },
+      {
+        "test_id": 3,
+        "execution_time": 9.16405701637268,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "10"
+        ]
+      },
+      {
+        "test_id": 4,
+        "execution_time": 10.281232595443726,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "10"
+        ]
+      },
+      {
+        "test_id": 5,
+        "execution_time": 10.48307180404663,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "10"
+        ]
+      },
+      {
+        "test_id": 6,
+        "execution_time": 9.869134664535522,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "10"
+        ]
+      },
+      {
+        "test_id": 7,
+        "execution_time": 9.30960202217102,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "10"
+        ]
+      },
+      {
+        "test_id": 8,
+        "execution_time": 10.358415842056274,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "10"
+        ]
+      },
+      {
+        "test_id": 9,
+        "execution_time": 9.916538953781128,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "10"
+        ]
+      },
+      {
+        "test_id": 10,
+        "execution_time": 10.165602207183838,
+        "success": true,
+        "return_code": 0,
+        "params": [
+          "--interval-ms",
+          "10"
+        ]
+      }
+    ]
+  }
+}

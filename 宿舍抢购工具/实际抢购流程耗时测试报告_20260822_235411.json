@@ -1,0 +1,206 @@
+{
+  "V0.0.9": {
+    "version": "V0.0.9",
+    "test_count": 10,
+    "success_count": 10,
+    "success_rate": 100.0,
+    "total_time": 41.733869314193726,
+    "avg_time": 4.173386931419373,
+    "total_retries": 0,
+    "avg_retries": 0.0,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 4.084194898605347,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v0.0.9\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.088s (本地现在约 23:52:43)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 2,
+        "execution_time": 4.010913610458374,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v0.0.9\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.089s (本地现在约 23:52:47)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 3,
+        "execution_time": 4.344641447067261,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v0.0.9\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.088s (本地现在约 23:52:52)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 4,
+        "execution_time": 4.04231333732605,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v0.0.9\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.089s (本地现在约 23:52:57)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 5,
+        "execution_time": 4.199535608291626,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v0.0.9\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.089s (本地现在约 23:53:01)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 6,
+        "execution_time": 4.068450689315796,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v0.0.9\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.088s (本地现在约 23:53:06)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 7,
+        "execution_time": 4.240494251251221,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v0.0.9\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.089s (本地现在约 23:53:11)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 8,
+        "execution_time": 3.969132423400879,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v0.0.9\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.089s (本地现在约 23:53:15)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 9,
+        "execution_time": 4.181117534637451,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v0.0.9\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.088s (本地现在约 23:53:20)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 10,
+        "execution_time": 4.593075513839722,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v0.0.9\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.087s (本地现在约 23:53:25)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      }
+    ]
+  },
+  "v1.2.6": {
+    "version": "v1.2.6",
+    "test_count": 10,
+    "success_count": 0,
+    "success_rate": 0.0,
+    "total_time": 39.60356950759888,
+    "avg_time": 3.9603569507598877,
+    "total_retries": 0,
+    "avg_retries": 0.0,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 3.903806447982788,
+        "success": false,
+        "retry_count": 0,
+        "return_code": 2,
+        "output": "错误: 激活KEY无效或未提供。\n提示: 运行  activation.py get-machine 获取本机指纹, 让授权方用 generate_key.py 签发KEY;\n      或使用固定KEY。\n",
+        "error": ""
+      },
+      {
+        "test_id": 2,
+        "execution_time": 4.116737127304077,
+        "success": false,
+        "retry_count": 0,
+        "return_code": 2,
+        "output": "错误: 激活KEY无效或未提供。\n提示: 运行  activation.py get-machine 获取本机指纹, 让授权方用 generate_key.py 签发KEY;\n      或使用固定KEY。\n",
+        "error": ""
+      },
+      {
+        "test_id": 3,
+        "execution_time": 3.8513495922088623,
+        "success": false,
+        "retry_count": 0,
+        "return_code": 2,
+        "output": "错误: 激活KEY无效或未提供。\n提示: 运行  activation.py get-machine 获取本机指纹, 让授权方用 generate_key.py 签发KEY;\n      或使用固定KEY。\n",
+        "error": ""
+      },
+      {
+        "test_id": 4,
+        "execution_time": 3.7184197902679443,
+        "success": false,
+        "retry_count": 0,
+        "return_code": 2,
+        "output": "错误: 激活KEY无效或未提供。\n提示: 运行  activation.py get-machine 获取本机指纹, 让授权方用 generate_key.py 签发KEY;\n      或使用固定KEY。\n",
+        "error": ""
+      },
+      {
+        "test_id": 5,
+        "execution_time": 4.021855115890503,
+        "success": false,
+        "retry_count": 0,
+        "return_code": 2,
+        "output": "错误: 激活KEY无效或未提供。\n提示: 运行  activation.py get-machine 获取本机指纹, 让授权方用 generate_key.py 签发KEY;\n      或使用固定KEY。\n",
+        "error": ""
+      },
+      {
+        "test_id": 6,
+        "execution_time": 4.0128819942474365,
+        "success": false,
+        "retry_count": 0,
+        "return_code": 2,
+        "output": "错误: 激活KEY无效或未提供。\n提示: 运行  activation.py get-machine 获取本机指纹, 让授权方用 generate_key.py 签发KEY;\n      或使用固定KEY。\n",
+        "error": ""
+      },
+      {
+        "test_id": 7,
+        "execution_time": 3.790557622909546,
+        "success": false,
+        "retry_count": 0,
+        "return_code": 2,
+        "output": "错误: 激活KEY无效或未提供。\n提示: 运行  activation.py get-machine 获取本机指纹, 让授权方用 generate_key.py 签发KEY;\n      或使用固定KEY。\n",
+        "error": ""
+      },
+      {
+        "test_id": 8,
+        "execution_time": 4.036674499511719,
+        "success": false,
+        "retry_count": 0,
+        "return_code": 2,
+        "output": "错误: 激活KEY无效或未提供。\n提示: 运行  activation.py get-machine 获取本机指纹, 让授权方用 generate_key.py 签发KEY;\n      或使用固定KEY。\n",
+        "error": ""
+      },
+      {
+        "test_id": 9,
+        "execution_time": 4.144634246826172,
+        "success": false,
+        "retry_count": 0,
+        "return_code": 2,
+        "output": "错误: 激活KEY无效或未提供。\n提示: 运行  activation.py get-machine 获取本机指纹, 让授权方用 generate_key.py 签发KEY;\n      或使用固定KEY。\n",
+        "error": ""
+      },
+      {
+        "test_id": 10,
+        "execution_time": 4.006653070449829,
+        "success": false,
+        "retry_count": 0,
+        "return_code": 2,
+        "output": "错误: 激活KEY无效或未提供。\n提示: 运行  activation.py get-machine 获取本机指纹, 让授权方用 generate_key.py 签发KEY;\n      或使用固定KEY。\n",
+        "error": ""
+      }
+    ]
+  }
+}

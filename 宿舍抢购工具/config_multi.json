@@ -1,0 +1,22 @@
+{
+  "version": "V0.0.9b",
+  "accounts": [
+    {
+      "enrollid": "2633233352",
+      "idcard": "341226200807104418",
+      "name": "账号1"
+    },
+    {
+      "enrollid": "2631141739",
+      "idcard": "310110200605112038",
+      "name": "账号2"
+    }
+  ],
+  "settings": {
+    "dtype": 2,
+    "concurrency": 1,
+    "ahead_ms": 300,
+    "max_retries": 200,
+    "interval_ms": 200
+  }
+}

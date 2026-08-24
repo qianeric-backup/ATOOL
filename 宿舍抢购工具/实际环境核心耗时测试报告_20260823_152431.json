@@ -1,0 +1,224 @@
+{
+  "V0.0.9c": {
+    "version": "V0.0.9c",
+    "test_count": 20,
+    "total_time": 85.47354316711426,
+    "avg_time": 4.273677158355713,
+    "median_time": 4.169057846069336,
+    "min_time": 3.596593141555786,
+    "max_time": 5.645258665084839,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 3.752660036087036,
+        "return_code": 2
+      },
+      {
+        "test_id": 2,
+        "execution_time": 3.727142333984375,
+        "return_code": 2
+      },
+      {
+        "test_id": 3,
+        "execution_time": 3.596593141555786,
+        "return_code": 2
+      },
+      {
+        "test_id": 4,
+        "execution_time": 4.169057846069336,
+        "return_code": 2
+      },
+      {
+        "test_id": 5,
+        "execution_time": 4.250208854675293,
+        "return_code": 2
+      },
+      {
+        "test_id": 6,
+        "execution_time": 3.999499559402466,
+        "return_code": 2
+      },
+      {
+        "test_id": 7,
+        "execution_time": 4.124673128128052,
+        "return_code": 2
+      },
+      {
+        "test_id": 8,
+        "execution_time": 4.116393566131592,
+        "return_code": 2
+      },
+      {
+        "test_id": 9,
+        "execution_time": 4.425109148025513,
+        "return_code": 2
+      },
+      {
+        "test_id": 10,
+        "execution_time": 4.768462896347046,
+        "return_code": 2
+      },
+      {
+        "test_id": 11,
+        "execution_time": 5.645258665084839,
+        "return_code": 2
+      },
+      {
+        "test_id": 12,
+        "execution_time": 5.036973714828491,
+        "return_code": 2
+      },
+      {
+        "test_id": 13,
+        "execution_time": 4.208350419998169,
+        "return_code": 2
+      },
+      {
+        "test_id": 14,
+        "execution_time": 4.1284239292144775,
+        "return_code": 2
+      },
+      {
+        "test_id": 15,
+        "execution_time": 4.008848667144775,
+        "return_code": 2
+      },
+      {
+        "test_id": 16,
+        "execution_time": 3.8961386680603027,
+        "return_code": 2
+      },
+      {
+        "test_id": 17,
+        "execution_time": 4.655364513397217,
+        "return_code": 2
+      },
+      {
+        "test_id": 18,
+        "execution_time": 4.048438310623169,
+        "return_code": 2
+      },
+      {
+        "test_id": 19,
+        "execution_time": 4.4925971031188965,
+        "return_code": 2
+      },
+      {
+        "test_id": 20,
+        "execution_time": 4.423348665237427,
+        "return_code": 2
+      }
+    ]
+  },
+  "v1.2.6（修复后）": {
+    "version": "v1.2.6（修复后）",
+    "test_count": 20,
+    "total_time": 97.96647763252258,
+    "avg_time": 4.898323881626129,
+    "median_time": 4.587299346923828,
+    "min_time": 4.239387035369873,
+    "max_time": 6.280314207077026,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 5.1518285274505615,
+        "return_code": 0
+      },
+      {
+        "test_id": 2,
+        "execution_time": 5.068288564682007,
+        "return_code": 0
+      },
+      {
+        "test_id": 3,
+        "execution_time": 4.935352087020874,
+        "return_code": 0
+      },
+      {
+        "test_id": 4,
+        "execution_time": 6.280314207077026,
+        "return_code": 0
+      },
+      {
+        "test_id": 5,
+        "execution_time": 5.9531426429748535,
+        "return_code": 0
+      },
+      {
+        "test_id": 6,
+        "execution_time": 5.800325870513916,
+        "return_code": 0
+      },
+      {
+        "test_id": 7,
+        "execution_time": 6.104624032974243,
+        "return_code": 0
+      },
+      {
+        "test_id": 8,
+        "execution_time": 6.022989749908447,
+        "return_code": 0
+      },
+      {
+        "test_id": 9,
+        "execution_time": 4.482228517532349,
+        "return_code": 0
+      },
+      {
+        "test_id": 10,
+        "execution_time": 4.518906116485596,
+        "return_code": 0
+      },
+      {
+        "test_id": 11,
+        "execution_time": 4.594952583312988,
+        "return_code": 0
+      },
+      {
+        "test_id": 12,
+        "execution_time": 4.587299346923828,
+        "return_code": 0
+      },
+      {
+        "test_id": 13,
+        "execution_time": 4.346987009048462,
+        "return_code": 0
+      },
+      {
+        "test_id": 14,
+        "execution_time": 4.2933995723724365,
+        "return_code": 0
+      },
+      {
+        "test_id": 15,
+        "execution_time": 4.42179536819458,
+        "return_code": 0
+      },
+      {
+        "test_id": 16,
+        "execution_time": 4.239387035369873,
+        "return_code": 0
+      },
+      {
+        "test_id": 17,
+        "execution_time": 4.259625673294067,
+        "return_code": 0
+      },
+      {
+        "test_id": 18,
+        "execution_time": 4.315545558929443,
+        "return_code": 0
+      },
+      {
+        "test_id": 19,
+        "execution_time": 4.279067516326904,
+        "return_code": 0
+      },
+      {
+        "test_id": 20,
+        "execution_time": 4.310417652130127,
+        "return_code": 0
+      }
+    ]
+  }
+}

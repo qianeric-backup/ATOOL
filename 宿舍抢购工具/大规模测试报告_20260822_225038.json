@@ -1,0 +1,590 @@
+{
+  "v1.1.0": {
+    "version": "v1.1.0",
+    "test_count": 20,
+    "success_count": 20,
+    "success_rate": 100.0,
+    "total_time": 124.88420271873474,
+    "avg_time": 6.244210135936737,
+    "total_retries": 0,
+    "avg_retries": 0.0,
+    "success_avg_time": 6.244210135936737,
+    "fail_avg_time": 0,
+    "min_time": 6.048128366470337,
+    "max_time": 6.602099657058716,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 6.06809663772583,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.112s (本地现在约 22:44:02)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 2,
+        "execution_time": 6.166014909744263,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.113s (本地现在约 22:44:09)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 3,
+        "execution_time": 6.238049745559692,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.113s (本地现在约 22:44:15)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 4,
+        "execution_time": 6.104104042053223,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.113s (本地现在约 22:44:22)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 5,
+        "execution_time": 6.29932165145874,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.113s (本地现在约 22:44:29)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 6,
+        "execution_time": 6.423342704772949,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.113s (本地现在约 22:44:36)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 7,
+        "execution_time": 6.142809152603149,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.113s (本地现在约 22:44:42)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 8,
+        "execution_time": 6.429656744003296,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.112s (本地现在约 22:44:49)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 9,
+        "execution_time": 6.602099657058716,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.112s (本地现在约 22:44:56)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 10,
+        "execution_time": 6.373769998550415,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.112s (本地现在约 22:45:03)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 11,
+        "execution_time": 6.145736932754517,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.112s (本地现在约 22:45:10)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 12,
+        "execution_time": 6.259648561477661,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.113s (本地现在约 22:45:17)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 13,
+        "execution_time": 6.23775053024292,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.112s (本地现在约 22:45:23)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 14,
+        "execution_time": 6.2588231563568115,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.112s (本地现在约 22:45:30)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 15,
+        "execution_time": 6.048128366470337,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.112s (本地现在约 22:45:37)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 16,
+        "execution_time": 6.366173028945923,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.112s (本地现在约 22:45:43)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 17,
+        "execution_time": 6.1279590129852295,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.112s (本地现在约 22:45:50)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 18,
+        "execution_time": 6.122611999511719,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.112s (本地现在约 22:45:57)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 19,
+        "execution_time": 6.2708516120910645,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.112s (本地现在约 22:46:03)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 20,
+        "execution_time": 6.199254274368286,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.111s (本地现在约 22:46:10)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      }
+    ]
+  },
+  "v1.2.4": {
+    "version": "v1.2.4",
+    "test_count": 20,
+    "success_count": 20,
+    "success_rate": 100.0,
+    "total_time": 122.65530204772949,
+    "avg_time": 6.132765102386474,
+    "total_retries": 0,
+    "avg_retries": 0.0,
+    "success_avg_time": 6.132765102386474,
+    "fail_avg_time": 0,
+    "min_time": 5.786002159118652,
+    "max_time": 6.452443361282349,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 6.094989538192749,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.112s (本地现在约 22:46:17)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 2,
+        "execution_time": 6.177919387817383,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.111s (本地现在约 22:46:23)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 3,
+        "execution_time": 6.261022090911865,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.111s (本地现在约 22:46:30)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 4,
+        "execution_time": 6.452443361282349,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.111s (本地现在约 22:46:37)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 5,
+        "execution_time": 6.3317461013793945,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.111s (本地现在约 22:46:44)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 6,
+        "execution_time": 6.021181583404541,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.112s (本地现在约 22:46:51)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 7,
+        "execution_time": 5.991143465042114,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.111s (本地现在约 22:46:57)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 8,
+        "execution_time": 6.200652360916138,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.112s (本地现在约 22:47:04)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 9,
+        "execution_time": 6.3475635051727295,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.112s (本地现在约 22:47:11)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 10,
+        "execution_time": 6.090620756149292,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.111s (本地现在约 22:47:17)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 11,
+        "execution_time": 5.914762020111084,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.111s (本地现在约 22:47:24)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 12,
+        "execution_time": 6.307475566864014,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.111s (本地现在约 22:47:30)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 13,
+        "execution_time": 5.786002159118652,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.111s (本地现在约 22:47:37)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 14,
+        "execution_time": 5.905683517456055,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.110s (本地现在约 22:47:43)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 15,
+        "execution_time": 6.056223154067993,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.111s (本地现在约 22:47:50)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 16,
+        "execution_time": 5.951848268508911,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.110s (本地现在约 22:47:56)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 17,
+        "execution_time": 6.185264825820923,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.110s (本地现在约 22:48:03)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 18,
+        "execution_time": 6.193922758102417,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.111s (本地现在约 22:48:09)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 19,
+        "execution_time": 6.2991790771484375,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.111s (本地现在约 22:48:16)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 20,
+        "execution_time": 6.085658550262451,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] 未配置 GRAB_DORM_AI_KEY, 预取将降级为 ddddocr\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.111s (本地现在约 22:48:23)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      }
+    ]
+  },
+  "v1.2.6": {
+    "version": "v1.2.6",
+    "test_count": 20,
+    "success_count": 20,
+    "success_rate": 100.0,
+    "total_time": 123.86815977096558,
+    "avg_time": 6.1934079885482785,
+    "total_retries": 0,
+    "avg_retries": 0.0,
+    "success_avg_time": 6.1934079885482785,
+    "fail_avg_time": 0,
+    "min_time": 5.929927110671997,
+    "max_time": 6.405247211456299,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 5.929927110671997,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.110s (本地现在约 22:48:29)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 2,
+        "execution_time": 6.339443206787109,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.110s (本地现在约 22:48:36)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 3,
+        "execution_time": 5.968743085861206,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.111s (本地现在约 22:48:42)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 4,
+        "execution_time": 6.237207412719727,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.111s (本地现在约 22:48:49)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 5,
+        "execution_time": 6.388707160949707,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.110s (本地现在约 22:48:56)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 6,
+        "execution_time": 6.35410475730896,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.110s (本地现在约 22:49:03)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 7,
+        "execution_time": 6.088276624679565,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.109s (本地现在约 22:49:10)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 8,
+        "execution_time": 6.049503803253174,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.110s (本地现在约 22:49:16)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 9,
+        "execution_time": 6.086105823516846,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.110s (本地现在约 22:49:23)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 10,
+        "execution_time": 6.207492351531982,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.109s (本地现在约 22:49:30)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 11,
+        "execution_time": 6.228589296340942,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.109s (本地现在约 22:49:36)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 12,
+        "execution_time": 6.405247211456299,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.110s (本地现在约 22:49:43)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 13,
+        "execution_time": 6.174258708953857,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.110s (本地现在约 22:49:50)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 14,
+        "execution_time": 6.258832693099976,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.111s (本地现在约 22:49:57)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 15,
+        "execution_time": 6.171019077301025,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.110s (本地现在约 22:50:03)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 16,
+        "execution_time": 6.353009223937988,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.109s (本地现在约 22:50:10)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 17,
+        "execution_time": 6.168158292770386,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.109s (本地现在约 22:50:17)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 18,
+        "execution_time": 6.001819849014282,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.110s (本地现在约 22:50:23)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 19,
+        "execution_time": 6.190849542617798,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.109s (本地现在约 22:50:30)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 20,
+        "execution_time": 6.266864538192749,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "s\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] ddddocr 已加载, 使用自动识别\n[AI-OCR] AI 识别可用: model=glm-4v-plus-0111 base=https://open.bigmodel.cn/api/paas/v4\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.109s (本地现在约 22:50:37)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      }
+    ]
+  }
+}

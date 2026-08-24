@@ -1,0 +1,344 @@
+{
+  "v1.2.6（修复后）": {
+    "version": "v1.2.6（修复后）",
+    "test_count": 10,
+    "avg_recognize_time": 0.9366599559783936,
+    "avg_submit_time": 0.4860496997833252,
+    "avg_total_time": 1.4227096557617187,
+    "min_total_time": 1.216280460357666,
+    "max_total_time": 2.0296616554260254,
+    "results": [
+      {
+        "test_id": 1,
+        "recognize_time": 0.9122188091278076,
+        "submit_time": 0.4338555335998535,
+        "total_time": 1.3460743427276611,
+        "captcha": "0262x",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449588
+        }
+      },
+      {
+        "test_id": 2,
+        "recognize_time": 0.9191043376922607,
+        "submit_time": 0.6212849617004395,
+        "total_time": 1.5403892993927002,
+        "captcha": "p3473",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449590
+        }
+      },
+      {
+        "test_id": 3,
+        "recognize_time": 1.344499111175537,
+        "submit_time": 0.47614240646362305,
+        "total_time": 1.8206415176391602,
+        "captcha": "abey3",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449593
+        }
+      },
+      {
+        "test_id": 4,
+        "recognize_time": 0.8073315620422363,
+        "submit_time": 0.49968409538269043,
+        "total_time": 1.3070156574249268,
+        "captcha": "7bywb",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449595
+        }
+      },
+      {
+        "test_id": 5,
+        "recognize_time": 0.7485463619232178,
+        "submit_time": 0.4902939796447754,
+        "total_time": 1.2388403415679932,
+        "captcha": "p6b54",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449597
+        }
+      },
+      {
+        "test_id": 6,
+        "recognize_time": 0.8120393753051758,
+        "submit_time": 0.47331666946411133,
+        "total_time": 1.285356044769287,
+        "captcha": "267xg",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449599
+        }
+      },
+      {
+        "test_id": 7,
+        "recognize_time": 1.5803430080413818,
+        "submit_time": 0.44931864738464355,
+        "total_time": 2.0296616554260254,
+        "captcha": "wnb2n",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449601
+        }
+      },
+      {
+        "test_id": 8,
+        "recognize_time": 0.7283854484558105,
+        "submit_time": 0.4887657165527344,
+        "total_time": 1.217151165008545,
+        "captcha": "34e48",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449603
+        }
+      },
+      {
+        "test_id": 9,
+        "recognize_time": 0.7784156799316406,
+        "submit_time": 0.44727039337158203,
+        "total_time": 1.2256860733032227,
+        "captcha": "5wuep",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449605
+        }
+      },
+      {
+        "test_id": 10,
+        "recognize_time": 0.7357158660888672,
+        "submit_time": 0.48056459426879883,
+        "total_time": 1.216280460357666,
+        "captcha": "hdd7d",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449607
+        }
+      }
+    ]
+  },
+  "V0.0.9c": {
+    "version": "V0.0.9c",
+    "test_count": 10,
+    "avg_recognize_time": 1.0613281965255736,
+    "avg_submit_time": 0.4602646827697754,
+    "avg_total_time": 1.521592879295349,
+    "min_total_time": 1.1461877822875977,
+    "max_total_time": 2.9736289978027344,
+    "results": [
+      {
+        "test_id": 1,
+        "recognize_time": 0.8305540084838867,
+        "submit_time": 0.4890477657318115,
+        "total_time": 1.3196017742156982,
+        "captcha": "e5c8n",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449609
+        }
+      },
+      {
+        "test_id": 2,
+        "recognize_time": 0.7478506565093994,
+        "submit_time": 0.46724796295166016,
+        "total_time": 1.2150986194610596,
+        "captcha": "fgn6f",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449611
+        }
+      },
+      {
+        "test_id": 3,
+        "recognize_time": 0.7234001159667969,
+        "submit_time": 0.4227876663208008,
+        "total_time": 1.1461877822875977,
+        "captcha": "5y5xn",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449613
+        }
+      },
+      {
+        "test_id": 4,
+        "recognize_time": 0.830265998840332,
+        "submit_time": 0.47900938987731934,
+        "total_time": 1.3092753887176514,
+        "captcha": "kayx2",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449615
+        }
+      },
+      {
+        "test_id": 5,
+        "recognize_time": 2.5130691528320312,
+        "submit_time": 0.4605598449707031,
+        "total_time": 2.9736289978027344,
+        "captcha": "mxcem",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449619
+        }
+      },
+      {
+        "test_id": 6,
+        "recognize_time": 0.8391284942626953,
+        "submit_time": 0.47958993911743164,
+        "total_time": 1.318718433380127,
+        "captcha": "fndad",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449621
+        }
+      },
+      {
+        "test_id": 7,
+        "recognize_time": 0.861229658126831,
+        "submit_time": 0.45052194595336914,
+        "total_time": 1.3117516040802002,
+        "captcha": "nfc4b",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449623
+        }
+      },
+      {
+        "test_id": 8,
+        "recognize_time": 0.9480035305023193,
+        "submit_time": 0.4545879364013672,
+        "total_time": 1.4025914669036865,
+        "captcha": "y2cbn",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449625
+        }
+      },
+      {
+        "test_id": 9,
+        "recognize_time": 0.7521204948425293,
+        "submit_time": 0.4511723518371582,
+        "total_time": 1.2032928466796875,
+        "captcha": "xed4g",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449627
+        }
+      },
+      {
+        "test_id": 10,
+        "recognize_time": 1.567659854888916,
+        "submit_time": 0.4481220245361328,
+        "total_time": 2.015781879425049,
+        "captcha": "np4f8",
+        "submit_success": true,
+        "response": {
+          "suc": false,
+          "msg": null,
+          "emsg": "服务端异常，请联系管理员",
+          "code": 1000,
+          "data": "",
+          "ct": 1787449630
+        }
+      }
+    ]
+  }
+}

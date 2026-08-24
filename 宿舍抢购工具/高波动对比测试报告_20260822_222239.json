@@ -1,0 +1,308 @@
+{
+  "v1.1.0": {
+    "version": "v1.1.0",
+    "test_count": 5,
+    "success_count": 0,
+    "success_rate": 0.0,
+    "total_time": 19.681535005569458,
+    "avg_time": 1.9681535005569457,
+    "total_retries": 0,
+    "avg_retries": 0.0,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 4.600525856018066,
+        "success": false,
+        "retry_count": 0,
+        "return_code": 2,
+        "output": "",
+        "error": "   [--dry-run] [--forever]\n                                        [--monitor-interval MONITOR_INTERVAL]\n                                        [--gui] [--key KEY]\n                                        [--api-base API_BASE]\ngrab_dorm_multi_fixed_v1.1.0.exe: error: unrecognized arguments: --no-ai\n"
+      },
+      {
+        "test_id": 1,
+        "execution_time": 0.0,
+        "success": false,
+        "retry_count": 0,
+        "return_code": -1,
+        "output": "",
+        "error": "'gbk' codec can't encode character '\\u2717' in position 20: illegal multibyte sequence"
+      },
+      {
+        "test_id": 2,
+        "execution_time": 3.7991440296173096,
+        "success": false,
+        "retry_count": 0,
+        "return_code": 2,
+        "output": "",
+        "error": "   [--dry-run] [--forever]\n                                        [--monitor-interval MONITOR_INTERVAL]\n                                        [--gui] [--key KEY]\n                                        [--api-base API_BASE]\ngrab_dorm_multi_fixed_v1.1.0.exe: error: unrecognized arguments: --no-ai\n"
+      },
+      {
+        "test_id": 2,
+        "execution_time": 0.0,
+        "success": false,
+        "retry_count": 0,
+        "return_code": -1,
+        "output": "",
+        "error": "'gbk' codec can't encode character '\\u2717' in position 20: illegal multibyte sequence"
+      },
+      {
+        "test_id": 3,
+        "execution_time": 3.708118200302124,
+        "success": false,
+        "retry_count": 0,
+        "return_code": 2,
+        "output": "",
+        "error": "   [--dry-run] [--forever]\n                                        [--monitor-interval MONITOR_INTERVAL]\n                                        [--gui] [--key KEY]\n                                        [--api-base API_BASE]\ngrab_dorm_multi_fixed_v1.1.0.exe: error: unrecognized arguments: --no-ai\n"
+      },
+      {
+        "test_id": 3,
+        "execution_time": 0.0,
+        "success": false,
+        "retry_count": 0,
+        "return_code": -1,
+        "output": "",
+        "error": "'gbk' codec can't encode character '\\u2717' in position 20: illegal multibyte sequence"
+      },
+      {
+        "test_id": 4,
+        "execution_time": 3.6998627185821533,
+        "success": false,
+        "retry_count": 0,
+        "return_code": 2,
+        "output": "",
+        "error": "   [--dry-run] [--forever]\n                                        [--monitor-interval MONITOR_INTERVAL]\n                                        [--gui] [--key KEY]\n                                        [--api-base API_BASE]\ngrab_dorm_multi_fixed_v1.1.0.exe: error: unrecognized arguments: --no-ai\n"
+      },
+      {
+        "test_id": 4,
+        "execution_time": 0.0,
+        "success": false,
+        "retry_count": 0,
+        "return_code": -1,
+        "output": "",
+        "error": "'gbk' codec can't encode character '\\u2717' in position 20: illegal multibyte sequence"
+      },
+      {
+        "test_id": 5,
+        "execution_time": 3.8738842010498047,
+        "success": false,
+        "retry_count": 0,
+        "return_code": 2,
+        "output": "",
+        "error": "   [--dry-run] [--forever]\n                                        [--monitor-interval MONITOR_INTERVAL]\n                                        [--gui] [--key KEY]\n                                        [--api-base API_BASE]\ngrab_dorm_multi_fixed_v1.1.0.exe: error: unrecognized arguments: --no-ai\n"
+      },
+      {
+        "test_id": 5,
+        "execution_time": 0.0,
+        "success": false,
+        "retry_count": 0,
+        "return_code": -1,
+        "output": "",
+        "error": "'gbk' codec can't encode character '\\u2717' in position 20: illegal multibyte sequence"
+      }
+    ]
+  },
+  "v1.2.4": {
+    "version": "v1.2.4",
+    "test_count": 5,
+    "success_count": 5,
+    "success_rate": 100.0,
+    "total_time": 21.386221408843994,
+    "avg_time": 2.1386221408843995,
+    "total_retries": 0,
+    "avg_retries": 0.0,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 4.366384983062744,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.114s (本地现在约 22:22:00)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 1,
+        "execution_time": 0.0,
+        "success": false,
+        "retry_count": 0,
+        "return_code": -1,
+        "output": "",
+        "error": "'gbk' codec can't encode character '\\u2713' in position 20: illegal multibyte sequence"
+      },
+      {
+        "test_id": 2,
+        "execution_time": 4.18248724937439,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.118s (本地现在约 22:22:04)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 2,
+        "execution_time": 0.0,
+        "success": false,
+        "retry_count": 0,
+        "return_code": -1,
+        "output": "",
+        "error": "'gbk' codec can't encode character '\\u2713' in position 20: illegal multibyte sequence"
+      },
+      {
+        "test_id": 3,
+        "execution_time": 4.132988691329956,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.116s (本地现在约 22:22:08)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 3,
+        "execution_time": 0.0,
+        "success": false,
+        "retry_count": 0,
+        "return_code": -1,
+        "output": "",
+        "error": "'gbk' codec can't encode character '\\u2713' in position 20: illegal multibyte sequence"
+      },
+      {
+        "test_id": 4,
+        "execution_time": 4.415910005569458,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.117s (本地现在约 22:22:12)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 4,
+        "execution_time": 0.0,
+        "success": false,
+        "retry_count": 0,
+        "return_code": -1,
+        "output": "",
+        "error": "'gbk' codec can't encode character '\\u2713' in position 20: illegal multibyte sequence"
+      },
+      {
+        "test_id": 5,
+        "execution_time": 4.288450479507446,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.116s (本地现在约 22:22:17)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 5,
+        "execution_time": 0.0,
+        "success": false,
+        "retry_count": 0,
+        "return_code": -1,
+        "output": "",
+        "error": "'gbk' codec can't encode character '\\u2713' in position 20: illegal multibyte sequence"
+      }
+    ]
+  },
+  "v1.2.6": {
+    "version": "v1.2.6",
+    "test_count": 5,
+    "success_count": 5,
+    "success_rate": 100.0,
+    "total_time": 21.991759777069092,
+    "avg_time": 2.199175977706909,
+    "total_retries": 0,
+    "avg_retries": 0.0,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 4.34474778175354,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.118s (本地现在约 22:22:21)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 1,
+        "execution_time": 0.0,
+        "success": false,
+        "retry_count": 0,
+        "return_code": -1,
+        "output": "",
+        "error": "'gbk' codec can't encode character '\\u2713' in position 20: illegal multibyte sequence"
+      },
+      {
+        "test_id": 2,
+        "execution_time": 4.415916919708252,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.116s (本地现在约 22:22:25)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 2,
+        "execution_time": 0.0,
+        "success": false,
+        "retry_count": 0,
+        "return_code": -1,
+        "output": "",
+        "error": "'gbk' codec can't encode character '\\u2713' in position 20: illegal multibyte sequence"
+      },
+      {
+        "test_id": 3,
+        "execution_time": 4.332806348800659,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.117s (本地现在约 22:22:30)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 3,
+        "execution_time": 0.0,
+        "success": false,
+        "retry_count": 0,
+        "return_code": -1,
+        "output": "",
+        "error": "'gbk' codec can't encode character '\\u2713' in position 20: illegal multibyte sequence"
+      },
+      {
+        "test_id": 4,
+        "execution_time": 4.406668186187744,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.118s (本地现在约 22:22:34)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 4,
+        "execution_time": 0.0,
+        "success": false,
+        "retry_count": 0,
+        "return_code": -1,
+        "output": "",
+        "error": "'gbk' codec can't encode character '\\u2713' in position 20: illegal multibyte sequence"
+      },
+      {
+        "test_id": 5,
+        "execution_time": 4.4916205406188965,
+        "success": true,
+        "retry_count": 0,
+        "return_code": 0,
+        "output": "[ACTIVATION] 激活校验通过\n[CONFIG] 已加载配置: C:\\Users\\qianeric\\Documents\\reasonix-project\\脚本工具软件\\宿舍抢购工具\\releases\\v1.2.6\\config.json\n[OCR] 已禁用自动识别, 将手动输入验证码\n[LOGIN] 登录: enrollid=2633233352\n[LOGIN] 成功, 响应='1', 会话已建立\n[DORM] 宿舍: 新宿舍(职业技术学院) | 学院: 职业技术学院 | 性别: 男 | 价格: 7800 | 剩余: 0 | did(value): 81 | 开放: 2026-08-24 10:00:00 ~ 2026-08-24 15:00:00\n[DRY-RUN] 演练模式: 仅登录/查询/校时, 不提交抢购\n[TIME] 服务器时间偏移: -0.113s (本地现在约 22:22:39)\n\n[DRY-RUN] 演练结束: 登录/查询/校时均正常, 可正式运行 (不加 --dry-run)\n",
+        "error": ""
+      },
+      {
+        "test_id": 5,
+        "execution_time": 0.0,
+        "success": false,
+        "retry_count": 0,
+        "return_code": -1,
+        "output": "",
+        "error": "'gbk' codec can't encode character '\\u2713' in position 20: illegal multibyte sequence"
+      }
+    ]
+  }
+}

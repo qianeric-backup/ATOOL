@@ -1,0 +1,13 @@
+{
+  "account": "account2",
+  "enrollid": "2631141739",
+  "captcha_file": "submit_results\\account2_captcha_20260822_165302.jpg",
+  "captcha_size": 2309,
+  "ai_result": "6ptgp",
+  "recognize_time": 2.9718968868255615,
+  "submit_result": {
+    "status": "submit_failed",
+    "message": "服务端异常，请联系管理员"
+  },
+  "timestamp": "20260822_165302"
+}

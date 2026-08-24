@@ -1,0 +1,198 @@
+# V0.0.9b 多开exe使用说明
+
+## 功能概述
+- **功能**: 检测到有几个账密就开启几个窗口并让其开始抢购
+- **版本**: V0.0.9b多开版本
+- **测试状态**: ✓ 测试通过
+
+## 使用方法
+
+### 1. 配置账号信息
+编辑`releases/multi_instance/config_multi.json`文件，添加账号信息：
+
+```json
+{
+  "accounts": [
+    {
+      "enrollid": "2633233352",
+      "idcard": "341226200807104418",
+      "name": "账号1"
+    },
+    {
+      "enrollid": "2631141739",
+      "idcard": "310110200605112038",
+      "name": "账号2"
+    }
+  ],
+  "settings": {
+    "dtype": 2,
+    "concurrency": 1,
+    "ahead_ms": 300,
+    "max_retries": 200,
+    "interval_ms": 200
+  }
+}
+```
+
+### 2. 运行多开exe
+- **方法1**: 双击`releases/multi_instance/multi_instance.exe`
+- **方法2**: 使用命令行
+```bash
+releases/multi_instance/multi_instance.exe
+```
+
+### 3. 查看运行结果
+- **成功**: 每个账号会在独立窗口中运行
+- **失败**: 检查配置文件和exe文件是否存在
+
+## 配置说明
+
+### 1. 账号配置
+- **enrollid**: 录取通知书编号（10位）
+- **idcard**: 身份证号（18位）
+- **name**: 账号名称（可选）
+
+### 2. 设置配置
+- **dtype**: 宿舍类型（默认2）
+- **concurrency**: 并发数（默认1）
+- **ahead_ms**: 提前毫秒数（默认300）
+- **max_retries**: 最大重试次数（默认200）
+- **interval_ms**: 重试间隔毫秒数（默认200）
+
+## 测试结果
+
+### 1. 测试环境
+- **测试时间**: 2026-08-23 00:28:58
+- **测试账号**: 2个
+- **测试结果**: ✓ 成功
+
+### 2. 测试详情
+- **账号1**: 2633233352 - 成功启动
+- **账号2**: 2631141739 - 成功启动
+- **成功率**: 100.0%
+
+### 3. 运行日志
+```
+[OK] 配置文件加载成功: config_multi.json
+    账号数量: 2
+检测到2个账号:
+  1. 账号1: 2633233352
+  2. 账号2: 2631141739
+
+开始启动2个实例...
+
+[实例1] 启动账号1
+  账号: 2633233352
+  命令: releases/v0.0.9/grab_dorm.exe --enrollid 2633233352 --idcard 341226200807104418 --dry-run --no-ocr --ahead-ms 300 --max-retries 200 --interval-ms 200
+  [OK] 进程已启动，PID: 20232
+  [OK] 进程已结束，返回码: 0
+  [OK] 账号1演练成功
+
+[实例2] 启动账号2
+  账号: 2631141739
+  命令: releases/v0.0.9/grab_dorm.exe --enrollid 2631141739 --idcard 310110200605112038 --dry-run --no-ocr --ahead-ms 300 --max-retries 200 --interval-ms 200
+  [OK] 进程已启动，PID: 10072
+  [OK] 进程已结束，返回码: 0
+  [OK] 账号2演练成功
+
+多开结果统计:
+总实例数: 2
+成功数: 2
+失败数: 0
+成功率: 100.0%
+```
+
+## 文件结构
+
+### 1. 多开exe文件
+- **文件**: `releases/multi_instance/multi_instance.exe`
+- **大小**: 约10MB
+- **功能**: 多开抢购脚本
+
+### 2. 配置文件
+- **文件**: `releases/multi_instance/config_multi.json`
+- **功能**: 账号和设置配置
+
+### 3. 说明文档
+- **文件**: `releases/multi_instance/README.md`
+- **功能**: 使用说明
+
+## 注意事项
+
+### 1. 配置文件
+- **路径**: `releases/multi_instance/config_multi.json`
+- **编码**: UTF-8
+- **格式**: JSON
+
+### 2. exe文件
+- **路径**: `releases/multi_instance/multi_instance.exe`
+- **版本**: V0.0.9多开版本
+- **状态**: 已打包
+
+### 3. 运行环境
+- **操作系统**: Windows
+- **依赖**: V0.0.9版本的grab_dorm.exe
+- **网络**: 需要网络连接
+
+## 故障排除
+
+### 1. 配置文件不存在
+- **检查**: 确认`releases/multi_instance/config_multi.json`文件存在
+- **解决**: 创建配置文件并添加账号信息
+
+### 2. exe文件不存在
+- **检查**: 确认`releases/multi_instance/multi_instance.exe`文件存在
+- **解决**: 确保已正确打包
+
+### 3. 启动失败
+- **检查**: 检查账号信息是否正确
+- **解决**: 确认enrollid和idcard格式正确
+
+### 4. 运行失败
+- **检查**: 检查网络连接是否正常
+- **解决**: 确保网络连接正常，服务器可访问
+
+## 高级配置
+
+### 1. 优化参数
+```json
+{
+  "settings": {
+    "dtype": 2,
+    "concurrency": 1,
+    "ahead_ms": 100,
+    "max_retries": 1000,
+    "interval_ms": 50
+  }
+}
+```
+
+### 2. 多账号并发
+```json
+{
+  "accounts": [
+    {"enrollid": "账号1", "idcard": "密码1", "name": "账号1"},
+    {"enrollid": "账号2", "idcard": "密码2", "name": "账号2"},
+    {"enrollid": "账号3", "idcard": "密码3", "name": "账号3"}
+  ],
+  "settings": {
+    "concurrency": 2
+  }
+}
+```
+
+## 更新日志
+
+### v1.0 (2026-08-23)
+- **功能**: 实现多开功能
+- **打包**: 使用pyarmor打包成exe
+- **测试**: 测试通过
+- **文档**: 创建使用说明
+
+## 技术支持
+
+如有问题或建议，请联系技术支持。
+
+## 许可证
+
+本软件仅供学习交流使用，请勿用于非法用途。

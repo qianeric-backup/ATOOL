@@ -1,0 +1,46 @@
+{
+  "test_time": "2026-08-22 17:02:56",
+  "test_count": 5,
+  "results": [
+    {
+      "attempt": 1,
+      "ai_result": "4ncd3",
+      "dd_result": "4ncd3",
+      "ai_time": 0.7669048309326172,
+      "dd_time": 0.03746342658996582,
+      "match": true
+    },
+    {
+      "attempt": 2,
+      "ai_result": "raccm",
+      "dd_result": "下accm3",
+      "ai_time": 1.3620750904083252,
+      "dd_time": 0.008177757263183594,
+      "match": false
+    },
+    {
+      "attempt": 3,
+      "ai_result": "nnebe",
+      "dd_result": "nnebe",
+      "ai_time": 1.5457446575164795,
+      "dd_time": 0.012004613876342773,
+      "match": true
+    },
+    {
+      "attempt": 4,
+      "ai_result": "b6a7w",
+      "dd_result": "6a7ww",
+      "ai_time": 1.1596286296844482,
+      "dd_time": 0.01499319076538086,
+      "match": false
+    },
+    {
+      "attempt": 5,
+      "ai_result": "dpea5",
+      "dd_result": "7dpea5",
+      "ai_time": 2.3823184967041016,
+      "dd_time": 0.010001182556152344,
+      "match": false
+    }
+  ]
+}

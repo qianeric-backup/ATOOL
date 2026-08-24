@@ -35,3 +35,8 @@ dist_*/
 # temp helper scripts
 _git_push.py
 _check_status.py
+
+# Large release zips (>100MB, GitHub limit) — keep on disk, not in git
+宿舍抢购工具/releases/v0.0.9/default.zip
+宿舍抢购工具/releases/v0.0.9c.zip
+宿舍抢购工具/releases/v1.2.6.zip

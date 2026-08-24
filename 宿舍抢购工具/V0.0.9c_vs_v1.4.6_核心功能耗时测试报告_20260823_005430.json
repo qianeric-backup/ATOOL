@@ -1,0 +1,302 @@
+{
+  "V0.0.9c": {
+    "version": "V0.0.9c",
+    "test_count": 20,
+    "total_time": 81.85372996330261,
+    "avg_time": 4.092686498165131,
+    "min_time": 3.5397019386291504,
+    "max_time": 8.121305465698242,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 8.121305465698242,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 2,
+        "execution_time": 3.5397019386291504,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 3,
+        "execution_time": 3.8950209617614746,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 4,
+        "execution_time": 3.8902342319488525,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 5,
+        "execution_time": 3.9857747554779053,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 6,
+        "execution_time": 3.9239044189453125,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 7,
+        "execution_time": 3.965378522872925,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 8,
+        "execution_time": 4.021308898925781,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 9,
+        "execution_time": 3.825347661972046,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 10,
+        "execution_time": 3.835568904876709,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 11,
+        "execution_time": 4.045512437820435,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 12,
+        "execution_time": 3.9243075847625732,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 13,
+        "execution_time": 3.8862600326538086,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 14,
+        "execution_time": 3.7147278785705566,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 15,
+        "execution_time": 3.8923614025115967,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 16,
+        "execution_time": 3.7268664836883545,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 17,
+        "execution_time": 3.86773419380188,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 18,
+        "execution_time": 4.038932800292969,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 19,
+        "execution_time": 3.989151954650879,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      },
+      {
+        "test_id": 20,
+        "execution_time": 3.764329433441162,
+        "return_code": 2,
+        "output": "",
+        "error": "usage: grab_dorm.exe [-h] [--config CONFIG] [--enrollid ENROLLID]\n                     [--idcard IDCARD] [--dtype DTYPE] [--did DID]\n                     [--start START] [--concurrency CONCURRENCY]\n  "
+      }
+    ]
+  },
+  "v1.2.6": {
+    "version": "v1.2.6",
+    "test_count": 20,
+    "total_time": 80.27611589431763,
+    "avg_time": 4.013805794715881,
+    "min_time": 3.694589614868164,
+    "max_time": 4.217854738235474,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 3.9886715412139893,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 2,
+        "execution_time": 3.841770648956299,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 3,
+        "execution_time": 4.113339424133301,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 4,
+        "execution_time": 4.137215852737427,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 5,
+        "execution_time": 3.9339234828948975,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 6,
+        "execution_time": 3.694589614868164,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 7,
+        "execution_time": 4.139810085296631,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 8,
+        "execution_time": 3.7509634494781494,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 9,
+        "execution_time": 3.9178640842437744,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 10,
+        "execution_time": 4.006075143814087,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 11,
+        "execution_time": 4.2060956954956055,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 12,
+        "execution_time": 4.039934873580933,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 13,
+        "execution_time": 4.176721811294556,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 14,
+        "execution_time": 3.971928834915161,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 15,
+        "execution_time": 4.083500623703003,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 16,
+        "execution_time": 4.1046669483184814,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 17,
+        "execution_time": 4.217854738235474,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 18,
+        "execution_time": 4.017218828201294,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 19,
+        "execution_time": 4.025790214538574,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      },
+      {
+        "test_id": 20,
+        "execution_time": 3.908179998397827,
+        "return_code": 0,
+        "output": "grab_dorm_multi_account_v1.2.6.exe 1.2.6\n",
+        "error": ""
+      }
+    ]
+  }
+}

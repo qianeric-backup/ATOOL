@@ -1,0 +1,146 @@
+{
+  "v1.2.6（修复后）": {
+    "version": "v1.2.6（修复后）",
+    "test_count": 10,
+    "success_count": 10,
+    "success_rate": 100.0,
+    "total_time": 45.470481157302856,
+    "avg_time": 4.547048115730286,
+    "min_time": 4.384249925613403,
+    "max_time": 4.6875200271606445,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 4.56317925453186,
+        "success": true,
+        "return_code": 0
+      },
+      {
+        "test_id": 2,
+        "execution_time": 4.384249925613403,
+        "success": true,
+        "return_code": 0
+      },
+      {
+        "test_id": 3,
+        "execution_time": 4.6875200271606445,
+        "success": true,
+        "return_code": 0
+      },
+      {
+        "test_id": 4,
+        "execution_time": 4.547311305999756,
+        "success": true,
+        "return_code": 0
+      },
+      {
+        "test_id": 5,
+        "execution_time": 4.63336968421936,
+        "success": true,
+        "return_code": 0
+      },
+      {
+        "test_id": 6,
+        "execution_time": 4.489741325378418,
+        "success": true,
+        "return_code": 0
+      },
+      {
+        "test_id": 7,
+        "execution_time": 4.627157926559448,
+        "success": true,
+        "return_code": 0
+      },
+      {
+        "test_id": 8,
+        "execution_time": 4.510765552520752,
+        "success": true,
+        "return_code": 0
+      },
+      {
+        "test_id": 9,
+        "execution_time": 4.585768222808838,
+        "success": true,
+        "return_code": 0
+      },
+      {
+        "test_id": 10,
+        "execution_time": 4.441417932510376,
+        "success": true,
+        "return_code": 0
+      }
+    ]
+  },
+  "V0.0.9c": {
+    "version": "V0.0.9c",
+    "test_count": 10,
+    "success_count": 10,
+    "success_rate": 100.0,
+    "total_time": 44.334291219711304,
+    "avg_time": 4.43342912197113,
+    "min_time": 4.246018886566162,
+    "max_time": 4.781671762466431,
+    "results": [
+      {
+        "test_id": 1,
+        "execution_time": 4.473877429962158,
+        "success": true,
+        "return_code": 0
+      },
+      {
+        "test_id": 2,
+        "execution_time": 4.781671762466431,
+        "success": true,
+        "return_code": 0
+      },
+      {
+        "test_id": 3,
+        "execution_time": 4.3961334228515625,
+        "success": true,
+        "return_code": 0
+      },
+      {
+        "test_id": 4,
+        "execution_time": 4.430184364318848,
+        "success": true,
+        "return_code": 0
+      },
+      {
+        "test_id": 5,
+        "execution_time": 4.246018886566162,
+        "success": true,
+        "return_code": 0
+      },
+      {
+        "test_id": 6,
+        "execution_time": 4.2635252475738525,
+        "success": true,
+        "return_code": 0
+      },
+      {
+        "test_id": 7,
+        "execution_time": 4.283101320266724,
+        "success": true,
+        "return_code": 0
+      },
+      {
+        "test_id": 8,
+        "execution_time": 4.508408546447754,
+        "success": true,
+        "return_code": 0
+      },
+      {
+        "test_id": 9,
+        "execution_time": 4.425722122192383,
+        "success": true,
+        "return_code": 0
+      },
+      {
+        "test_id": 10,
+        "execution_time": 4.52564811706543,
+        "success": true,
+        "return_code": 0
+      }
+    ]
+  }
+}

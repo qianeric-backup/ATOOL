@@ -1,0 +1,72 @@
+{
+  "version": "v1.2.6（降级为ddddocr预取）",
+  "test_count": 10,
+  "success_count": 10,
+  "success_rate": 100.0,
+  "total_time": 86.94399094581604,
+  "avg_time": 8.694399094581604,
+  "min_time": 7.917923927307129,
+  "max_time": 9.575954675674438,
+  "results": [
+    {
+      "test_id": 1,
+      "execution_time": 9.182319164276123,
+      "success": true,
+      "return_code": 0
+    },
+    {
+      "test_id": 2,
+      "execution_time": 7.917923927307129,
+      "success": true,
+      "return_code": 0
+    },
+    {
+      "test_id": 3,
+      "execution_time": 9.575954675674438,
+      "success": true,
+      "return_code": 0
+    },
+    {
+      "test_id": 4,
+      "execution_time": 8.120474815368652,
+      "success": true,
+      "return_code": 0
+    },
+    {
+      "test_id": 5,
+      "execution_time": 8.373023509979248,
+      "success": true,
+      "return_code": 0
+    },
+    {
+      "test_id": 6,
+      "execution_time": 8.744363784790039,
+      "success": true,
+      "return_code": 0
+    },
+    {
+      "test_id": 7,
+      "execution_time": 8.805399417877197,
+      "success": true,
+      "return_code": 0
+    },
+    {
+      "test_id": 8,
+      "execution_time": 9.357274055480957,
+      "success": true,
+      "return_code": 0
+    },
+    {
+      "test_id": 9,
+      "execution_time": 8.170189380645752,
+      "success": true,
+      "return_code": 0
+    },
+    {
+      "test_id": 10,
+      "execution_time": 8.697068214416504,
+      "success": true,
+      "return_code": 0
+    }
+  ]
+}

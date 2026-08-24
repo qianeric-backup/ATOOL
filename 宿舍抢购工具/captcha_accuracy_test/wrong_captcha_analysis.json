@@ -1,0 +1,25 @@
+{
+  "test_time": "2026-08-22 17:02:58",
+  "results": [
+    {
+      "wrong_captcha": "WRONG",
+      "feedback": "其他: 服务端异常，请联系管理员"
+    },
+    {
+      "wrong_captcha": "12345",
+      "feedback": "其他: 服务端异常，请联系管理员"
+    },
+    {
+      "wrong_captcha": "ABCDE",
+      "feedback": "其他: 服务端异常，请联系管理员"
+    },
+    {
+      "wrong_captcha": "AB12",
+      "feedback": "其他: 服务端异常，请联系管理员"
+    },
+    {
+      "wrong_captcha": "ABCDEF",
+      "feedback": "其他: 服务端异常，请联系管理员"
+    }
+  ]
+}
