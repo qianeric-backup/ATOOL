@@ -48,3 +48,11 @@ CPP漫展抢购/tmp/
 CPP漫展抢购/config.json
 CPP漫展抢购/repo/
 CPP漫展抢购/__pycache__/
+
+# VPS部署 - 敏感台账（服务器凭据/IP/密钥，绝不提交）
+VPS部署/VPS台账.md
+
+# VPS部署 - 完整源码包与解压目录（体积大，且内含服务器 IP 等环境信息；仅本地留存）
+VPS部署/newapi-lite-deploy/new-api-src/
+VPS部署/newapi-lite-deploy/new-api-lite-src.tar.gz
+VPS部署/newapi-backup/
