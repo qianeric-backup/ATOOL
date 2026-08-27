@@ -56,3 +56,9 @@ VPS部署/VPS台账.md
 VPS部署/newapi-lite-deploy/new-api-src/
 VPS部署/newapi-lite-deploy/new-api-lite-src.tar.gz
 VPS部署/newapi-backup/
+
+# 抢课脚本 - 本地留存不入库（含真实 Cookie 的测试脚本 / 逆向分析产物）
+抢课脚本/_test_portal_cookie.local.py
+抢课脚本/accountpassword.js
+抢课脚本/signin2.js
+抢课脚本/逆向报告.md
