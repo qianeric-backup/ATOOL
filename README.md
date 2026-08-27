@@ -5,12 +5,10 @@
 ## 目录结构
 
 - `抢课脚本/` — 建桥学院抢课助手（选课/抢课工具）
-  - **`抢课助手.exe`（Release 资产，不入库）** — 桌面版，双击运行自动打开本地 Web 页面
-  - `app.py` — exe 后端（本地 Web 服务 + EAMS 登录 + 定时抢课线程 + 配置导入导出）
-  - `抢课脚本.py` — 命令行版（登录向导 / 登录态校验 / 选课接口定位 / 抢课）
-  - `gench_login.py` / `gench_session.py` — 门户登录与会话探测脚本
-  - `web/index.html` — 本地 Web 页面（单文件 UI）
-  - `抢课助手.spec` — PyInstaller 打包配置
+  - **`抢课助手.exe`（Release 资产，不入库）** — 桌面版（tkinter 原生 UI），双击直接弹出主窗口，无需浏览器
+  - `app.py` — exe 入口（tkinter 主窗口 + EAMS 登录 + 抢课线程 + 服务器时间校准/预热/高频/成功即停 + 配置导入导出）
+  - `gench_login.py` — 门户登录脚本（支持图形/腾讯/滑块验证码模式）
+  - `gench_session.py` — 门户会话探测脚本
   - `README.md` — 使用说明
   - > 说明：本目录含浏览器真实 Cookie 的测试脚本（`_test_portal_cookie.local.py`）与逆向分析产物（`accountpassword.js`、`signin2.js`、`逆向报告.md`）仅本地留存，不入库。
 
@@ -37,7 +35,7 @@
 
 | 下载文件名 | 工具中文名 | 说明 |
 |---|---|---|
-| `grab_course_v0.1.0.exe` | 抢课助手（抢课脚本） | 建桥学院选课/抢课，双击运行打开本地 Web 页面 |
+| `grab_course_v0.1.0.exe` | 抢课助手（抢课脚本） | 建桥学院选课/抢课，tkinter 原生 UI，双击弹出主窗口 |
 | `grab_dorm_single_account_v1.2.6.exe` | 抢宿舍工具（单账号） | 单账号自动抢宿舍，已按 v1.2.6 归档 |
 | `grab_dorm_multi_account_v1.2.6.exe` | 抢宿舍工具（多账号） | 多账号自动抢宿舍，已按 v1.2.6 归档 |
 | `gui_key.exe` | 授权KEY签发工具 | 生成 / 签发授权 KEY |
