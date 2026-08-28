@@ -508,9 +508,12 @@ class TkApp:
 
     def export_config(self):
         from tkinter import filedialog
+        # 文件名带当前学号，便于多账号区分；学号未解析时回退默认名
+        code = re.sub(r'[\\/:*?"<>|]', "_", STATE.get("student_code") or "")
+        name = f"抢课配置-{code}.json" if code else "抢课配置.json"
         f = filedialog.asksaveasfilename(title="导出配置", defaultextension=".json",
                                          filetypes=[("JSON", "*.json")],
-                                         initialfile="抢课配置.json")
+                                         initialfile=name)
         if not f:
             return
         cfg = {
