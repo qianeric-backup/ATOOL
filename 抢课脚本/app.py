@@ -4,21 +4,22 @@
 建桥学院抢课助手（tkinter 原生 UI，桌面 exe）
 ============================================
 双击 exe → 直接弹出 tkinter 主窗口（无需浏览器）。
-功能：登录（Cookie/账密）、实时状态、选课轮次、课程分页列表、
+功能：登录（Cookie）、实时状态、选课轮次、课程分页列表、
       抢课控制（预热/高频/成功即停）、运行日志、保活常驻。
 后端复用 app.py 的 EAMS 逻辑（纯本地解析 + 网络调用分离）。
 """
 import base64
 import hashlib
+import itertools
 import json
 import os
 import re
+import subprocess
 import sys
 import threading
 import time
 import tkinter as tk
 from tkinter import ttk, messagebox, scrolledtext
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 import requests
 
@@ -30,7 +31,6 @@ EAMS_STUDENT = f"{EAMS}/student"
 CS_API = f"{EAMS}/course-selection-api/api/v1/student/course-select"
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0")
-PORT = 8765
 
 # 全局状态（单用户，桌面场景足够）
 STATE = {
@@ -50,7 +50,6 @@ STATE = {
     "rush_last": "",
     "course_total": 0,
     "course_page": 1,
-    "port": 0,
 }
 
 
@@ -142,9 +141,9 @@ def eams_login(username: str, password: str):
         STATE["session"] = s
         STATE["session_cookie_str"] = session_cookie_str(s)
         STATE["student_code"] = username
-        log(f"EAMS 账密登录成功：{username}")
+        log(f"EAMS 登录成功：{username}")
         return {"ok": True, "has_token": False,
-                "message": "账密登录成功，请用浏览器 Cookie 提供选课 token"}
+                "message": "登录成功，请用浏览器 Cookie 提供选课 token"}
     if data.get("needCaptcha"):
         return {"ok": False, "need_captcha": True,
                 "message": "触发滑块验证码，请在浏览器登录后复制 Cookie 粘贴进来"}
@@ -258,11 +257,15 @@ def rush_worker(turn_id, lesson_id, student_id, interval, max_times):
                                "scheduleGroupAssoc": None}],
         "coursePackAssoc": None,
     }
-    log(f"抢课开始：lessonId={lesson_id} turnId={turn_id} 间隔={interval}s 最多{max_times}次")
+    limit_desc = "无限次" if max_times == 0 else f"最多{max_times}次"
+    log(f"抢课开始：lessonId={lesson_id} turnId={turn_id} 间隔={interval}s {limit_desc}")
     STATE["rush_attempts"] = 0
     last_msg = ""
     repeat = 0
-    for i in range(1, max_times + 1):
+    for i in itertools.count(1):
+        if max_times and i > max_times:
+            log("已达最大次数，停止")
+            break
         STATE["rush_attempts"] = i
         if STATE["rush_stop"]:
             log("抢课已手动停止")
@@ -324,10 +327,8 @@ def rush_worker(turn_id, lesson_id, student_id, interval, max_times):
                 log(f"[{i}] 异常：{e}")
                 last_msg = msg
             sleep_s = max(interval, 1.0)
-        if i < max_times:
+        if not (max_times and i >= max_times):
             time.sleep(sleep_s)
-        else:
-            log("已达最大次数，停止")
     STATE["rush_running"] = False
     log("抢课线程结束")
 
@@ -351,7 +352,7 @@ def start_rush(turn_id, lesson_id, interval, max_times):
 class TkApp:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("建桥学院抢课助手")
+        self.root.title(f"抢课助手 (PID {os.getpid()}) - 建桥学院抢课助手")
         self.root.geometry("780x720")
         self.root.minsize(700, 640)
         self.course_page = 1
@@ -367,6 +368,9 @@ class TkApp:
         top.pack(fill="x", **pad)
         self.l_port = tk.Label(top, text="实例: -", bg="#eef4ff", font=("Microsoft YaHei", 9))
         self.l_port.pack(side="left", **pad)
+        tk.Button(top, text="新开窗口", command=self.open_new_window,
+                  bg="#eef4ff", relief="flat", font=("Microsoft YaHei", 9),
+                  cursor="hand2").pack(side="left", **pad)
         self.l_login = tk.Label(top, text="登录: 未登录", bg="#eef4ff", font=("Microsoft YaHei", 9))
         self.l_login.pack(side="left", **pad)
         self.l_token = tk.Label(top, text="token: -", bg="#eef4ff", font=("Microsoft YaHei", 9))
@@ -375,21 +379,16 @@ class TkApp:
         self.l_srv.pack(side="right", **pad)
 
         # 登录区
-        login_f = tk.LabelFrame(self.root, text="1. 登录（EAMS）", padx=8, pady=6)
+        login_f = tk.LabelFrame(self.root, text="1. 登录（粘贴 Cookie）", padx=8, pady=6)
         login_f.pack(fill="x", **pad)
-        tk.Label(login_f, text="学号").grid(row=0, column=0, sticky="e", padx=4)
-        self.e_user = tk.Entry(login_f, width=22)
-        self.e_user.grid(row=0, column=1, padx=4)
-        tk.Label(login_f, text="密码").grid(row=0, column=2, sticky="e", padx=8)
-        self.e_pwd = tk.Entry(login_f, width=18, show="*")
-        self.e_pwd.grid(row=0, column=3, padx=4)
-        tk.Button(login_f, text="账密登录", command=self.do_login).grid(row=0, column=4, padx=6)
-        tk.Label(login_f, text="Cookie（整行）").grid(row=1, column=0, sticky="e", padx=4)
-        self.e_cookie = tk.Entry(login_f, width=64)
-        self.e_cookie.grid(row=1, column=1, columnspan=3, sticky="we", padx=4)
-        tk.Button(login_f, text="Cookie 登录", command=self.do_cookie).grid(row=1, column=4, padx=6)
+        tk.Label(login_f, text="Cookie（整行）").grid(row=0, column=0, sticky="e", padx=4)
+        self.e_cookie = tk.Entry(login_f, width=72)
+        self.e_cookie.grid(row=0, column=1, sticky="we", padx=4)
+        tk.Button(login_f, text="Cookie 登录", command=self.do_cookie).grid(row=0, column=2, padx=6)
+        tk.Button(login_f, text="导入配置", command=self.import_config).grid(row=1, column=1, sticky="w", padx=4, pady=2)
+        tk.Button(login_f, text="导出配置", command=self.export_config).grid(row=1, column=2, sticky="w", padx=6, pady=2)
+        tk.Label(login_f, text="导入/导出文件含 Cookie、预热、间隔、次数", fg="#888").grid(row=2, column=1, columnspan=2, sticky="w", padx=4)
         login_f.columnconfigure(1, weight=1)
-        login_f.columnconfigure(3, weight=1)
 
         # 轮次区
         turn_f = tk.LabelFrame(self.root, text="2. 选课轮次", padx=8, pady=6)
@@ -438,22 +437,18 @@ class TkApp:
         # 抢课控制
         rush_f = tk.LabelFrame(self.root, text="4. 抢课控制", padx=8, pady=6)
         rush_f.pack(fill="x", **pad)
-        tk.Label(rush_f, text="开抢时间").grid(row=0, column=0, sticky="e", padx=4)
-        self.e_time = tk.Entry(rush_f, width=20)
-        self.e_time.grid(row=0, column=1, padx=4)
-        self.e_time.insert(0, "留空=立即，格式 2026-08-27 22:00:00")
-        tk.Label(rush_f, text="预热(秒)").grid(row=0, column=2, sticky="e", padx=8)
+        tk.Label(rush_f, text="预热(秒)").grid(row=0, column=0, sticky="e", padx=4)
         self.e_pre = tk.Entry(rush_f, width=6)
-        self.e_pre.grid(row=0, column=3, padx=4)
+        self.e_pre.grid(row=0, column=1, padx=4)
         self.e_pre.insert(0, "5")
-        tk.Label(rush_f, text="间隔(秒)").grid(row=1, column=0, sticky="e", padx=4)
+        tk.Label(rush_f, text="间隔(毫秒)").grid(row=1, column=0, sticky="e", padx=4)
         self.e_iv = tk.Entry(rush_f, width=6)
         self.e_iv.grid(row=1, column=1, sticky="w", padx=4)
-        self.e_iv.insert(0, "0.3")
-        tk.Label(rush_f, text="最多次数").grid(row=1, column=2, sticky="e", padx=8)
+        self.e_iv.insert(0, "200")
+        tk.Label(rush_f, text="最多次数(0=无限)").grid(row=1, column=2, sticky="e", padx=8)
         self.e_max = tk.Entry(rush_f, width=8)
         self.e_max.grid(row=1, column=3, sticky="w", padx=4)
-        self.e_max.insert(0, "300")
+        self.e_max.insert(0, "0")
         tk.Button(rush_f, text="开始抢课", command=self.do_rush).grid(row=0, column=4, rowspan=2, padx=10)
         tk.Button(rush_f, text="停止", command=self.stop_rush).grid(row=0, column=5, rowspan=2, padx=6)
         self.l_rush = tk.Label(rush_f, text="未开始", fg="#666")
@@ -467,6 +462,10 @@ class TkApp:
         self.txt_log.pack(fill="both", expand=True)
 
     # ---------- 后端交互 ----------
+    def open_new_window(self):
+        """多开：启动一个新的抢课助手实例窗口（独立进程、独立登录/抢课）。"""
+        self.root.after(10, open_new_window_process)
+
     def do_cookie(self):
         ck = self.e_cookie.get().strip()
         if not ck:
@@ -479,17 +478,52 @@ class TkApp:
         else:
             messagebox.showerror("失败", res.get("message", "解析失败"))
 
-    def do_login(self):
-        u = self.e_user.get().strip()
-        p = self.e_pwd.get()
-        if not (u and p):
-            messagebox.showwarning("提示", "请输入学号和密码")
+    def import_config(self):
+        from tkinter import filedialog
+        f = filedialog.askopenfilename(title="选择配置文件",
+                                       filetypes=[("JSON", "*.json"), ("所有文件", "*.*")])
+        if not f:
             return
-        res = eams_login(u, p)
-        if res.get("ok"):
-            messagebox.showinfo("成功", res.get("message", "登录成功"))
-        else:
-            messagebox.showerror("失败", res.get("message", "登录失败"))
+        try:
+            cfg = json.load(open(f, encoding="utf-8"))
+            if cfg.get("cookie"):
+                self.e_cookie.delete(0, "end")
+                self.e_cookie.insert(0, cfg["cookie"])
+            if cfg.get("preStart"):
+                self.e_pre.delete(0, "end")
+                self.e_pre.insert(0, str(cfg["preStart"]))
+            if cfg.get("interval"):
+                self.e_iv.delete(0, "end")
+                self.e_iv.insert(0, str(cfg["interval"]))
+            if cfg.get("maxTimes"):
+                self.e_max.delete(0, "end")
+                self.e_max.insert(0, str(cfg["maxTimes"]))
+            messagebox.showinfo("导入成功", "配置已导入（Cookie/预热/间隔/次数）")
+            if cfg.get("cookie"):
+                res = eams_set_cookie(cfg["cookie"])
+                if res.get("ok"):
+                    self.refresh_turns()
+        except Exception as e:
+            messagebox.showerror("导入失败", str(e))
+
+    def export_config(self):
+        from tkinter import filedialog
+        f = filedialog.asksaveasfilename(title="导出配置", defaultextension=".json",
+                                         filetypes=[("JSON", "*.json")],
+                                         initialfile="抢课配置.json")
+        if not f:
+            return
+        cfg = {
+            "cookie": STATE.get("session_cookie_str") or self.e_cookie.get().strip(),
+            "preStart": self.e_pre.get().strip(),
+            "interval": self.e_iv.get().strip(),
+            "maxTimes": self.e_max.get().strip(),
+        }
+        try:
+            json.dump(cfg, open(f, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+            messagebox.showinfo("导出成功", f"已导出到\n{f}")
+        except Exception as e:
+            messagebox.showerror("导出失败", str(e))
 
     def refresh_turns(self):
         turns = load_turns()
@@ -555,6 +589,36 @@ class TkApp:
         if self.course_page < self.course_total_pages:
             self.load_courses(self.course_page + 1)
 
+    def _turn_start_target(self):
+        """返回所选轮次的开抢时间戳（服务器时间轴），无有效时间返回 None。"""
+        idx = self.cb_turn.current()
+        if idx < 0:
+            return None
+        t = STATE["turns"][idx]
+        for key in ("startTime", "openTime", "beginTime",
+                    "startTimeStr", "openTimeStr", "beginTimeStr"):
+            v = t.get(key)
+            if v in (None, ""):
+                continue
+            try:
+                if isinstance(v, (int, float)):
+                    ts = float(v)
+                    if ts > 1e12:  # 毫秒时间戳
+                        ts /= 1000.0
+                    return ts + STATE.get("server_offset", 0)
+                import datetime as _dt
+                s = str(v).strip().replace("T", " ")
+                for fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M",
+                            "%Y/%m/%d %H:%M:%S"):
+                    try:
+                        ts = _dt.datetime.strptime(s, fmt).timestamp()
+                        return ts + STATE.get("server_offset", 0)
+                    except ValueError:
+                        continue
+            except Exception:
+                continue
+        return None
+
     def do_rush(self):
         sel = self.tv.selection()
         if not sel:
@@ -566,25 +630,18 @@ class TkApp:
         if turn_id is None:
             messagebox.showwarning("提示", "请先选择轮次")
             return
-        interval = float(self.e_iv.get() or 0.3)
-        max_times = int(self.e_max.get() or 300)
+        interval = float(self.e_iv.get() or 200) / 1000.0
+        max_times = int(self.e_max.get() or 0)   # 0 = 无限次直到成功/手动停
         pre = int(self.e_pre.get() or 5)
-        # 开抢时间：留空=立即；否则预热后自动开始
-        t_str = self.e_time.get().strip()
-        target = 0
-        if t_str and "留空" not in t_str:
-            try:
-                import datetime as _dt
-                target = _dt.datetime.strptime(t_str, "%Y-%m-%d %H:%M:%S").timestamp()
-            except Exception:
-                messagebox.showerror("错误", "开抢时间格式应为 2026-08-27 22:00:00")
-                return
+        # 自动取轮次开抢时间点，提前“预热”秒开始抢课
+        target = self._turn_start_target()
         now = time.time() + STATE.get("server_offset", 0)
         if target and target > now:
             wait = max(0, target - now - pre)
-            log(f"预定 {t_str} 开抢，预热 {pre} 秒，等待 {int(wait)} 秒")
+            log(f"轮次开抢时间 {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(target))}，预热 {pre} 秒，等待 {int(wait)} 秒")
             threading.Timer(wait, lambda: start_rush(turn_id, lesson_id, interval, max_times)).start()
         else:
+            log("轮次无开抢时间或已到点，立即开抢")
             start_rush(turn_id, lesson_id, interval, max_times)
         self.l_rush.config(text="已启动抢课线程", fg="#4a7bff")
 
@@ -598,7 +655,7 @@ class TkApp:
         try:
             exp = jwt_exp(STATE["token"])
             left = (exp - int(time.time())) if exp else 0
-            self.l_port.config(text=f"实例: 端口 {STATE.get('port', 0)}")
+            self.l_port.config(text=f"实例: PID {os.getpid()}")
             self.l_login.config(text=f"登录: {STATE.get('student_code') or '未登录'}")
             if left > 0:
                 self.l_token.config(text=f"token: 剩余 {int(left//3600)}小时{int(left%3600//60)}分")
@@ -621,21 +678,24 @@ class TkApp:
 
 
 def main():
-    # 动态端口
-    import socket
-    port = PORT
-    for _ in range(100):
-        try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.bind(("127.0.0.1", port))
-            s.close()
-            break
-        except OSError:
-            port += 1
-    STATE["port"] = port
-    # 只跑 tkinter 主窗（无需浏览器/HTTP；如需旧 web 页面可另开）
+    # 只跑 tkinter 主窗（无需浏览器/HTTP）
     app = TkApp()
     app.run()
+
+
+
+
+def open_new_window_process():
+    """多开入口：另起一个独立进程窗口。"""
+    if getattr(sys, "frozen", False):
+        exe = sys.executable
+        params = []
+    else:
+        exe = sys.executable
+        params = [os.path.abspath(__file__)]
+    log("新开窗口（独立实例）…")
+    subprocess.Popen([exe, *params],
+                     creationflags=getattr(subprocess, "CREATE_NEW_CONSOLE", 0))
 
 
 if __name__ == "__main__":
