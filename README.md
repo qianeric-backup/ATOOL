@@ -13,9 +13,9 @@
   - > 说明：本目录含浏览器真实 Cookie 的测试脚本（`_test_portal_cookie.local.py`）与逆向分析产物（`accountpassword.js`、`signin2.js`、`逆向报告.md`）仅本地留存，不入库。
 
 - `宿舍抢购工具/` — 宿舍抢购工具（自动抢宿舍）
-  - 源码与打包脚本在 `_dev/`，exe 归档在 `releases/`（按版本分目录，`VERSIONS.md` 为版本清单）
-  - `GUI版本使用说明.md`、`config.json` 等使用文档
-  - > 说明：`REVERSE_ENGINEERING_REPORT.md`、`_dev/` 中授权/密钥相关源码（`generate_key.py`、`activation.py`、`authorize_key.py` 等）为敏感逻辑，仅本地留存，不入库。
+  - 源码与打包脚本在 `_dev/`（`grab_dorm.py`、`gui.py`、`gui_key.py`、`fp_tool.py`、`mock_server.py` 等），exe 归档在 `releases/`（按版本分目录，`VERSIONS.md` 为版本清单）
+  - `GUI版本使用说明.md`、`多开使用说明.md`、`多开exe使用说明.md`、`性能报告.md`、`config.json` 等使用文档
+  - > 说明：`REVERSE_ENGINEERING_REPORT.md`、`_dev/` 中授权/密钥相关源码（`generate_key.py`、`activation.py`、`authorize_key.py` 等）为敏感逻辑，仅本地留存，不入库；历史测试产物（`test_*.py`、验证码截图、测试/对比/分析报告）已精简出库，仅本地临时复测时出现。
 
 - `CPP漫展抢购/` — CPP 漫展购票工具（cppTickerBuy）
   - `使用说明.md` — 使用说明

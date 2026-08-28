@@ -29,6 +29,35 @@ dist_*/
 宿舍抢购工具/_dev/__pycache__/
 宿舍抢购工具/_dev/mock_site/__pycache__/
 
+# 宿舍抢购工具 - 测试产物与历史报告（已精简出库，仅本地临时复测时出现）
+宿舍抢购工具/test_*.py
+宿舍抢购工具/*测试报告*.json
+宿舍抢购工具/*测试报告*.txt
+宿舍抢购工具/*测试详细报告*.md
+宿舍抢购工具/*测试报告*.md
+宿舍抢购工具/*详细报告*.md
+宿舍抢购工具/*对比报告*.md
+宿舍抢购工具/*分析报告*.md
+宿舍抢购工具/*优化*.md
+宿舍抢购工具/*实施报告*.md
+宿舍抢购工具/*更新报告*.md
+宿舍抢购工具/*确认报告*.md
+宿舍抢购工具/*speed_results*.json
+宿舍抢购工具/speed_comparison.json
+宿舍抢购工具/network_optimization.json
+宿舍抢购工具/optimize_time.py
+宿舍抢购工具/analyze_correct_captchas.py
+宿舍抢购工具/build_*.py
+宿舍抢购工具/multi_instance*.py
+宿舍抢购工具/multi_instance*.spec
+宿舍抢购工具/ai_vs_ddddocr_full_test/
+宿舍抢购工具/captcha_accuracy_test/
+宿舍抢购工具/submit_results/
+宿舍抢购工具/_dev/mock_site/
+宿舍抢购工具/_dev/验证码样例/
+宿舍抢购工具/_dev/真实验证码测试/
+宿舍抢购工具/_dev/pyarmor.bug.log
+
 # reverse-fetched frontend snapshot (external assets, not to be committed)
 宿舍抢购工具/_dev/real_snapshot/
 
