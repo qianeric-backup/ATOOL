@@ -1,5 +1,10 @@
 # -*- mode: python ; coding: utf-8 -*-
+# PyInstaller 打包配置（跨平台）
+# Windows: console=False → 双击无黑窗的 exe
+# Linux  : console=True  → 终端可见 CLI 日志（GUI/CLI 双模式）
+import sys
 
+_console = sys.platform != "win32"
 
 a = Analysis(
     ['app.py'],
@@ -29,7 +34,7 @@ exe = EXE(
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=False,
+    console=_console,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
