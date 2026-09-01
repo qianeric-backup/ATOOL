@@ -1,0 +1,64 @@
+name: Build 抢课助手 (Windows exe)
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "抢课脚本/**"
+      - ".github/workflows/build_course_grab.yml"
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: 抢课脚本
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller requests
+
+      - name: Syntax check
+        shell: pwsh
+        run: python -m py_compile app.py gench_login.py gench_session.py
+
+      - name: Build exe (PyInstaller)
+        shell: pwsh
+        run: pyinstaller "抢课助手.spec" --clean --noconfirm
+
+      - name: Rename exe to release asset name
+        shell: pwsh
+        run: |
+          $asset = "grab_course_${{ github.ref_name }}.exe"
+          Copy-Item "dist/抢课助手.exe" "$asset" -Force
+          Get-Item "$asset" | Select-Object Name, Length
+
+      - name: Upload artifact (always)
+        uses: actions/upload-artifact@v4
+        with:
+          name: grab_course-exe
+          path: 抢课脚本/grab_course_*.exe
+          if-no-files-found: error
+
+      - name: Release (tag push only)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: 抢课助手 ${{ github.ref_name }}
+          files: grab_course_*.exe
+          generate_release_notes: true
