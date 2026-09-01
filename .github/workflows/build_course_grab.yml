@@ -60,5 +60,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           name: 抢课助手 ${{ github.ref_name }}
-          files: grab_course_*.exe
+          files: 抢课脚本/grab_course_*.exe
+          fail_on_unmatched_files: true
           generate_release_notes: true
