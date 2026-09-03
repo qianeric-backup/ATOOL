@@ -247,6 +247,14 @@ def eams_set_cookie(cookie_str: str):
     studentId 由 load_turns 按需获取。"""
     s = requests.Session()
     s.headers.update({"User-Agent": UA, "Referer": f"{EAMS_STUDENT}/login", "Origin": EAMS})
+    # 换 Cookie 即换身份：必须清掉上一账号的 student_id/轮次/课程缓存，
+    # 否则 load_turns 会沿用旧账号内部 ID —— 以旧账号身份抢课/查询（实测脏数据坑）
+    STATE["student_id"] = ""
+    STATE["student_code"] = ""
+    STATE["turns"] = []
+    STATE["courses"] = []
+    STATE["course_total"] = 0
+    STATE["course_page"] = 1
     token = ""
     for part in cookie_str.split(";"):
         part = part.strip()
@@ -300,7 +308,7 @@ def load_turns():
             d = r.json()
             if d.get("result") == 0 and d.get("data"):
                 STATE["student_id"] = str(d["data"][0]["id"])
-                STATE["student_code"] = d["data"][0]["code"]
+                STATE["student_code"] = d["data"][0].get("code") or STATE["student_code"]
                 log(f"学生信息：{STATE['student_code']}（内部ID {STATE['student_id']}）")
         except Exception:
             return []
@@ -557,6 +565,8 @@ class TkApp:
         self.root.minsize(700, 640)
         self.course_page = 1
         self.course_total_pages = 1
+        self._log_pos = 0   # rush_log 增量游标（start_rush 清空日志时归零重同步）
+        self._preheat = None  # 预热线程句柄（可取消，防重复开抢）
         self._build()
         self._refresh_loop()
 
@@ -695,7 +705,7 @@ class TkApp:
             if cfg.get("interval"):
                 self.e_iv.delete(0, "end")
                 self.e_iv.insert(0, str(cfg["interval"]))
-            if cfg.get("maxTimes"):
+            if cfg.get("maxTimes") is not None and str(cfg["maxTimes"]) != "":
                 self.e_max.delete(0, "end")
                 self.e_max.insert(0, str(cfg["maxTimes"]))
             messagebox.showinfo("导入成功", "配置已导入（Cookie/预热/间隔/次数）")
@@ -812,24 +822,57 @@ class TkApp:
         if turn_id is None:
             messagebox.showwarning("提示", "请先选择轮次")
             return
-        interval = float(self.e_iv.get() or 200) / 1000.0
-        max_times = int(self.e_max.get() or 0)   # 0 = 无限次直到成功/手动停
-        pre = int(self.e_pre.get() or 5)
+        try:
+            interval = float(self.e_iv.get() or 200) / 1000.0
+            max_times = int(self.e_max.get() or 0)   # 0 = 无限次直到成功/手动停
+            pre = int(self.e_pre.get() or 5)
+        except ValueError:
+            messagebox.showerror("参数错误", "间隔/次数/预热必须是数字")
+            return
+        if interval <= 0:
+            messagebox.showerror("参数错误", "间隔必须大于 0")
+            return
+        if max_times < 0 or pre < 0:
+            messagebox.showerror("参数错误", "次数/预热不能为负数")
+            return
+        if STATE["rush_running"] or self._preheat is not None:
+            messagebox.showinfo("提示", "抢课已在运行/预热中，请勿重复启动")
+            return
+        STATE["rush_stop"] = False   # 复位上次停止残留，否则预热会立即被误判为取消
         # v0.3: 校准超过2分钟则开抢前复校服务器时钟(抢到点误差<1s)
         if time.time() - STATE.get("server_time_at", 0) > 120:
             if get_server_time():
                 log(f"服务器时钟已复校（offset={round(STATE['server_offset'],1)}s）")
-        # 自动取轮次开抢时间点，提前“预热”秒开始抢课
-        target = self._turn_start_target()
-        now = time.time() + STATE.get("server_offset", 0)
-        if target and target > now:
-            wait = max(0, target - now - pre)
-            log(f"轮次开抢时间 {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(target))}，预热 {pre} 秒，等待 {int(wait)} 秒")
-            threading.Timer(wait, lambda: start_rush(turn_id, lesson_id, interval, max_times)).start()
-        else:
-            log("轮次无开抢时间或已到点，立即开抢")
-            start_rush(turn_id, lesson_id, interval, max_times)
-        self.l_rush.config(text="已启动抢课线程", fg="#4a7bff")
+        # 自动取轮次开抢时间点，提前“预热”秒开始抢课。
+        # 预热改为可取消线程：stop_rush 置 rush_stop 后到点不再开抢；
+        # 且同一时刻只允许一个预热线程（旧版 Timer 叠加会重复开抢）。
+        def _preheat_job():
+            try:
+                target = self._turn_start_target()
+                now = time.time() + STATE.get("server_offset", 0)
+                if target and target > now:
+                    wait = max(0.0, target - now - pre)
+                    log(f"轮次开抢时间 {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(target))}，预热 {pre} 秒，等待 {int(wait)} 秒")
+                    deadline = time.time() + wait
+                    while time.time() < deadline and not STATE["rush_stop"]:
+                        time.sleep(min(0.5, max(0.0, deadline - time.time())))
+                    if STATE["rush_stop"]:
+                        log("[预热] 已取消")
+                        self._preheat = None
+                        return
+                else:
+                    log("轮次无开抢时间或已到点，立即开抢")
+                if STATE["rush_stop"]:
+                    log("[预热] 已取消")
+                    self._preheat = None
+                    return
+                start_rush(turn_id, lesson_id, interval, max_times)
+            finally:
+                self._preheat = None
+        self._preheat = threading.Thread(target=_preheat_job, daemon=True)
+        self._preheat.start()
+        self.l_rush.config(text="已启动抢课线程" if pre <= 0 else f"预热中（{pre}s 内开抢，可点停止取消）",
+                           fg="#4a7bff")
 
     def stop_rush(self):
         STATE["rush_stop"] = True
@@ -847,13 +890,17 @@ class TkApp:
                 self.l_token.config(text=f"token: 剩余 {int(left//3600)}小时{int(left%3600//60)}分")
             else:
                 self.l_token.config(text="token: 无/未提供")
-            self.l_srv.config(text=f"服务器时间: {time.strftime('%H:%M:%S')}（校准 {round(STATE.get('server_offset',0),1)}s）")
-            rush = "运行中" if STATE["rush_running"] else "未开始"
+            self.l_srv.config(text=f"服务器时间: {time.strftime('%H:%M:%S', time.localtime(time.time() + STATE.get('server_offset', 0)))}（校准 {round(STATE.get('server_offset',0),1)}s）")
+            rush = "运行中" if STATE["rush_running"] else (
+                "预热中" if self._preheat is not None else "未开始")
             self.l_rush.config(text=f"{rush}（已提交 {STATE['rush_attempts']} 次，最近: {STATE['rush_last'] or '-'}）")
-            # 日志增量
-            cur = len(self.txt_log.get("1.0", "end").splitlines()) - 1
-            for line in STATE["rush_log"][cur:]:
+            # 日志增量（位置游标；start_rush 清空 rush_log 会使缓冲短于游标 → 归零重同步，
+            # 修复旧版"文本框行数当下标"在清空/截断后新日志永不显示的问题）
+            if len(STATE["rush_log"]) < self._log_pos:
+                self._log_pos = 0
+            for line in STATE["rush_log"][self._log_pos:]:
                 self.txt_log.insert("end", line + "\n")
+            self._log_pos = len(STATE["rush_log"])
             self.txt_log.see("end")
         except Exception:
             pass
@@ -929,6 +976,7 @@ def cli_main(argv=None):
     if not res.get("ok"):
         print(f"[!] Cookie 解析失败: {res.get('message')}")
         return 1
+    get_server_time()   # CLI 也先校时：保证 prestart 等待/预热用服务器时间轴
     print(f"[*] 已载入: 学号={STATE.get('student_code')} token剩余="
           f"{(jwt_exp(STATE['token']) - int(time.time())) // 60} 分钟")
 
