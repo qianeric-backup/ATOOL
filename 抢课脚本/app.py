@@ -67,6 +67,7 @@ STATE = {
     "rush_last": "",
     "course_total": 0,
     "course_page": 1,
+    "semester_id": 0,   # 轮次所在的学期 id（query-lesson 载荷需要，从 open-turns 数据推导）
 }
 
 
@@ -317,6 +318,16 @@ def load_turns():
         d = r.json()
         if d.get("result") == 0:
             STATE["turns"] = d.get("data", [])
+            # 从轮次对象推导 semesterId（query-lesson 载荷需要；多候选字段名防变更）
+            if STATE["turns"]:
+                t0 = STATE["turns"][0]
+                for k in ("semesterAssoc", "semesterId", "semester"):
+                    v = t0.get(k)
+                    if isinstance(v, dict):
+                        v = v.get("id")
+                    if v:
+                        STATE["semester_id"] = int(v)
+                        break
             log(f"开放轮次：{len(STATE['turns'])} 个")
             return STATE["turns"]
     except Exception as e:
@@ -324,14 +335,27 @@ def load_turns():
     return []
 
 
-def load_courses(turn_id, page=1, page_size=20, keyword=""):
+def load_courses(turn_id, page=1, page_size=20, keyword="", teacher=""):
     if not STATE["token"] or not STATE["student_id"]:
         return {"ok": False, "message": "未登录/未获取学生ID"}
-    payload = {"pageNo": int(page), "pageSize": int(page_size)}
-    # v0.3: 搜索框接线 —— 关键词同时匹配课程名与授课代码
+    # v0.3.2 逆向对齐（前端 getList 真实载荷）:
+    #   必带 turnId/studentId/semesterId/pageNo/pageSize；默认 canSelect:true（只看可选课）
+    if not STATE.get("semester_id"):
+        STATE["semester_id"] = 0
+    payload = {
+        "turnId": int(turn_id),
+        "studentId": int(STATE["student_id"]),
+        "semesterId": int(STATE["semester_id"]),
+        "pageNo": int(page),
+        "pageSize": int(page_size),
+        "canSelect": True,
+    }
     if keyword:
         payload["lessonNameOrCode"] = keyword.strip()
         payload["courseNameOrCode"] = keyword.strip()
+    # 教师名透传（GUI 不区分时留空即可；命令行 --teacher 可指定）
+    if teacher:
+        payload["teacherNameOrCode"] = teacher.strip()
     try:
         r = cs_post(f"/query-lesson/{STATE['student_id']}/{turn_id}", payload)
         d = r.json()
@@ -353,14 +377,25 @@ def load_courses(turn_id, page=1, page_size=20, keyword=""):
 
 
 def check_capacity(lesson_id, token=None):
-    """std-count 实时容量: 返回 (selected, limit) 或 None(接口失败/课程不在本轮)"""
+    """std-count 实时容量。
+    v0.3.2 逆向修正: 前端 changeStdCountMap 表明 data 是 {"lessonId": "已选数-重修数"} 字符串字典
+    （"split('-')" 第一段=已选, 第二段=有重修占位时的重修数），不再是 {selectedCount/limitCount} 数组。
+    limit 仍取 lesson 对象的 limitCount（调用方传入对比）；返回 (selected, limit) 或 None。"""
     try:
         r = cs_get(f"/std-count?lessonIds=" + str(lesson_id), token=token, timeout=8)
         d = r.json()
-        if d.get("result") == 0 and isinstance(d.get("data"), list):
-            for it in d["data"]:
-                if isinstance(it, dict) and str(it.get("lessonId") or it.get("id")) == str(lesson_id):
-                    return (it.get("selectedCount"), it.get("limitCount"))
+        if d.get("result") == 0 and isinstance(d.get("data"), dict):
+            v = d["data"].get(str(lesson_id))
+            if v is None:   # 键可能不是字符串 lessonId（int 键 JSON 后变字符串，双保险）
+                for k, val in d["data"].items():
+                    if str(k) == str(lesson_id):
+                        v = val
+                        break
+            if v is not None:
+                sel = int(str(v).split("-")[0] or 0)
+                lesson = next((l for l in STATE.get("courses", [])
+                               if str(l.get("id")) == str(lesson_id)), None) or {}
+                return (sel, lesson.get("limitCount"))
     except Exception:
         pass
     return None
@@ -430,7 +465,7 @@ def rush_worker(turn_id, lesson_id, student_id, interval, max_times):
         "studentAssoc": n,
         "courseSelectTurnAssoc": int(turn_id),
         "requestMiddleDtos": [{"lessonAssoc": int(lesson_id),
-                               "virtualCost": "",
+                               "virtualCost": 0,
                                "scheduleGroupAssoc": None}],
         "coursePackAssoc": None,
     }
@@ -762,7 +797,7 @@ class TkApp:
             return
         if page:
             self.course_page = page
-        # v0.3: 搜索框关键词进查询载荷
+        # v0.3: 搜索框关键词进查询载荷（课程名/代码；teacherNameOrCode 由同框透传）
         res = load_courses(turn_id, self.course_page,
                            keyword=self.e_search.get().strip())
         if res.get("ok"):
@@ -950,7 +985,7 @@ def cli_main(argv=None):
     ap.add_argument("--interval-ms", type=int, default=200, help="抢课间隔毫秒(默认200)")
     ap.add_argument("--max-times", type=int, default=0, help="最多抢 N 次(0=无限)")
     ap.add_argument("--targets", default="", help="要抢的课程 lessonId，逗号分隔")
-    ap.add_argument("--search", default="", help="只预览课程时不抢（配合 --turn-id）")
+    ap.add_argument("--search", default="", help="只预览课程不抢（配合 --turn-id）；@老师名=按教师搜")
     ap.add_argument("--prestart", type=int, default=5, help="轮次开抢前预热秒")
     ap.add_argument("--poll", type=int, default=0, help="轮次未开放时每 N 秒轮询(0=立即退出)")
     ap.add_argument("--turn-id", type=int, default=None, help="指定轮次 id(默认取第一个开放轮次)")
@@ -1009,9 +1044,13 @@ def cli_main(argv=None):
               f"预热 {args.prestart}s，等待 {int(wait)}s")
         time.sleep(wait)
 
-    # 预览搜索（不开抢）
+    # 预览搜索（不开抢）。支持 "关键词" 或 "@教师名" 前缀语法
     if args.search:
-        r = load_courses(tid, page=1, page_size=20, keyword=args.search)
+        kw = args.search
+        teacher = ""
+        if kw.startswith("@"):
+            teacher, kw = kw[1:].strip(), ""   # 纯教师搜索
+        r = load_courses(tid, page=1, page_size=20, keyword=kw, teacher=teacher)
         for l in (r.get("courses") or []):
             c = l.get("course") or {}
             print(f"  lesson={l.get('id')} {c.get('code')} {c.get('nameZh') or c.get('name')} "
@@ -1026,14 +1065,23 @@ def cli_main(argv=None):
     interval = interval_ms / 1000.0
     print(f"[*] 开始抢课: {targets} 间隔{interval}s 最多{max_times}次"
           f"{'(无限)' if max_times == 0 else ''}，Ctrl+C 停止")
+    STATE["rush_stop"] = False
+    # v0.3.2: 多目标并行 —— 旧版顺序执行，第二目标要等第一目标结束才开始（高峰期等于放弃）。
+    # 改为每个目标独立线程同时抢（共享 rush_stop 可一键停）。
+    threads = []
+    for ts in targets:
+        t = threading.Thread(target=rush_worker, daemon=True,
+                             args=(tid, int(ts), STATE["student_id"], interval, max_times))
+        t.start()
+        threads.append(t)
     try:
-        for ts in targets:
-            if STATE["rush_stop"]:
-                break
-            rush_worker(tid, int(ts), STATE["student_id"], interval, max_times)
+        while any(t.is_alive() for t in threads):
+            time.sleep(0.5)
     except KeyboardInterrupt:
         STATE["rush_stop"] = True
         print("\n[!] 已收到中断，停止抢课")
+    for t in threads:
+        t.join(timeout=5)
     return 0
 
 
