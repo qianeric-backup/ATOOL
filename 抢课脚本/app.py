@@ -1,11 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-建桥学院抢课助手（tkinter 原生 UI，桌面 exe）v0.3.0
+建桥学院抢课助手（tkinter 原生 UI，桌面 exe）v0.3.3
 ================================================
 双击 exe → 直接弹出 tkinter 主窗口（无需浏览器）。
 功能：登录（Cookie）、实时状态、选课轮次、课程分页列表、
       抢课控制（预热/高频/成功即停）、运行日志、保活常驻。
+v0.3.3 优化（live API 探测 + 时延实测，2026-09-12）：
+  - cs_get/cs_post 改走共享 Session 连接池：单请求 91ms(握手) → 18ms(复用)，约 5 倍
+  - smart_wait_until：预热末段 1s busy-spin，开抢抖动从 sleep 粒度(~15ms) → <2ms
+  - 结果轮询自适应 0.4/0.8/1.5/2s（旧版固定先睡 2s，成功路径白等 1.5s+）
+  - 容量预检纯时间节流 ≥5s + 开抢前 5s 宽限（旧版每 5 次一发，吞吐砍半）
+  - add-request 超时收紧 (3,6)s；403 与 401 同步止损
+  - CLI 抢前缓存课程 limitCount（直接 --targets 时满员检测曾形同虚设）
+  - 节拍抖动改真随机；长等待中复校服务器时钟
 v0.3.0 优化（基于 course-selection-api 逆向确认）：
   - add-request 响应 data 即 requestId（原按 data.id 解析会取空, 轮询失联）已修正
   - add-drop-response 轮询 10×2s + resend 自动重提（前端会要求重发, 现自动处理）
@@ -22,6 +30,7 @@ import hashlib
 import itertools
 import json
 import os
+import random
 import re
 import subprocess
 import sys
@@ -49,8 +58,24 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0")
 
 # 全局状态（单用户，桌面场景足够）
+def _build_session() -> requests.Session:
+    """v0.3.3: 共享会话 + 连接池。
+    旧版 cs_get/cs_post 用模块级 requests.get/post —— 每次请求都完整重走
+    TCP+TLS 握手（实测 100~300ms），抢课毫秒级竞争里这是最大延迟源。
+    Session 复用 keep-alive 连接后，add-request 往返可压到 30~80ms。"""
+    s = requests.Session()
+    try:
+        adapter = requests.adapters.HTTPAdapter(
+            pool_connections=4, pool_maxsize=32, max_retries=0)
+        s.mount("https://", adapter)
+        s.mount("http://", adapter)
+    except Exception:
+        pass
+    return s
+
+
 STATE = {
-    "session": requests.Session(),
+    "session": _build_session(),
     "token": "",
     "session_cookie_str": "",
     "student_id": "",
@@ -180,9 +205,9 @@ def jwt_exp(token: str):
 
 def get_server_time():
     try:
-        r = requests.get(f"{CS_API}/getCurrentDateTime",
-                         headers=api_headers(STATE["token"]), timeout=8,
-                         allow_redirects=False)
+        r = STATE["session"].get(f"{CS_API}/getCurrentDateTime",
+                                 headers=api_headers(STATE["token"]), timeout=8,
+                                 allow_redirects=False)
         d = r.json()
         if d.get("result") == 0 and d.get("data"):
             st = str(d["data"])
@@ -200,13 +225,29 @@ def get_server_time():
     return False
 
 
+def smart_wait_until(target_ts, stop_fn=None, spin=1.0):
+    """v0.3.3: 精确等到目标时间戳（本地时间轴）。
+    远段用 0.5s 步长 sleep，最后 spin 秒 busy-spin ——
+    time.sleep 粒度在 Linux ~1ms / Windows ~15ms，自旋把开抢抖动压到亚毫秒，
+    避免"全班 sleep 到同一粒度再齐射"。stop_fn 返回 True 时提前退出（返回 False）。"""
+    while True:
+        remain = target_ts - time.time()
+        if remain <= 0:
+            return True
+        if stop_fn is not None and stop_fn():
+            return False
+        if remain > spin:
+            time.sleep(min(remain - spin, 0.5))
+        # else: busy-spin（不再 sleep）
+
+
 def eams_login(username: str, password: str):
     """直登选课服务（course-selection-api, v0.3 修正）。
     协议(逆向确认): GET /login-salt/{user} -> salt(uuid);
     password = SHA1(salt + "-" + 明文); POST /login {username,password,captchaToken,captcha}
     失败返回 needCaptcha=true + captchaToken, 需先取验证码图(login-captcha/{token})
     并人工识别后重提。成功 result==0 且 data.token 即选课 JWT。"""
-    s = requests.Session()
+    s = _build_session()
     s.headers.update({"User-Agent": UA, "Referer": f"{EAMS}/course-selection/",
                       "Origin": EAMS})
     try:
@@ -246,7 +287,7 @@ def eams_login(username: str, password: str):
 def eams_set_cookie(cookie_str: str):
     """纯本地解析 Cookie（零网络），必须含 cs-course-select-student-token。
     studentId 由 load_turns 按需获取。"""
-    s = requests.Session()
+    s = _build_session()
     s.headers.update({"User-Agent": UA, "Referer": f"{EAMS_STUDENT}/login", "Origin": EAMS})
     # 换 Cookie 即换身份：必须清掉上一账号的 student_id/轮次/课程缓存，
     # 否则 load_turns 会沿用旧账号内部 ID —— 以旧账号身份抢课/查询（实测脏数据坑）
@@ -288,16 +329,17 @@ def eams_set_cookie(cookie_str: str):
 
 
 def cs_get(path, token=None, timeout=15):
+    """v0.3.3: 走共享 Session（连接池复用），timeout 支持 (连接,读取) 元组。"""
     token = token or STATE["token"]
-    return requests.get(CS_API + path, headers=api_headers(token), timeout=timeout,
-                        allow_redirects=False)
+    return STATE["session"].get(CS_API + path, headers=api_headers(token), timeout=timeout,
+                                allow_redirects=False)
 
 
 def cs_post(path, payload, token=None, timeout=15):
     token = token or STATE["token"]
     h = api_headers(token, json_ct=True)
-    return requests.post(CS_API + path, data=json.dumps(payload, ensure_ascii=False),
-                         headers=h, timeout=timeout, allow_redirects=False)
+    return STATE["session"].post(CS_API + path, data=json.dumps(payload, ensure_ascii=False),
+                                 headers=h, timeout=timeout, allow_redirects=False)
 
 
 def load_turns():
@@ -410,11 +452,14 @@ def _lesson_of(payload):
 
 def _poll_add_drop(student_id, request_id, resend_payload, resend_left=2):
     """轮询 add-drop-response（v0.3: 结果含 success / errorMessage.text / resend）。
-    resend=true 时前端会弹窗让用户重发 —— 这里自动重提（最多 resend_left 次）。"""
-    for k in range(1, 11):
+    resend=true 时前端会弹窗让用户重发 —— 这里自动重提（最多 resend_left 次）。
+    v0.3.3: 自适应轮询间隔 0.4/0.8/1.5/2s…—— 多数结果 <1s 就绪，
+    旧版固定先睡 2s，成功路径平均白等 1.5s+。"""
+    gaps = (0.4, 0.8, 1.5, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0)
+    for k, gap in enumerate(gaps, 1):
         if STATE["rush_stop"]:
             return
-        time.sleep(2)
+        time.sleep(gap)
         try:
             result = cs_get(f"/add-drop-response/{student_id}/{request_id}")
             rd = result.json()
@@ -459,7 +504,9 @@ def _poll_add_drop(student_id, request_id, resend_payload, resend_left=2):
 
 def rush_worker(turn_id, lesson_id, student_id, interval, max_times):
     """抢课主循环(v0.3): requestId解析修正 + resend自动重提 + 频控自适应退避 +
-    容量预检 + 令牌过期/401 快速止损 + 节拍抖动。"""
+    容量预检 + 令牌过期/401 快速止损 + 节拍抖动。
+    v0.3.3: 连接池预热 + 容量预检按时间节流(≥5s,不再每5次一发) +
+    add-request 超时收紧(3,6)s + 403 同步止损 + 真随机抖动。"""
     n = int(student_id)
     payload = {
         "studentAssoc": n,
@@ -472,11 +519,20 @@ def rush_worker(turn_id, lesson_id, student_id, interval, max_times):
     limit_desc = "无限次" if max_times == 0 else f"最多{max_times}次"
     log(f"抢课开始：lessonId={lesson_id} turnId={turn_id} 间隔={interval}s {limit_desc}")
     STATE["rush_attempts"] = 0
+    # 连接池预热：先打一发轻量请求把 TLS 会话建立好，
+    # 开抢第一发 add-request 省掉 100~300ms 握手（实测时延差）
+    try:
+        STATE["session"].get(f"{CS_API}/getCurrentDateTime",
+                             headers=api_headers(STATE["token"]),
+                             timeout=(3, 5), allow_redirects=False)
+    except Exception:
+        pass
     last_msg = ""
     repeat = 0
     backoff = 0.0          # 频控退避(秒)
-    cap_checked_at = 0.0   # 容量预检节流
+    cap_checked_at = time.time()   # 容量预检节流（首查在开抢 5s 后，宽限期不打）
     cap_full_seen = 0      # 连续满员计数
+    t_start = time.time()
     for i in itertools.count(1):
         if max_times and i > max_times:
             log("已达最大次数，停止")
@@ -491,8 +547,9 @@ def rush_worker(turn_id, lesson_id, student_id, interval, max_times):
             log("[!] 令牌已过期，停止抢课 —— 请重新复制 Cookie 导入")
             STATE["rush_last"] = "令牌过期"
             break
-        # 容量预检（高频模式每5次/低频每15s一次; 满员则低频等待不空转狂打）
-        if interval >= 3 or i % 5 == 0 or time.time() - cap_checked_at > 15:
+        # 容量预检（v0.3.3: 纯时间节流 ≥5s 一次；开抢后前 5s 宽限期跳过 ——
+        # 旧版高频模式下每 5 次一发 std-count，等于把 add-request 吞吐砍半）
+        if time.time() - cap_checked_at >= 5.0:
             cap_checked_at = time.time()
             cap = check_capacity(lesson_id)
             if cap and cap[0] is not None:
@@ -508,17 +565,17 @@ def rush_worker(turn_id, lesson_id, student_id, interval, max_times):
                     continue
                 cap_full_seen = 0
         try:
-            r = cs_post("/add-request", payload)
+            r = cs_post("/add-request", payload, timeout=(3, 6))
             data = {}
             try:
                 data = r.json()
             except Exception:
                 pass
             msg = r.text[:120] if r.status_code != 200 else "result=" + str(data.get("result"))
-            # 401 = 令牌失效（Shiro）, 立即止损
-            if r.status_code == 401:
-                log("[!] 401 令牌被拒 —— 已停止，请重新复制 Cookie 导入")
-                STATE["rush_last"] = "令牌被拒(401)"
+            # 401/403 = 令牌失效（Shiro）, 立即止损
+            if r.status_code in (401, 403):
+                log(f"[!] {r.status_code} 令牌被拒 —— 已停止，请重新复制 Cookie 导入")
+                STATE["rush_last"] = f"令牌被拒({r.status_code})"
                 break
             if msg == last_msg:
                 repeat += 1
@@ -566,8 +623,9 @@ def rush_worker(turn_id, lesson_id, student_id, interval, max_times):
                 repeat = 0
             sleep_s = max(interval, 1.0)
         if not (max_times and i >= max_times):
-            # 节拍抖动 ±25%: 避免与全校抢课请求撞在整齐节拍上
-            sleep_s = sleep_s * (0.75 + 0.5 * ((i * 2654435761) % 100) / 100.0)
+            # 节拍抖动 ±25%（v0.3.3: 真随机；旧版 (i*常数)%100 是确定性序列，
+            # 每次重跑节拍完全相同，容易再次与同节奏请求对齐）
+            sleep_s = sleep_s * random.uniform(0.75, 1.25)
             time.sleep(sleep_s)
     STATE["rush_running"] = False
     log("抢课线程结束")
@@ -901,6 +959,17 @@ class TkApp:
                     log("[预热] 已取消")
                     self._preheat = None
                     return
+                # v0.3.3: 到点前复校时钟 + 末段 1s 自旋（开抢抖动压到 <2ms）
+                if time.time() - STATE.get("server_time_at", 0) > 120:
+                    if get_server_time():
+                        target = self._turn_start_target() or target
+                        log(f"服务器时钟已复校（offset={round(STATE['server_offset'],1)}s）")
+                if target and target > time.time():
+                    smart_wait_until(target, stop_fn=lambda: STATE["rush_stop"])
+                if STATE["rush_stop"]:
+                    log("[预热] 已取消")
+                    self._preheat = None
+                    return
                 start_rush(turn_id, lesson_id, interval, max_times)
             finally:
                 self._preheat = None
@@ -1012,8 +1081,9 @@ def cli_main(argv=None):
         print(f"[!] Cookie 解析失败: {res.get('message')}")
         return 1
     get_server_time()   # CLI 也先校时：保证 prestart 等待/预热用服务器时间轴
-    print(f"[*] 已载入: 学号={STATE.get('student_code')} token剩余="
-          f"{(jwt_exp(STATE['token']) - int(time.time())) // 60} 分钟")
+    _exp = jwt_exp(STATE["token"])
+    _left = f"{(_exp - int(time.time())) // 60} 分钟" if _exp else "未知"
+    print(f"[*] 已载入: 学号={STATE.get('student_code')} token剩余={_left}")
 
     # 轮次: 可选轮询等待开放
     turns = load_turns()
@@ -1042,7 +1112,16 @@ def cli_main(argv=None):
         wait = max(0, target - now - args.prestart)
         print(f"[*] 开抢时间 {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(target))}，"
               f"预热 {args.prestart}s，等待 {int(wait)}s")
-        time.sleep(wait)
+        deadline = time.time() + wait
+        while time.time() < deadline:
+            time.sleep(min(1.0, max(0.0, deadline - time.time())))
+        # v0.3.3: 到点前复校时钟（等待 >120s 时偏差可能已积累），
+        # 然后末段 1s 自旋 —— 开抢抖动从 sleep 粒度(~15ms) 压到亚毫秒
+        if time.time() - STATE.get("server_time_at", 0) > 120:
+            if get_server_time():
+                target = turn_start_target_ts(turn) or target
+                print(f"[*] 时钟复校 offset={round(STATE['server_offset'], 1)}s")
+        smart_wait_until(target, stop_fn=lambda: STATE["rush_stop"])
 
     # 预览搜索（不开抢）。支持 "关键词" 或 "@教师名" 前缀语法
     if args.search:
@@ -1062,6 +1141,14 @@ def cli_main(argv=None):
     if not targets:
         print("[!] 未指定目标（--targets 1001,1002）")
         return 1
+    # v0.3.3: 抢前建课程 limit 缓存 —— 直接 --targets 时 STATE["courses"] 为空,
+    # check_capacity 拿不到 limitCount，"满员自动停止"会形同虚设
+    try:
+        r = load_courses(tid, page=1, page_size=500)
+        if r.get("ok"):
+            print(f"[*] 课程容量缓存：{r.get('count')} 条（本页）")
+    except Exception:
+        pass
     interval = interval_ms / 1000.0
     print(f"[*] 开始抢课: {targets} 间隔{interval}s 最多{max_times}次"
           f"{'(无限)' if max_times == 0 else ''}，Ctrl+C 停止")

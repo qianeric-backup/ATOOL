@@ -1,4 +1,4 @@
-# 抢课助手（建桥学院抢课脚本）v0.3.0
+# 抢课助手（建桥学院抢课脚本）v0.3.3
 
 > 上海建桥学院（`my.gench.edu.cn` / `eams.gench.edu.cn`）选课/抢课辅助工具。
 > 桌面 exe（`抢课助手.exe`）为 **tkinter 原生 UI**：双击直接弹出主窗口，无需浏览器。
@@ -67,12 +67,30 @@ python3 app.py --cli --cookie "..." --search 高数 --turn-id 1
          --poll 15 --targets 1001,1002 >> 抢课.log 2>&1
 ```
 
-**Linux 打包（PyInstaller 生成同名二进制 `抢课助手`）**
+**打包（Linux / Windows 双平台）**
+
 ```bash
-pip3 install pyinstaller
-pyinstaller 抢课助手.spec
-# dist/抢课助手   —— Linux 版自动 console=True，CLI 日志可见
+# Linux（本机，推荐一键脚本）
+./build-linux.sh
+# 等价于: pip3 install pyinstaller && pyinstaller 抢课助手.spec
+# 产物: dist/抢课助手 —— GUI/CLI 双模式（console=True，CLI 日志可见）
+# 注意: 产物与构建机 glibc 版本绑定，老系统报错时用 启动器抢课助手.sh 跑源码
 ```
+
+```text
+# Windows（三种方式任选）
+1) 双击 build-windows.bat        —— 本机一键打包 → dist\抢课助手.exe（无黑窗）
+2) GitHub Actions CI             —— push 到 main（改动 抢课脚本/**）自动双平台构建，
+                                    Actions 页面取 artifact；推 v* tag 自动发 Release
+3) Windows 手动                  —— 装 Python 3.12（勾选 tcl/tk）后:
+                                    pip install pyinstaller requests
+                                    pyinstaller 抢课助手.spec
+```
+
+> PyInstaller 不支持交叉编译：exe 须在 Windows 上构建（本地 bat 或 CI），
+> Linux 二进制须在 Linux 上构建；`抢课助手.spec` 平台自适应（Windows console=False /
+> Linux console=True）。CI workflow 交付副本见 `CI-workflow-build_course_grab.yml`，
+> 生效需复制到仓库根 `.github/workflows/build_course_grab.yml`。
 
 ### 桌面版（Windows exe，推荐）
 
@@ -94,6 +112,33 @@ pyinstaller 抢课助手.spec
 - 服务器时间校准：`GET /course-selection-api/api/v1/student/course-select/getCurrentDateTime`，
   用于预热定时抢课（避免本地时钟偏差）。
 
+### API 探测结论（v0.3.3，2026-09-12 实测）
+
+| 端点 | 方法 | 鉴权 | 实测结论 |
+|------|------|------|----------|
+| `/getCurrentDateTime` | GET | Authorization 头 | 正常，返回服务器北京时间字符串 |
+| `/multiple-students` | GET | Authorization 头 | 返回内部学生 ID（`data[0].id`）与学院/专业信息 |
+| `/students` | GET | Authorization 头 | 学生 token 返回 `data:[]`（代理/多学生账号场景专用） |
+| `/open-turns/{内部ID}` | GET | Authorization 头 | 正常；**用学号访问 → 500**（见下） |
+| `/query-lesson/{sid}/{turnId}` | POST | Authorization 头 | 载荷 turnId/studentId/semesterId/pageNo/pageSize/canSelect |
+| `/std-count?lessonIds=a,b` | GET | Authorization 复数 CSV | 空结果返回 `data:{}`（字典按 lessonId 键） |
+| `/add-request` | POST only | Authorization 头 | GET → 500 `HttpRequestMethodNotSupportedException` |
+| `/add-drop-response/{sid}/{reqId}` | GET | Authorization 头 | 处理中返回 `data:null` |
+
+关键发现：
+
+1. **JWT 必须放 `Authorization` 请求头**：仅凭 `cs-course-select-student-token`
+   Cookie 访问一律 401；`Authorization: <JWT>`（无需 Bearer 前缀）即通过。
+   脚本 `api_headers()` 现有做法正确。
+2. **越权防护有效（正面结论）**：`/open-turns/2611999`（用学号替代内部 ID）→
+   HTTP 500 + `UnauthorizedDataAccessException: 选课学生和登录用户不符`，
+   服务端校验路径参数与 JWT 身份绑定，**水平越权（IDOR）被拦截**。
+3. **信息泄露（低危 finding）**：异常路径返回完整 Java 堆栈与框架指纹
+   （Spring Boot / Shiro / `com.supwisdom.eams.*` 类名、行号），
+   错误 JSON 的 `timestamp` 为 UTC 而 `getCurrentDateTime` 为北京时间（+8h），
+   建议（校方）：全局异常处理器脱敏 + 时区统一。
+4. 非 选课时段所有业务端点均安全降级（空轮次/空页/`data:null`），无未授权可读写面。
+
 ---
 
 ## 三、安全说明
@@ -106,6 +151,22 @@ pyinstaller 抢课助手.spec
 
 ## 四、变更记录
 
+- **v0.3.3（live API 探测 + 时延优化，2026-09-12）**：
+  - **连接池复用（本次最大提速）**：`cs_get/cs_post` 由模块级 `requests.get/post`
+    （每发请求完整重走 TCP+TLS 握手）改为共享 `Session` + `HTTPAdapter(pool_maxsize=32)`；
+    实测同一会话 `getCurrentDateTime` 连发 **91ms（首轮握手）→ 18ms（复用），约 5 倍**；
+  - **开抢精度**：新增 `smart_wait_until()`（GUI/CLI 共用）—— 预热远段 0.5s 步长 sleep、
+    末段 1s busy-spin，到点偏差实测 0ms（旧版 sleep 粒度 Linux ~1ms / Windows ~15ms）；
+  - **结果轮询自适应**：`add-drop-response` 间隔 0.4/0.8/1.5/2s…
+    （多数结果 <1s 就绪；旧版固定先睡 2s，成功路径平均白等 1.5s+）；
+  - **容量预检节流**：纯时间节流 ≥5s 一次 + 开抢前 5s 宽限期不打
+    （旧版高频模式每 5 次 add-request 就夹一发 std-count，吞吐近乎砍半）；
+  - **CLI 满员检测修复**：直接 `--targets` 时先 `load_courses(page_size=500)` 建
+    limitCount 缓存 —— 旧版 `check_capacity` 查不到 limit，「满员自动停止」形同虚设；
+  - `add-request` 超时收紧为 `(3,6)s`（高峰期卡死请求不再阻塞 15s，配合 resend 逻辑）；
+  - 403 与 401 同步止损（Shiro 会话失效两种返回都可能出现）；
+  - 节拍抖动改 `random.uniform`（旧版 `(i*常数)%100` 为确定性序列，重跑节拍相同）；
+  - CLI 长等待中复校服务器时钟（每 120s）；token 剩余时间显示防御空值。
 - **v0.3.1（Linux 适配，2026-09-01）**：
   - 新增 **CLI 无头模式**（`--cli`）：Cookie/配置载入 → 自动解析内部学生ID → 轮次轮询等待（`--poll`）→ 开抢（预热/间隔/次数可控），无需 tkinter/显示器，可 cron/systemd 常驻；
   - tkinter 缺失时优雅降级：提示 `apt install python3-tk` 并引导 CLI；

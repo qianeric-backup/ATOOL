@@ -91,3 +91,9 @@ VPS部署/newapi-backup/
 抢课脚本/accountpassword.js
 抢课脚本/signin2.js
 抢课脚本/逆向报告.md
+
+# 抢课脚本 - 构建产物（dist 内为本机打包的二进制，CI/Release 才是分发渠道）
+抢课脚本/dist/
+
+# allxuanke - 本地工作目录（Gench 选课助手源码 + 逆向笔记 + 实时 Cookie 凭据，绝不提交任何仓库）
+allxuanke/
