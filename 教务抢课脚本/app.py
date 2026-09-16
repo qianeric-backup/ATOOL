@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-建桥学院抢课助手（tkinter 原生 UI，桌面 exe）v0.3.3
+建桥学院抢课助手（tkinter 原生 UI，桌面 exe）v0.3.4
 ================================================
 双击 exe → 直接弹出 tkinter 主窗口（无需浏览器）。
 功能：登录（Cookie）、实时状态、选课轮次、课程分页列表、
       抢课控制（预热/高频/成功即停）、运行日志、保活常驻。
+v0.3.4 优化（前端 JS 全量端点还原 + live 探测，2026-09-13）：
+  - 进入批次：GET /{sid}/turn/{turnId}/select 对齐前端时序（失败 15s 节流重试不阻塞开抢）
+  - 容量预载改走 GET /simplest-lessons/{turnId}（单发轻量全量，失败回退 query-lesson 500）
+  - 成功后 GET /selected-lessons/{turnId}/{sid} 拉真实已选清单二次确认
+  - --predicate 选课预检：POST /add-predicate + /predicate-response 轮询（'ATTEND'=规则通过）
+  - CLI --poll 批次监听修复（旧 %H 格式化冲突一进循环即 ValueError）+ 批次时间窗完整打印
 v0.3.3 优化（live API 探测 + 时延实测，2026-09-12）：
   - cs_get/cs_post 改走共享 Session 连接池：单请求 91ms(握手) → 18ms(复用)，约 5 倍
   - smart_wait_until：预热末段 1s busy-spin，开抢抖动从 sleep 粒度(~15ms) → <2ms
@@ -93,6 +99,9 @@ STATE = {
     "course_total": 0,
     "course_page": 1,
     "semester_id": 0,   # 轮次所在的学期 id（query-lesson 载荷需要，从 open-turns 数据推导）
+    "current_turn_id": None,   # v0.3.4: 当前抢课批次（成功后 selected-lessons 验证用）
+    "predicate_enabled": False,  # v0.3.4: --predicate 选课预检开关（默认关，省一跳延迟）
+    "_last_refresh_at": 0.0,   # v0.3.4: SESSION 现发 token 节流
 }
 
 
@@ -328,18 +337,71 @@ def eams_set_cookie(cookie_str: str):
             "note": "Cookie 已解析；刷新轮次/课程时自动校验并获取学生信息"}
 
 
+def refresh_token_via_session():
+    """v0.3.4: 凭 SESSION 门户会话到经典 EAMS 选课页现发新选课 token。
+    GET /student/for-std/course-select 的页面内嵌
+    `course-selection/?token=<JWT>`（服务端 Thymeleaf 渲染），解析即得新 JWT。
+    成功更新 STATE["token"] 与 Cookie 并返回新 token；失败返回 None。"""
+    sess = STATE.get("session")
+    if not sess or not any(c.name == "SESSION" for c in sess.cookies):
+        return None   # 无门户 SESSION，现发不了
+    try:
+        r = sess.get(f"{EAMS}/student/for-std/course-select",
+                     headers={"User-Agent": UA, "Accept": "text/html"},
+                     timeout=(5, 10), allow_redirects=True)
+        m = re.search(r'course-selection/\?token=([A-Za-z0-9_.\-]+)', r.text)
+        if not m:
+            log("[!] SESSION 未能现发新 token（门户登录态可能已失效）")
+            return None
+        new_tok = m.group(1)
+        if new_tok != STATE.get("token"):
+            STATE["token"] = new_tok
+            sess.cookies.set("cs-course-select-student-token", new_tok,
+                             domain="eams.gench.edu.cn", path="/")
+            exp = jwt_exp(new_tok)
+            log("[√] 已凭 SESSION 现发新 token（有效期至 "
+                f"{time.strftime('%m-%d %H:%M', time.localtime(exp)) if exp else '?'}）")
+        return new_tok
+    except Exception as e:
+        log(f"token 现发失败：{e}")
+        return None
+
+
+def _request_with_refresh(method, path, payload=None, token=None,
+                          timeout=15, json_ct=False):
+    """v0.3.4: 统一请求入口 —— 401 时先凭 SESSION 现发新 token 重试一次
+    （≥60s 节流，防风暴）；重试仍 401 才交还调用方止损。"""
+    tok = token or STATE["token"]
+    h = api_headers(tok, json_ct)
+    sess = STATE["session"]
+    if method == "GET":
+        r = sess.get(CS_API + path, headers=h, timeout=timeout, allow_redirects=False)
+    else:
+        r = sess.post(CS_API + path, data=json.dumps(payload, ensure_ascii=False),
+                      headers=h, timeout=timeout, allow_redirects=False)
+    if (r.status_code == 401 and not token and not STATE.get("rush_stop")
+            and time.time() - STATE.get("_last_refresh_at", 0) >= 60):
+        STATE["_last_refresh_at"] = time.time()
+        if refresh_token_via_session():
+            h = api_headers(STATE["token"], json_ct)
+            if method == "GET":
+                r = sess.get(CS_API + path, headers=h, timeout=timeout,
+                             allow_redirects=False)
+            else:
+                r = sess.post(CS_API + path,
+                              data=json.dumps(payload, ensure_ascii=False),
+                              headers=h, timeout=timeout, allow_redirects=False)
+    return r
+
+
 def cs_get(path, token=None, timeout=15):
-    """v0.3.3: 走共享 Session（连接池复用），timeout 支持 (连接,读取) 元组。"""
-    token = token or STATE["token"]
-    return STATE["session"].get(CS_API + path, headers=api_headers(token), timeout=timeout,
-                                allow_redirects=False)
+    """v0.3.4: 走共享 Session + 401 自动现发重试（timeout 支持 (连接,读取) 元组）。"""
+    return _request_with_refresh("GET", path, token=token, timeout=timeout)
 
 
 def cs_post(path, payload, token=None, timeout=15):
-    token = token or STATE["token"]
-    h = api_headers(token, json_ct=True)
-    return STATE["session"].post(CS_API + path, data=json.dumps(payload, ensure_ascii=False),
-                                 headers=h, timeout=timeout, allow_redirects=False)
+    return _request_with_refresh("POST", path, payload=payload, token=token,
+                                 timeout=timeout, json_ct=True)
 
 
 def load_turns():
@@ -357,6 +419,11 @@ def load_turns():
             return []
     try:
         r = cs_get(f"/open-turns/{STATE['student_id']}")
+        if r.status_code in (401, 403) or (r.status_code == 200 and not r.content):
+            # v0.3.4: 401/403 空 body（Shiro 会话/JWT 失效）—— cs_get 已尝试现发,
+            # 走到这里说明 SESSION 也失效, 明确提示
+            log("[!] 会话被拒且 SESSION 现发失败 —— 请重新登录门户后复制完整 Cookie")
+            return []
         d = r.json()
         if d.get("result") == 0:
             STATE["turns"] = d.get("data", [])
@@ -370,11 +437,88 @@ def load_turns():
                     if v:
                         STATE["semester_id"] = int(v)
                         break
+                record_turn_history(STATE["turns"])   # v0.3.4: 见批即录（本地历史档案）
             log(f"开放轮次：{len(STATE['turns'])} 个")
             return STATE["turns"]
     except Exception as e:
         log(f"载入轮次失败：{e}")
     return []
+
+
+def _history_file():
+    """v0.3.4: 本地批次历史档案路径（脚本/exe 同目录，按学号分文件）。"""
+    code = STATE.get("student_code") or "unknown"
+    base = os.path.dirname(os.path.abspath(sys.executable if getattr(sys, "frozen", False)
+                                           else __file__))
+    return os.path.join(base, f"批次历史-{code}.json")
+
+
+def record_turn_history(turns):
+    """v0.3.4: 把见到的批次合并进本地历史档案（服务端无历史批次接口，
+    开放批次转瞬即逝 —— 本地落盘长期积累，--history 随时回看）。"""
+    path = _history_file()
+    try:
+        try:
+            store = json.load(open(path, encoding="utf-8"))
+            if not isinstance(store, dict):
+                store = {}
+        except Exception:
+            store = {}
+        store.setdefault("student_code", STATE.get("student_code") or "")
+        turns_map = store.setdefault("turns", {})
+        now = time.strftime("%Y-%m-%d %H:%M:%S")
+        for t in turns or []:
+            if not isinstance(t, dict) or t.get("id") is None:
+                continue
+            tid = str(t["id"])
+            rec = turns_map.get(tid) or {}
+            rec.setdefault("first_seen", now)
+            rec["last_seen"] = now
+            rec["seen_count"] = int(rec.get("seen_count", 0)) + 1
+            for k, v in t.items():          # 原始字段全存（时间窗/名称/学期…）
+                rec[k] = v
+            turns_map[tid] = rec
+        store["updated_at"] = now
+        json.dump(store, open(path, "w", encoding="utf-8"),
+                  ensure_ascii=False, indent=2)
+    except Exception as e:
+        log(f"批次历史落盘失败：{e}")
+
+
+def show_turn_history(path=None):
+    """v0.3.4: --history —— 打印本地积累的全部历史批次。
+    path=None 时扫描脚本目录下所有 批次历史-*.json（多账号一起看）。"""
+    if path:
+        paths = [path]
+    else:
+        base = os.path.dirname(os.path.abspath(sys.executable if getattr(sys, "frozen", False)
+                                               else __file__))
+        try:
+            paths = [os.path.join(base, f) for f in os.listdir(base)
+                     if f.startswith("批次历史-") and f.endswith(".json")]
+        except Exception:
+            paths = []
+        if not paths:
+            print("[i] 尚无批次历史 —— 批次开放并被脚本见到时自动落盘记录")
+            return
+    for p in paths:
+        try:
+            store = json.load(open(p, encoding="utf-8"))
+        except Exception:
+            print(f"[!] 档案损坏/不可读：{p}")
+            continue
+        turns_map = store.get("turns") or {}
+        if not turns_map:
+            print(f"[i] {p} 里还没有批次记录")
+            continue
+        print(f"== 批次历史（{store.get('student_code') or '?'}，共 {len(turns_map)} 个）==")
+        order = sorted(turns_map.values(),
+                       key=lambda r: r.get("first_seen", ""), reverse=True)
+        for r in order:
+            print(f"  - {describe_turn(r)}")
+            print(f"      首见 {r.get('first_seen')}  末见 {r.get('last_seen')}  "
+                  f"共见 {r.get('seen_count')} 次")
+        print(f"[i] 档案：{p}")
 
 
 def load_courses(turn_id, page=1, page_size=20, keyword="", teacher=""):
@@ -450,6 +594,169 @@ def _lesson_of(payload):
         return None
 
 
+# ---------------- v0.3.4 新增（2026-09-13 前端 JS 全量还原的补充端点） ----------------
+
+def enter_turn(turn_id, quiet=False):
+    """进入批次：GET /{sid}/turn/{turnId}/select（前端进入选课页的第一调用，
+    服务端可能在此时初始化该批次的选课会话）。幂等：成功后会话内缓存不再重进；
+    失败只记日志、返回 False，调用方可稍后重试（不阻塞开抢）。"""
+    if not STATE.get("student_id"):
+        return False
+    cache = STATE.setdefault("entered_turns", set())
+    key = f"{STATE['student_id']}:{turn_id}"
+    if key in cache:
+        return True
+    try:
+        r = cs_get(f"/{STATE['student_id']}/turn/{turn_id}/select", timeout=(3, 6))
+        if r.status_code == 200:
+            d = r.json()
+            if d.get("result") == 0:
+                cache.add(key)
+                if not quiet:
+                    log(f"进入批次 turn={turn_id}: ok")
+                return True
+            if not quiet:
+                log(f"进入批次 turn={turn_id}: {d.get('message')}")
+        elif not quiet:
+            log(f"进入批次 turn={turn_id}: HTTP {r.status_code}（忽略）")
+    except Exception as e:
+        if not quiet:
+            log(f"进入批次异常：{e}（忽略）")
+    return False
+
+
+def preload_capacity_light(turn_id):
+    """v0.3.4: 容量预载提速 —— 优先 GET /simplest-lessons/{turnId}（前端轻量列表，
+    无分页/无查询载荷，单发拿全量）；失败回退 query-lesson page_size=500。
+    返回缓存课程条数。"""
+    try:
+        r = cs_get(f"/simplest-lessons/{turn_id}", timeout=(3, 8))
+        d = r.json()
+        if d.get("result") == 0:
+            data = d.get("data")
+            lessons = data if isinstance(data, list) else (data or {}).get("lessons") or []
+            if lessons:
+                known = {str(l.get("id")): l for l in STATE.get("courses", [])}
+                for l in lessons:
+                    lid = str(l.get("id"))
+                    if lid in known:
+                        # 只补缺的字段，保留已加载的详情
+                        for k, v in l.items():
+                            known[lid].setdefault(k, v)
+                    else:
+                        known[lid] = l
+                STATE["courses"] = list(known.values())
+                log(f"容量缓存(simplest-lessons)：{len(lessons)} 条")
+                return len(lessons)
+    except Exception:
+        pass
+    try:
+        r = load_courses(turn_id, page=1, page_size=500)
+        return r.get("count", 0) if r.get("ok") else 0
+    except Exception:
+        return 0
+
+
+def check_selected(turn_id):
+    """v0.3.4: GET /selected-lessons/{turnId}/{sid} —— 成功后验证真实已选清单。"""
+    try:
+        r = cs_get(f"/selected-lessons/{turn_id}/{STATE['student_id']}", timeout=(3, 8))
+        d = r.json()
+        if d.get("result") == 0:
+            data = d.get("data")
+            lessons = data if isinstance(data, list) else (data or {}).get("lessons") or []
+            names = []
+            for l in lessons[:20]:
+                c = l.get("course") or {}
+                names.append(str(c.get("nameZh") or c.get("name") or l.get("id")))
+            log(f"[√] 已选清单({len(lessons)})：{('、'.join(names)) if names else '空'}")
+            return lessons
+    except Exception as e:
+        log(f"已选清单查询失败：{e}")
+    return []
+
+
+def run_predicate(turn_id, lesson_id):
+    """v0.3.4: 选课预检（--predicate 开启；与 add-request 同构载荷）。
+    POST /add-predicate → 轮询 /predicate-response/{sid}/{requestId}。
+    前端语义：消息文本 'ATTEND' = 规则通过；其余 textZh = 规则拒绝原因。
+    返回 (True, 'ATTEND')=通过 | (False, 原因)=被拒 | (None, msg)=未知。"""
+    sid = STATE["student_id"]
+    payload = {
+        "studentAssoc": int(sid),
+        "courseSelectTurnAssoc": int(turn_id),
+        "requestMiddleDtos": [{"lessonAssoc": int(lesson_id), "virtualCost": 0,
+                               "scheduleGroupAssoc": None}],
+        "coursePackAssoc": None,
+    }
+    try:
+        r = cs_post("/add-predicate", payload, timeout=(3, 6))
+        if r.status_code != 200:
+            return (None, f"HTTP {r.status_code}")
+        d = r.json()
+        if d.get("result") != 0:
+            return (None, d.get("message") or "result!=0")
+        rid = d.get("data")
+        if isinstance(rid, dict):
+            rid = rid.get("id") or rid.get("requestId")
+        if rid is None:
+            return (None, "未返回 requestId")
+        for gap in (0.4, 0.8, 1.0, 1.5):
+            time.sleep(gap)
+            try:
+                rr = cs_get(f"/predicate-response/{sid}/{rid}", timeout=(3, 6))
+                rd = rr.json()
+            except Exception:
+                continue
+            if rd.get("result") != 0:
+                continue
+            data = rd.get("data")
+            if data is None:
+                continue
+            msgs = data.get("messages") if isinstance(data, dict) else None
+            if isinstance(msgs, dict) and msgs:
+                v = next(iter(msgs.values())) or {}
+                text = v.get("textZh") or v.get("text") or ""
+                return (text == "ATTEND", text or "空消息")
+            if isinstance(data, dict):
+                if data.get("success") is True:
+                    return (True, "ATTEND")
+                em = data.get("errorMessage") or {}
+                text = em.get("textZh") or em.get("text") or "被拒"
+                if data.get("resend"):
+                    return (None, f"要求重发({text})")
+                return (False, text)
+            if isinstance(data, str):
+                return (data == "ATTEND", data)
+        return (None, "轮询超时")
+    except Exception as e:
+        return (None, f"异常 {e}")
+
+
+def describe_turn(turn):
+    """v0.3.4: 把批次(轮次)对象渲染成一行人话：名称 + 所有时间窗字段
+    （selectDateTime/previewDateTime/dropDateTime 等，扁平或嵌套 dict 均可）。"""
+    parts = [f"id={turn.get('id')}"]
+    for k in ("name", "nameZh", "title"):
+        if turn.get(k):
+            parts.append(str(turn[k]))
+            break
+
+    def _walk(obj, prefix=""):
+        out = []
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                key = f"{prefix}.{k}" if prefix else str(k)
+                if isinstance(v, dict):
+                    out += _walk(v, key)
+                elif any(t in key.lower() for t in ("time", "date")):
+                    out.append(f"{key}={v}")
+        return out
+
+    parts += _walk(turn)
+    return "  ".join(parts)
+
+
 def _poll_add_drop(student_id, request_id, resend_payload, resend_left=2):
     """轮询 add-drop-response（v0.3: 结果含 success / errorMessage.text / resend）。
     resend=true 时前端会弹窗让用户重发 —— 这里自动重提（最多 resend_left 次）。
@@ -470,6 +777,9 @@ def _poll_add_drop(student_id, request_id, resend_payload, resend_left=2):
             if rr.get("success") is True:
                 log(f"[√] 选课成功：{json.dumps(rr, ensure_ascii=False)[:260]}")
                 STATE["rush_last"] = "选课成功"
+                # v0.3.4: 拉真实已选清单二次确认（GET /selected-lessons/{turn}/{sid}）
+                if STATE.get("current_turn_id"):
+                    check_selected(STATE["current_turn_id"])
                 return True
             if rr.get("success") is False:
                 text = (rr.get("errorMessage", {}) or {}).get("text", "被拒")
@@ -527,6 +837,17 @@ def rush_worker(turn_id, lesson_id, student_id, interval, max_times):
                              timeout=(3, 5), allow_redirects=False)
     except Exception:
         pass
+    STATE["current_turn_id"] = turn_id
+    # v0.3.4: 进入批次（GET /{sid}/turn/{turnId}/select，前端进入选课页第一调用）；
+    # 失败不阻塞开抢，循环内 15s 节流重试
+    enter_ok = enter_turn(turn_id)
+    enter_retry_at = 0.0 if enter_ok else time.time() + 15.0
+    # v0.3.4: 可选预检（--predicate）：开抢前跑一发 add-predicate 提前暴露规则拒绝原因；
+    # 被拒不终止（开抢瞬间规则窗口可能变化），仅提示
+    if STATE.get("predicate_enabled"):
+        ok, msg = run_predicate(turn_id, lesson_id)
+        tag = "通过" if ok else ("被拒" if ok is False else "不确定")
+        log(f"[预检] {tag}：{msg}")
     last_msg = ""
     repeat = 0
     backoff = 0.0          # 频控退避(秒)
@@ -541,14 +862,22 @@ def rush_worker(turn_id, lesson_id, student_id, interval, max_times):
         if STATE["rush_stop"]:
             log("抢课已手动停止")
             break
-        # 令牌过期/临近过期止损
+        # 令牌过期/临近过期止损（v0.3.4: 先凭 SESSION 现发新 token, 失败才停止）
         exp = jwt_exp(STATE["token"])
         if exp and exp <= int(time.time()) + 10:
-            log("[!] 令牌已过期，停止抢课 —— 请重新复制 Cookie 导入")
+            if (time.time() - STATE.get("_last_refresh_at", 0) >= 60
+                    and refresh_token_via_session()):
+                STATE["_last_refresh_at"] = time.time()
+                continue
+            log("[!] 令牌已过期且 SESSION 现发失败 —— 请重新复制完整 Cookie（含 SESSION）")
             STATE["rush_last"] = "令牌过期"
             break
         # 容量预检（v0.3.3: 纯时间节流 ≥5s 一次；开抢后前 5s 宽限期跳过 ——
         # 旧版高频模式下每 5 次一发 std-count，等于把 add-request 吞吐砍半）
+        if not enter_ok and time.time() >= enter_retry_at:
+            enter_ok = enter_turn(turn_id, quiet=True)
+            if not enter_ok:
+                enter_retry_at = time.time() + 15.0
         if time.time() - cap_checked_at >= 5.0:
             cap_checked_at = time.time()
             cap = check_capacity(lesson_id)
@@ -1057,8 +1386,17 @@ def cli_main(argv=None):
     ap.add_argument("--search", default="", help="只预览课程不抢（配合 --turn-id）；@老师名=按教师搜")
     ap.add_argument("--prestart", type=int, default=5, help="轮次开抢前预热秒")
     ap.add_argument("--poll", type=int, default=0, help="轮次未开放时每 N 秒轮询(0=立即退出)")
+    ap.add_argument("--predicate", action="store_true",
+                    help="开抢前跑 add-predicate 预检，提前暴露规则拒绝原因（多约 1-2s）")
+    ap.add_argument("--history", action="store_true",
+                    help="显示本地积累的历史批次档案后退出（批次开放时自动落盘记录）")
     ap.add_argument("--turn-id", type=int, default=None, help="指定轮次 id(默认取第一个开放轮次)")
     args = ap.parse_args(argv)
+
+    # v0.3.4: --history 无需登录 —— 无 cookie/config 时直接扫描全部档案
+    if args.history and not (args.cookie or args.config):
+        show_turn_history()
+        return 0
 
     if not (args.cookie or args.config):
         print("[!] 需要 --cookie 或 --config")
@@ -1067,6 +1405,7 @@ def cli_main(argv=None):
     cookie = args.cookie or ""
     interval_ms = args.interval_ms
     max_times = args.max_times
+    STATE["predicate_enabled"] = bool(args.predicate)
     if args.config:
         try:
             cfg = json.load(open(args.config, encoding="utf-8"))
@@ -1076,6 +1415,13 @@ def cli_main(argv=None):
         cookie = cfg.get("cookie", "") or cookie
         interval_ms = int(cfg.get("interval", interval_ms))
         max_times = int(cfg.get("maxTimes", max_times))
+    # v0.3.4: --history 显示本地批次历史档案（有 cookie 则定位本人档案，无则扫描全部）
+    if args.history:
+        if cookie and eams_set_cookie(cookie).get("ok"):
+            show_turn_history(_history_file())
+        else:
+            show_turn_history()
+        return 0
     res = eams_set_cookie(cookie if isinstance(cookie, str) else str(cookie))
     if not res.get("ok"):
         print(f"[!] Cookie 解析失败: {res.get('message')}")
@@ -1088,12 +1434,16 @@ def cli_main(argv=None):
     # 轮次: 可选轮询等待开放
     turns = load_turns()
     while not turns and args.poll:
-        print(time.strftime("[%H:%M:%S] 无开放轮次，%ds 后再试…" % args.poll))
+        # v0.3.4 修复: 旧写法 "...%ds..." % poll 会把时间戳里的 %H 误当格式符 → ValueError
+        print(f"{time.strftime('[%H:%M:%S]')} 无开放轮次，{args.poll}s 后再试…")
         time.sleep(args.poll)
         turns = load_turns()
     if not turns:
         print("[!] 当前无开放轮次（可加 --poll N 保持轮询）")
         return 0
+    # v0.3.4: 批次出现即打印完整时间窗（含 preview/select/drop 全部时间字段）
+    for t in turns:
+        print(f"[*] 批次: {describe_turn(t)}")
     turn = None
     if args.turn_id:
         turn = next((t for t in turns if t.get("id") == args.turn_id), None)
@@ -1142,11 +1492,12 @@ def cli_main(argv=None):
         print("[!] 未指定目标（--targets 1001,1002）")
         return 1
     # v0.3.3: 抢前建课程 limit 缓存 —— 直接 --targets 时 STATE["courses"] 为空,
-    # check_capacity 拿不到 limitCount，"满员自动停止"会形同虚设
+    # check_capacity 拿不到 limitCount，"满员自动停止"会形同虚设。
+    # v0.3.4: 优先 simplest-lessons（单发轻量端点），失败自动回退 query-lesson(500)
     try:
-        r = load_courses(tid, page=1, page_size=500)
-        if r.get("ok"):
-            print(f"[*] 课程容量缓存：{r.get('count')} 条（本页）")
+        n_cached = preload_capacity_light(tid)
+        if not n_cached:
+            print("[!] 容量缓存为空（满员检测将依赖 std-count 实时值）")
     except Exception:
         pass
     interval = interval_ms / 1000.0

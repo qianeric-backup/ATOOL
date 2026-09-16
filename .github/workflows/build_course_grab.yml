@@ -4,7 +4,7 @@
 # 生效方法（本文件为交付副本，需放到仓库根才可被 Actions 识别）：
 #   cp CI-workflow-build_course_grab.yml ../.github/workflows/build_course_grab.yml
 #   （在仓库根执行 git add / commit / push 后，Actions 页面即出现双平台构建）
-# 触发：push 到 main 且改动 抢课脚本/** ｜ 推 v* tag ｜ 手动 workflow_dispatch
+# 触发：push 到 main 且改动 教务抢课脚本/** ｜ 推 v* tag ｜ 手动 workflow_dispatch
 # 产物：
 #   - Artifact（每次构建）: grab_course-exe-windows / grab_course-bin-linux
 #   - Release（仅 v* tag） : grab_course_<tag>.exe + grab_course_linux_<tag>
@@ -15,7 +15,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - "抢课脚本/**"
+      - "教务抢课脚本/**"
       - ".github/workflows/build_course_grab.yml"
     tags:
       - "v*"
@@ -29,7 +29,7 @@ jobs:
     runs-on: windows-latest
     defaults:
       run:
-        working-directory: 抢课脚本
+        working-directory: 教务抢课脚本
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -63,14 +63,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: grab_course-exe-windows
-          path: 抢课脚本/grab_course_*.exe
+          path: 教务抢课脚本/grab_course_*.exe
           if-no-files-found: error
 
   build-linux:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: 抢课脚本
+        working-directory: 教务抢课脚本
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -107,7 +107,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: grab_course-bin-linux
-          path: 抢课脚本/grab_course_linux_*
+          path: 教务抢课脚本/grab_course_linux_*
           if-no-files-found: error
 
   release:

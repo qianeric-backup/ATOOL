@@ -1,0 +1,524 @@
+{
+  "version": 2,
+  "papers": {
+    "大学生人格测验（UPI）": {
+      "paper_id": "4419d764-0961-47ca-b26b-f4b6785129c1",
+      "paper_name": "大学生人格测验（UPI）",
+      "answers": {
+        "食欲不振": {
+          "number": 1,
+          "question": "食欲不振",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "恶心胃口难受肚子痛": {
+          "number": 2,
+          "question": "恶心、胃口难受、肚子痛",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "容易拉肚子或便秘": {
+          "number": 3,
+          "question": "容易拉肚子或便秘",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "关注心悸和脉搏": {
+          "number": 4,
+          "question": "关注心悸和脉搏",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "身体健康状况良好": {
+          "number": 5,
+          "question": "身体健康状况良好",
+          "opt": "A",
+          "option_name": "有",
+          "answer_id": "bc4e7906-ed78-48ef-9134-b8abc03baedb",
+          "reason": "模板命中"
+        },
+        "牢骚和不满多": {
+          "number": 6,
+          "question": "牢骚和不满多",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "父母期望过高": {
+          "number": 7,
+          "question": "父母期望过高",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "自己的过去和家庭是不幸的": {
+          "number": 8,
+          "question": "自己的过去和家庭是不幸的",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "过于担心将来的事情": {
+          "number": 9,
+          "question": "过于担心将来的事情",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "不想见人": {
+          "number": 10,
+          "question": "不想见人",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "觉得自己不是自己": {
+          "number": 11,
+          "question": "觉得自己不是自己",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "缺乏热情和积极性": {
+          "number": 12,
+          "question": "缺乏热情和积极性",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "悲观": {
+          "number": 13,
+          "question": "悲观",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "思想不集中": {
+          "number": 14,
+          "question": "思想不集中",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "情绪起伏过大": {
+          "number": 15,
+          "question": "情绪起伏过大",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "常常失眠": {
+          "number": 16,
+          "question": "常常失眠",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "头痛": {
+          "number": 17,
+          "question": "头痛",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "脖子肩膀酸痛": {
+          "number": 18,
+          "question": "脖子、肩膀酸痛",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "胸痛憋闷": {
+          "number": 19,
+          "question": "胸痛憋闷",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "总是朝气蓬勃的": {
+          "number": 20,
+          "question": "总是朝气蓬勃的",
+          "opt": "A",
+          "option_name": "有",
+          "answer_id": "bc4e7906-ed78-48ef-9134-b8abc03baedb",
+          "reason": "模板命中"
+        },
+        "气量小": {
+          "number": 21,
+          "question": "气量小",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "爱操心": {
+          "number": 22,
+          "question": "爱操心",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "焦躁不安": {
+          "number": 23,
+          "question": "焦躁不安",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "容易动怒": {
+          "number": 24,
+          "question": "容易动怒",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "想轻生": {
+          "number": 25,
+          "question": "想轻生",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "对任何事都没兴趣": {
+          "number": 26,
+          "question": "对任何事都没兴趣",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "记忆力减退": {
+          "number": 27,
+          "question": "记忆力减退",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "缺乏耐力": {
+          "number": 28,
+          "question": "缺乏耐力",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "缺乏决断能力": {
+          "number": 29,
+          "question": "缺乏决断能力",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "过于依赖别人": {
+          "number": 30,
+          "question": "过于依赖别人",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "为脸红而苦恼": {
+          "number": 31,
+          "question": "为脸红而苦恼",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "口吃声音发颤": {
+          "number": 32,
+          "question": "口吃声音发颤",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "身体忽冷忽热": {
+          "number": 33,
+          "question": "身体忽冷忽热",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "注意排尿和性器官": {
+          "number": 34,
+          "question": "注意排尿和性器官",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "心情开朗": {
+          "number": 35,
+          "question": "心情开朗",
+          "opt": "A",
+          "option_name": "有",
+          "answer_id": "bc4e7906-ed78-48ef-9134-b8abc03baedb",
+          "reason": "模板命中"
+        },
+        "莫名奇妙的感到不安": {
+          "number": 36,
+          "question": "莫名奇妙的感到不安",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "一个人独处时感到不安": {
+          "number": 37,
+          "question": "一个人独处时感到不安",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "缺乏自信心": {
+          "number": 38,
+          "question": "缺乏自信心",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "办事畏首畏尾": {
+          "number": 39,
+          "question": "办事畏首畏尾",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "容易被人误解": {
+          "number": 40,
+          "question": "容易被人误解",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "不相信别人": {
+          "number": 41,
+          "question": "不相信别人",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "过于猜疑": {
+          "number": 42,
+          "question": "过于猜疑",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "厌恶交往": {
+          "number": 43,
+          "question": "厌恶交往",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "感到自卑": {
+          "number": 44,
+          "question": "感到自卑",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "杞人忧天": {
+          "number": 45,
+          "question": "杞人忧天",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "身体倦乏": {
+          "number": 46,
+          "question": "身体倦乏",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "一着急就出冷汗": {
+          "number": 47,
+          "question": "一着急就出冷汗",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "站起来就头晕": {
+          "number": 48,
+          "question": "站起来就头晕",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "有过失去意识，抽风": {
+          "number": 49,
+          "question": "有过失去意识，抽风",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "人缘好，受欢迎": {
+          "number": 50,
+          "question": "人缘好，受欢迎",
+          "opt": "A",
+          "option_name": "有",
+          "answer_id": "bc4e7906-ed78-48ef-9134-b8abc03baedb",
+          "reason": "模板命中"
+        },
+        "过于拘泥": {
+          "number": 51,
+          "question": "过于拘泥",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "对任何事情不反复确认就不放心": {
+          "number": 52,
+          "question": "对任何事情不反复确认就不放心",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "对脏很在乎": {
+          "number": 53,
+          "question": "对脏很在乎",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "摆脱不了毫无意义的想法": {
+          "number": 54,
+          "question": "摆脱不了毫无意义的想法",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "觉得自己有怪气味": {
+          "number": 55,
+          "question": "觉得自己有怪气味",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "别人在自己背后说坏话": {
+          "number": 56,
+          "question": "别人在自己背后说坏话",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "总注意周围的人": {
+          "number": 57,
+          "question": "总注意周围的人",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "在乎别人视线": {
+          "number": 58,
+          "question": "在乎别人视线",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "觉得别人轻视自己": {
+          "number": 59,
+          "question": "觉得别人轻视自己",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "情绪易被破坏": {
+          "number": 60,
+          "question": "情绪易被破坏",
+          "opt": "B",
+          "option_name": "否",
+          "answer_id": "dd1ee0ef-8a54-415d-bccd-b1ccd288e1b8",
+          "reason": "模板命中"
+        },
+        "至今为止，你感到在自身健康方面有问题吗": {
+          "number": 61,
+          "question": "至今为止，你感到在自身健康方面有问题吗?",
+          "opt": "B",
+          "option_name": "没有",
+          "answer_id": "af64aa46-9845-4a0d-8a17-af6a7fba8eda",
+          "reason": "模板命中"
+        },
+        "曾经觉得心理卫生方面有问题吗": {
+          "number": 62,
+          "question": "曾经觉得心理卫生方面有问题吗?",
+          "opt": "B",
+          "option_name": "没有",
+          "answer_id": "af64aa46-9845-4a0d-8a17-af6a7fba8eda",
+          "reason": "模板命中"
+        },
+        "至今为止，你曾经接受过心理咨询和治疗吗": {
+          "number": 63,
+          "question": "至今为止，你曾经接受过心理咨询和治疗吗?",
+          "opt": "B",
+          "option_name": "没有",
+          "answer_id": "af64aa46-9845-4a0d-8a17-af6a7fba8eda",
+          "reason": "模板命中"
+        },
+        "你希望接受心理咨询吗？": {
+          "number": 64,
+          "question": "你希望接受心理咨询吗？",
+          "opt": "B",
+          "option_name": "没有",
+          "answer_id": "af64aa46-9845-4a0d-8a17-af6a7fba8eda",
+          "reason": "模板命中"
+        }
+      }
+    }
+  },
+  "updated_at": "2026-09-15 09:36:33"
+}

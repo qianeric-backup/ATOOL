@@ -1,4 +1,4 @@
-# 抢课助手（建桥学院抢课脚本）v0.3.3
+# 抢课助手（建桥学院抢课脚本）v0.3.4
 
 > 上海建桥学院（`my.gench.edu.cn` / `eams.gench.edu.cn`）选课/抢课辅助工具。
 > 桌面 exe（`抢课助手.exe`）为 **tkinter 原生 UI**：双击直接弹出主窗口，无需浏览器。
@@ -59,6 +59,16 @@ python3 app.py --cli --cookie "..." --poll 10 --interval-ms 150 --prestart 5 --t
 
 # 先预览课程（不开抢）
 python3 app.py --cli --cookie "..." --search 高数 --turn-id 1
+
+# 批次未开放时守候（每 10s 查一次 open-turns，出现即打印批次时间窗并自动预热）
+python3 app.py --cli --cookie "..." --poll 10 --targets 1001,1002
+
+# 开抢前跑选课预检（提前暴露时间窗/学分/冲突等规则拒绝原因，多约 1-2s）
+python3 app.py --cli --config 抢课配置-2611999.json --poll 10 --predicate --targets 1001
+
+# 查看本地积累的历史批次档案（批次开放时自动落盘，无需登录；带 cookie 定位本人档案）
+python3 app.py --cli --history
+python3 app.py --cli --cookie "cs-course-select-student-token=..." --history
 ```
 说明：CLI 自动从 `/multiple-students` 解析内部学生 ID，无需手动填；Ctrl+C 停止；
 可配合 systemd timer / crontab 常驻：
@@ -109,21 +119,37 @@ python3 app.py --cli --cookie "..." --search 高数 --turn-id 1
 
 - 选课接口：`https://eams.gench.edu.cn/course-selection-api/api/v1/student/course-select`；
 - 抢课 token：`cs-course-select-student-token` JWT（从 Cookie 提取，脚本自动识别）；
+- **token 自动现发（v0.3.4）**：经典 EAMS 选课页
+  `GET /student/for-std/course-select`（需 `SESSION` Cookie）服务端内嵌
+  `course-selection/?token=<新JWT>`，脚本解析即可现发新 token ——
+  因此**导入 Cookie 务必带 SESSION（复制浏览器整串）**：token 过期自动续命，
+  无需手动换；仅凭裸 JWT 也能用，但过期后需手动重贴；
 - 服务器时间校准：`GET /course-selection-api/api/v1/student/course-select/getCurrentDateTime`，
   用于预热定时抢课（避免本地时钟偏差）。
 
-### API 探测结论（v0.3.3，2026-09-12 实测）
+### API 探测结论（v0.3.3，2026-09-12 实测；v0.3.4 增补 2026-09-13 前端 JS 全量还原）
 
 | 端点 | 方法 | 鉴权 | 实测结论 |
 |------|------|------|----------|
 | `/getCurrentDateTime` | GET | Authorization 头 | 正常，返回服务器北京时间字符串 |
 | `/multiple-students` | GET | Authorization 头 | 返回内部学生 ID（`data[0].id`）与学院/专业信息 |
-| `/students` | GET | Authorization 头 | 学生 token 返回 `data:[]`（代理/多学生账号场景专用） |
-| `/open-turns/{内部ID}` | GET | Authorization 头 | 正常；**用学号访问 → 500**（见下） |
+| `/students` | GET | Authorization 头 | 学生 token 返回 `data:[]`（代理/多学生账号场景专用；2026-09-13 复测一致） |
+| `/open-turns/{内部ID}` | GET | Authorization 头 | 正常；**用学号访问 → 500**（见下）。批次未开放时 `data:[]`（2026-09-13 复测） |
+| `/open-turns/{bizTypeId}/{sid}` | GET | Authorization 头 | **gench 后端 404**（前端新包有此调用，后端未部署，勿用） |
+| `/{sid}/turn/{turnId}/select` | GET | Authorization 头 | 前端「进入批次」第一调用（v0.3.4 起开抢前自动调用） |
+| `/status/{turnId}/{sid}` | GET | Authorization 头 | 批次状态查询（前端在用） |
+| `/simplest-lessons/{turnId}` | GET | Authorization 头 | 轻量课程全量列表（v0.3.4 起容量预载优先走它） |
 | `/query-lesson/{sid}/{turnId}` | POST | Authorization 头 | 载荷 turnId/studentId/semesterId/pageNo/pageSize/canSelect |
+| `/query-condition/{turnId}` | GET | Authorization 头 | 课程查询筛选项 |
+| `/major-plan/{turnId}/{sid}` | GET | Authorization 头 | 培养方案 |
+| `/selected-lessons/{turnId}/{sid}` | GET | Authorization 头 | 已选课程清单（v0.3.4 起成功后自动验证） |
+| `/addable-course-packs/{turnId}` | GET | Authorization 头 | 可选课程包 |
 | `/std-count?lessonIds=a,b` | GET | Authorization 复数 CSV | 空结果返回 `data:{}`（字典按 lessonId 键） |
+| `/add-predicate` | POST | Authorization 头 | 选课预检，载荷与 add-request 同构；结果轮询 `/predicate-response/{sid}/{requestId}`，消息 `ATTEND`=规则通过 |
+| `/drop-predicate` / `/drop-request` | POST | Authorization 头 | 退课预检/退课提交（脚本未接） |
 | `/add-request` | POST only | Authorization 头 | GET → 500 `HttpRequestMethodNotSupportedException` |
 | `/add-drop-response/{sid}/{reqId}` | GET | Authorization 头 | 处理中返回 `data:null` |
+| `/evaluation/token-check` | GET | Authorization 头 | 评教 token 校验（前端在用） |
 
 关键发现：
 
@@ -138,6 +164,23 @@ python3 app.py --cli --cookie "..." --search 高数 --turn-id 1
    错误 JSON 的 `timestamp` 为 UTC 而 `getCurrentDateTime` 为北京时间（+8h），
    建议（校方）：全局异常处理器脱敏 + 时区统一。
 4. 非 选课时段所有业务端点均安全降级（空轮次/空页/`data:null`），无未授权可读写面。
+5. **v0.3.4 探测补充（2026-09-13，`probe_batch.py` + `.probe/` 前端 JS 证据）**：
+   - 「选课批次」页 = 前端路由 `course-select/turns`（chunk-41146d29），
+     批次数据唯一来源就是 `/open-turns/{内部ID}`；**批次未开放时无任何端点可提前泄露
+     turnId**（前端无"全部批次"查询接口，双参新端点后端未部署）→ 守批次只能轮询
+     open-turns，`--poll` 已做；
+   - **历史批次前后端均不暴露**：前端路由表仅 3 页（学生学籍/选课批次/选课），
+     API 函数表 24 个端点无任何 history/turns 列表接口；
+     `turns/{sid}`、`history-turns/{sid}`、`all-turns/{sid}`、`semesters`、
+     `calendar` 等候选端点实测全部 404。旧 turnId 在库中存在
+     （`/status/{旧turnId}/{sid}`、`/selected-lessons/{旧turnId}/{sid}` 返回 200）
+     但无名字/时间等元数据，且逐 ID 枚举不可取 —— 改用**本地批次历史档案**：
+     脚本每次见到开放批次自动落盘 `批次历史-<学号>.json`，`--history` 随时回看；
+   - 前端进入选课页时序：`open-turns` → `GET /{sid}/turn/{turnId}/select` →
+     `query-lesson`/`selected-lessons` → 选课时先 `add-predicate` 预检
+     （消息 `ATTEND`=通过）再 `add-request`；
+   - 前端含客户端频控弹窗（"您操作太过频繁"），服务端另有 RequestLimitException，
+     脚本退避逻辑（v0.3.0）已覆盖。
 
 ---
 
@@ -151,6 +194,30 @@ python3 app.py --cli --cookie "..." --search 高数 --turn-id 1
 
 ## 四、变更记录
 
+- **v0.3.4（批次端点全量还原 + 开抢时序对齐，2026-09-13）**：
+  - **进入批次对齐前端时序**：新增 `enter_turn()` —— 批次出现后先打
+    `GET /{sid}/turn/{turnId}/select`（前端进入选课页第一调用）再抢；
+    失败不阻塞开抢，循环内 15s 节流重试；GUI/CLI 共用（rush_worker 内）；
+  - **容量预载提速**：`preload_capacity_light()` 优先 `GET /simplest-lessons/{turnId}`
+    （单发无分页拿全量），失败自动回退 `query-lesson(page_size=500)`；
+  - **成功二次确认**：add-drop 成功后自动 `GET /selected-lessons/{turnId}/{sid}`
+    拉真实已选清单打印验证；
+  - **`--predicate` 选课预检（默认关）**：开抢前 POST `/add-predicate`
+    （与 add-request 同构载荷）+ 轮询 `/predicate-response`，提前暴露
+    "时间窗/学分上限/时间冲突"等规则拒绝原因（消息 `ATTEND`=通过）；被拒不终止开抢；
+  - **批次监听修复（存量 bug）**：`--poll` 循环旧写法
+    `"...%ds..." % poll` 与时间戳 `%H` 格式化冲突，一进循环即 ValueError ——
+    改 f-string；批次出现时打印全部时间窗字段（`describe_turn()`）；
+  - **本地批次历史档案**：实测前后端均无历史批次接口（候选端点全 404），
+    新增 `record_turn_history()` —— 每次见到开放批次自动落盘
+    `批次历史-<学号>.json`（id/名称/时间窗/首见/末见/共见次数），
+    新增 `--history` 一键回看（无需登录，多账号档案一起扫描）；
+  - **token 自动现发**：逆向经典 EAMS 选课页
+    `/student/for-std/course-select` —— 页面凭 `SESSION` 服务端内嵌
+    `course-selection/?token=<新JWT>`。新增 `refresh_token_via_session()` +
+    统一请求入口 `_request_with_refresh()`：401 自动现发重试（≥60s 节流），
+    抢课循环过期止损前也先现发；**实测过期 JWT + 有效 SESSION → 自动续命成功**；
+  - 探测产物：`probe_batch.py`（只读探测脚本）+ `.probe/`（前端 JS bundle 证据）。
 - **v0.3.3（live API 探测 + 时延优化，2026-09-12）**：
   - **连接池复用（本次最大提速）**：`cs_get/cs_post` 由模块级 `requests.get/post`
     （每发请求完整重走 TCP+TLS 握手）改为共享 `Session` + `HTTPAdapter(pool_maxsize=32)`；

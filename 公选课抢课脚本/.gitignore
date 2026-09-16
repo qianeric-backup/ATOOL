@@ -1,0 +1,9 @@
+build/
+dist/
+*.spec
+__pycache__/
+cookies.txt
+cookies_portal.txt
+gench_config.json
+Gench选课助手-linux
+Gench选课助手.exe
