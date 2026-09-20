@@ -194,7 +194,9 @@ class PsyClient:
 
     def check_login(self) -> bool:
         j = self._post_json("/Home/CheckLogin", {})
-        return j.get("Code", -1) != -1
+        # 站点语义: Code=1(或0) 已登录 / -1 未登录; 旧版 `!= -1` 会把"响应解析失败"
+        # (-100, 会话失效返回登录页 HTML) 误判为已登录; -100 一律视为未登录
+        return j.get("Code") in (0, 1)
 
     def get_my_info(self) -> dict:
         j = self._post_json("/Mine/GetMyInfo", {})

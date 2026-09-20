@@ -109,7 +109,8 @@ def log(msg: str):
     ts = time.strftime("%H:%M:%S")
     line = f"[{ts}] {msg}"
     STATE["rush_log"].append(line)
-    STATE["rush_log"] = STATE["rush_log"][-500:]
+    del STATE["rush_log"][:-500]   # 封顶缓存（保留最新 500 条）
+    STATE["_log_total"] = STATE.get("_log_total", 0) + 1   # 单调计数：GUI 游标以此对齐，封顶截断不再导致显示冻结
     print(line)
 
 
@@ -435,7 +436,10 @@ def load_turns():
                     if isinstance(v, dict):
                         v = v.get("id")
                     if v:
-                        STATE["semester_id"] = int(v)
+                        try:
+                            STATE["semester_id"] = int(v)
+                        except (TypeError, ValueError):
+                            continue   # 字段异常不拖垮整个轮次载入
                         break
                 record_turn_history(STATE["turns"])   # v0.3.4: 见批即录（本地历史档案）
             log(f"开放轮次：{len(STATE['turns'])} 个")
@@ -965,9 +969,13 @@ def rush_worker(turn_id, lesson_id, student_id, interval, max_times):
 def start_rush(turn_id, lesson_id, interval, max_times):
     if STATE["rush_running"]:
         return {"ok": False, "message": "抢课已在运行"}
+    if not STATE.get("student_id"):
+        # 未取到内部学生 ID 时 worker 内 int("") 会抛异常、线程静默死亡且 rush_running 永挂 True
+        return {"ok": False, "message": "未登录（缺 student_id）—— 请先导入 Cookie/登录并刷新轮次"}
     STATE["rush_stop"] = False
     STATE["rush_running"] = True
     STATE["rush_log"] = []
+    STATE["_log_total"] = 0
     t = threading.Thread(target=rush_worker,
                          args=(turn_id, lesson_id, STATE["student_id"], interval, max_times),
                          daemon=True)
@@ -987,7 +995,7 @@ class TkApp:
         self.root.minsize(700, 640)
         self.course_page = 1
         self.course_total_pages = 1
-        self._log_pos = 0   # rush_log 增量游标（start_rush 清空日志时归零重同步）
+        self._log_seen = 0   # 已显示到的全局日志序号（配合 _log_total 增量；start_rush 清空日志时归零重同步）
         self._preheat = None  # 预热线程句柄（可取消，防重复开抢）
         self._build()
         self._refresh_loop()
@@ -1271,10 +1279,10 @@ class TkApp:
         def _preheat_job():
             try:
                 target = self._turn_start_target()
-                now = time.time() + STATE.get("server_offset", 0)
+                now = time.time()   # target 已换算为本地轴（ts - offset），对比须同轴
                 if target and target > now:
                     wait = max(0.0, target - now - pre)
-                    log(f"轮次开抢时间 {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(target))}，预热 {pre} 秒，等待 {int(wait)} 秒")
+                    log(f"轮次开抢时间 {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(target + STATE.get('server_offset', 0)))}，预热 {pre} 秒，等待 {int(wait)} 秒")
                     deadline = time.time() + wait
                     while time.time() < deadline and not STATE["rush_stop"]:
                         time.sleep(min(0.5, max(0.0, deadline - time.time())))
@@ -1299,7 +1307,9 @@ class TkApp:
                     log("[预热] 已取消")
                     self._preheat = None
                     return
-                start_rush(turn_id, lesson_id, interval, max_times)
+                res = start_rush(turn_id, lesson_id, interval, max_times)
+                if not res.get("ok"):
+                    log(f"[!] 启动抢课失败：{res.get('message')}")
             finally:
                 self._preheat = None
         self._preheat = threading.Thread(target=_preheat_job, daemon=True)
@@ -1327,13 +1337,16 @@ class TkApp:
             rush = "运行中" if STATE["rush_running"] else (
                 "预热中" if self._preheat is not None else "未开始")
             self.l_rush.config(text=f"{rush}（已提交 {STATE['rush_attempts']} 次，最近: {STATE['rush_last'] or '-'}）")
-            # 日志增量（位置游标；start_rush 清空 rush_log 会使缓冲短于游标 → 归零重同步，
-            # 修复旧版"文本框行数当下标"在清空/截断后新日志永不显示的问题）
-            if len(STATE["rush_log"]) < self._log_pos:
-                self._log_pos = 0
-            for line in STATE["rush_log"][self._log_pos:]:
-                self.txt_log.insert("end", line + "\n")
-            self._log_pos = len(STATE["rush_log"])
+            # 日志增量（单调度量对齐；修复旧版"len<游标→归零"在 500 条封顶截断后
+            # len==游标 恒成立、新日志永不显示（GUI 日志冻结）且截断时整屏重复的问题）
+            total = STATE.get("_log_total", 0)
+            if total < self._log_seen:      # start_rush 已清空重置 → 重同步
+                self._log_seen = 0
+            new = total - self._log_seen
+            if new > 0:
+                for line in STATE["rush_log"][-new:]:
+                    self.txt_log.insert("end", line + "\n")
+                self._log_seen = total
             self.txt_log.see("end")
         except Exception:
             pass
@@ -1356,14 +1369,17 @@ def turn_start_target_ts(turn):
                 ts = float(v)
                 if ts > 1e12:  # 毫秒时间戳
                     ts /= 1000.0
-                return ts + STATE.get("server_offset", 0)
+                return ts - STATE.get("server_offset", 0)
             import datetime as _dt
             s = str(v).strip().replace("T", " ")
             for fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M",
                         "%Y/%m/%d %H:%M:%S"):
                 try:
                     ts = _dt.datetime.strptime(s, fmt).timestamp()
-                    return ts + STATE.get("server_offset", 0)
+                    # smart_wait_until 走本地 time.time()，须换算到本地时间轴：
+                    # offset = server - local（正=本地慢），本地轴目标 = 服务器墙钟epoch - offset。
+                    # 旧版 +offset 会把时钟偏差翻倍 —— 本地慢 5s 时实际晚开抢 10s。
+                    return ts - STATE.get("server_offset", 0)
                 except ValueError:
                     continue
         except Exception:
@@ -1457,10 +1473,10 @@ def cli_main(argv=None):
 
     # 开抢时间点预热（可选）
     target = turn_start_target_ts(turn)
-    now = time.time() + STATE.get("server_offset", 0)
+    now = time.time()   # target 已换算到本地时间轴（ts - offset），对比须同轴
     if target and target > now and args.prestart > 0:
         wait = max(0, target - now - args.prestart)
-        print(f"[*] 开抢时间 {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(target))}，"
+        print(f"[*] 开抢时间 {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(target + STATE.get('server_offset', 0)))}，"
               f"预热 {args.prestart}s，等待 {int(wait)}s")
         deadline = time.time() + wait
         while time.time() < deadline:

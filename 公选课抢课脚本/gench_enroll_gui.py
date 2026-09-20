@@ -130,6 +130,7 @@ class App:
         except Exception as e:
             self._log(f"❌ {e}"); return
         early = max(0.2, float(self.var_early.get()))
+        last_err_log = 0.0   # 连发轮询失败日志限频（5s 一条），修复旧版静默吞错
         while self._now() < fire_ts - early:
             time.sleep(min(0.5, max(0.02, (fire_ts - early) - self._now())))
         self._log(f"⏰ 开抢点已到({batch.get('name')}), 连发队列选课!")
@@ -154,8 +155,10 @@ class App:
                         self._log("⛔ 资格未开, 转10s节奏守候(资格放开即全速)")
                     time.sleep(10)
                     break
-                except Exception:
-                    pass
+                except Exception as e:
+                    if time.time() - last_err_log > 5.0:
+                        self._log(f"· ({pid}) 抢课失败: {e}")
+                        last_err_log = time.time()
         self._log("批次抢收尾完成")
 
     def _mark_task_status(self, pid, status="已抢到"):
@@ -635,6 +638,7 @@ class App:
         if target is None:
             messagebox.showerror("时间错误", f"无法解析 {t}, 使用 HH:MM:SS"); return
         def run():
+            last_err_log = 0.0   # 探测异常日志限频：错过放开瞬间时至少有迹可循
             self.changelog.snapshot("arm_at", t)
             self._log(f"⏰ 已预约开抢 {t}: 等待中, 12:00 前10s自动加速资格探测至1s…")
             while self._now() < target - 10 and not self.snipe_stop.is_set():
@@ -657,8 +661,10 @@ class App:
                             self.root.after(0, self._start_snipe)
                         return
                     prev_can = can
-                except Exception:
-                    pass
+                except Exception as e:
+                    if time.time() - last_err_log > 10.0:
+                        self._log(f"资格探测异常: {e}")
+                        last_err_log = time.time()
                 time.sleep(1.0)
         threading.Thread(target=run, daemon=True).start()
 
