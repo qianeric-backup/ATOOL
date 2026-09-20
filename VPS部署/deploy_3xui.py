@@ -267,13 +267,18 @@ def main():
         sys.exit(1)
 
     user, pwd = read_install_credential(args.user, args.password)
-    # 等待面板就绪
+    # 等待面板就绪（60s 未就绪直接失败退出 —— 旧版硬继续, 必败路径还打印误导信息）
     log("等待面板启动...")
+    panel_ready = False
     for i in range(30):
         rc, _ = sh("curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:52590/ 2>/dev/null | grep -E '200|401|403' >/dev/null", 10)
         if rc == 0:
+            panel_ready = True
             break
         time.sleep(2)
+    if not panel_ready:
+        log("面板未在 60s 内就绪（52590 端口无响应）—— 安装可能失败或端口不符")
+        sys.exit(1)
 
     # 1) 登录面板
     wbp = get_web_base_path()

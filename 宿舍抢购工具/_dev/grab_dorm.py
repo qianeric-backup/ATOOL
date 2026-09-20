@@ -289,7 +289,7 @@ class DormGrabber:
         注意: 会话验证码单槽, 成功后绝不能再取码(会覆盖), 只等开抢直接提交。
         """
         attempt = 0
-        while not self._stop.is_set() and time.time() < deadline:
+        while not self._stop.is_set() and (time.time() + self.server_offset) < deadline:
             attempt += 1
             try:
                 img = self.fetch_captcha()
@@ -527,18 +527,19 @@ class DormGrabber:
             return None
 
     def _sleep_until(self, target):
-        """高精度等待到目标本地时间(秒)。"""
+        """高精度等待到目标时刻。调用方传入的 open_time/prefetch_deadline 均为
+        服务器时间轴的绝对 epoch 秒 —— 对比须换用 local_now() 同轴
+        （旧版用裸 time.time(): 本地时钟偏差 offset 秒即晚开抢 offset 秒）。"""
         while True:
-            now = time.perf_counter()
-            local = time.time()
+            local = time.time() + self.server_offset   # 与 local_now() 同轴
             remaining = target - local
             if remaining <= 0:
                 return
             if remaining > 0.05:
                 time.sleep(remaining / 2)
             else:
-                # 忙等最后 50ms, 避开 Windows 定时器 ~15ms 误差
-                while time.time() < target:
+                # 忙等最后一段, 避开 Windows 定时器 ~15ms 误差
+                while time.time() + self.server_offset < target:
                     pass
 
     @property

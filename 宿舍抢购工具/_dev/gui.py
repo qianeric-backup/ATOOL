@@ -333,6 +333,11 @@ class GrabGUI(tk.Tk):
         self.log("[STOP] 已发送停止信号(所有账号)\n")
 
     def _finish(self):
+        # 工作线程里调用 tkinter 控件方法违反单线程规则(可致崩溃/花屏)
+        # —— 统一经 after() 甩回主线程执行（与 _set_status 同模式）
+        self.after(0, self._finish_ui)
+
+    def _finish_ui(self):
         self.start_btn.configure(state="normal")
         self.dry_btn.configure(state="normal")
         self.import_btn.configure(state="normal")
